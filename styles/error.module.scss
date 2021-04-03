@@ -1,0 +1,12 @@
+$ErrorBackground:darkred;
+$TextWithDargBGColor:aliceblue;
+
+.errorTitle{
+    background-color: $ErrorBackground;
+    color: $TextWithDargBGColor;
+    text-align: center;
+    padding: 10px;
+}
+.errorTextSecondary{
+    text-align: center  ;
+}
