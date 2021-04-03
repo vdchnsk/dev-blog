@@ -14,3 +14,16 @@ a {
 * {
   box-sizing: border-box;
 }
+/*ScrollBar settings*/
+::-webkit-scrollbar-track{
+	border-radius: 10px;
+	background-color: #000;
+}
+::-webkit-scrollbar{
+	width: 12px;
+	background-color: #000;
+}
+::-webkit-scrollbar-thumb{
+	border-radius: 10px;
+	background-color: #EEEEEE;
+}

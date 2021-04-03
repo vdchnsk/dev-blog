@@ -53,7 +53,7 @@ export default function Posts({ posts : serverPosts }){
                     display:block;
                     margin-bottom:5px;
                     padding:10px;
-                    background-color: rgb(230 230 230);
+                    background-color: #EEEEEE;
                 }
                 a{
                     font-size:1.1em;

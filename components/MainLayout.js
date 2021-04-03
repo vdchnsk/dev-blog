@@ -9,9 +9,14 @@ export const MainLayout = ({children , title = "Next"}) => {
                 <title>Next | {title}</title>
             </Head>
             <nav>
-                <Link href={"/"}><a>Home</a></Link>
-                <Link href={"/about"}><a>About</a></Link>
-                <Link href={"/posts"}><a>Posts</a></Link>
+                <div className="nav__navButton">
+                    <Link href={"/"}><a>Home</a></Link>
+                    <Link href={"/about"}><a>About</a></Link>
+                    <Link href={"/posts"}><a>Posts</a></Link>
+                </div>
+                <div className="nav__secondaryButtons">
+                    <Link href={"/auth/client/LogInPage"}><a>Log in</a></Link>
+                </div>
             </nav>
             <main>
                 {children}
@@ -41,6 +46,11 @@ export const MainLayout = ({children , title = "Next"}) => {
                 }
                 main{
                     margin-top:60px;
+                }
+                .nav__secondaryButtons{
+                    position:absolute;
+                    right:0;
+                    margin-right:1%;
                 }
             `}
             </style>
