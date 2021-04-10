@@ -1,1 +1,1 @@
-Next/Express/Mongo project
+React/Next/Mongo project
