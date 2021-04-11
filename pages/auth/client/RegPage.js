@@ -2,10 +2,11 @@ import { useState } from "react";
 import { TextField } from "@material-ui/core";
 import Button from '@material-ui/core/Button';
 import { MainLayout } from "../../../components/MainLayout";
-import styles from '../../../styles/auth.module.scss'
 import Link from "next/link"
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import {theme} from '../../../styles/material_ui_presets/blackColorPreset'
+import { useHttp } from "../../hooks/useHttp";
+import styles from '../../../styles/auth.module.scss'
 
 export default function RegPage () {
     const [nickanme , setNickanme] = useState("")
@@ -13,16 +14,25 @@ export default function RegPage () {
     const [password , setPassword] = useState("")
     const [password_repeat , setPassword_repeat] = useState("")
 
+    const {loading, request} = useHttp()
     
 
     async function RegSubmit(){
-        const res = await fetch('../../api/auth/registration',{
-            method:"POST",
-            body: JSON.stringify({nickanme, email ,password,password_repeat}),
-            headers:{"Content-Type":"application/json"}
-        }).then((t)=>t.json())
-        const token = res.token
-        console.log(token)
+        const dataFromInputs = JSON.stringify({nickanme, email ,password,password_repeat})
+        // console.log(dataFromInputs)
+        try{
+            const responce = await request("../../api/auth/registration", "POST", dataFromInputs)
+            console.log("responce",responce)
+        } catch(e){
+            console.log(e)
+        }
+        // const res = await fetch('../../api/auth/registration',{
+        //     method:"POST",
+        //     body: JSON.stringify({nickanme, email ,password,password_repeat}),
+        //     headers:{"Content-Type":"application/json"}
+        // }).then((t)=>t.json())
+        // const token = res.token
+        // console.log(token)
 
     }
 
@@ -40,7 +50,7 @@ export default function RegPage () {
                                 <TextField onChange={(e) => setPassword_repeat(e.target.value)} value={password_repeat} name="password_repeat" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Repeat password" type="password" />
                             </div>
                             <div className={styles.window__content__buttons}>
-                                <Button onClick={RegSubmit} variant="contained" size="medium" className={styles.formButton} >Register</Button>
+                                <Button onClick={RegSubmit} variant="contained" size="medium" className={styles.formButton} disabled ={loading}>Register</Button>
                             </div>
                             <div className={styles.window__content__registrationRef}>
                                 <span >Already have got an account? <Link href="/auth/client/LogInPage"> login!</Link> </span>
