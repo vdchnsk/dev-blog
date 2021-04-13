@@ -1,17 +1,18 @@
 import jwt from 'jsonwebtoken'
 import validator from 'validator';
 import config from 'config'
-import {Connect_db} from './connect'
+const bcrypt = require('bcrypt');
+import Connect_db from '../../../utils/dbConnect'
+import mongoose from 'mongoose';
+import User from '../models/userModel';
 
-const KEY = config.get("secretJWT")
 Connect_db()
+const KEY = config.get("secretJWT")
 
 
-export default function(req, res){
+export default function (req, res){
     if(!req.body){
-        res.statusCode = 404
-        res.end("Error")
-        return
+        return res.status(404).json({message:"Ошибка при регристарции"})
     }
     const {nickanme ,email, password, password_repeat} = JSON.parse(req.body) //парсим строку в объку тк хук useHttp приводит его к строке
 
@@ -22,15 +23,28 @@ export default function(req, res){
         !validator.isEmpty(password_repeat ) &&
         validator.isEmail(email) &&
         password === password_repeat
-    ){
-        res.json({
-            token:jwt.sign({
-                nickanme , email , password
-            },KEY)
-        })
-    } else {
-        res.statusCode = 404
-        res.end("Error")
-        return
+        ){
+            try{
+                const hashedPassword = bcrypt.hash(password, 12) //хэщируем пароль
+                // console.log("hashedPassword",hashedPassword)
+
+                const token = jwt.sign({ nickanme, email, password }, KEY)
+
+                const user = new User({
+                    email:email,
+                    nickname:nickanme,
+                    password:password
+                })
+                console.log("user",user)
+                user.save()
+
+                return res.status(201).json({message:"Пользьователь создан"})
+                
+            }catch(e){
+                return res.status(404).json({message:"Ошибка при регристарции"})
+            }
+        } 
+    else {
+        return res.status(404).json({message:"Ошибка при регристарции"})
     }
 }
