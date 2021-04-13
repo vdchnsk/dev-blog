@@ -1,7 +1,7 @@
+const bcrypt = require('bcrypt');
 import jwt from 'jsonwebtoken'
 import validator from 'validator';
 import config from 'config'
-const bcrypt = require('bcrypt');
 import Connect_db from '../../../utils/dbConnect'
 import mongoose from 'mongoose';
 import User from '../models/userModel';
@@ -25,17 +25,15 @@ export default function (req, res){
         password === password_repeat
         ){
             try{
-                const hashedPassword = bcrypt.hash(password, 12) //хэщируем пароль
-                // console.log("hashedPassword",hashedPassword)
+                const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(12)); //хэщируем пароль
 
                 const token = jwt.sign({ nickanme, email, password }, KEY)
 
                 const user = new User({
                     email:email,
                     nickname:nickanme,
-                    password:password
+                    password:hashedPassword
                 })
-                console.log("user",user)
                 user.save()
 
                 return res.status(201).json({message:"Пользьователь создан"})
