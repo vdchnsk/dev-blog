@@ -3,38 +3,46 @@ import jwt from 'jsonwebtoken'
 import validator from 'validator';
 import config from 'config'
 import Connect_db from '../../../utils/dbConnect'
-import mongoose from 'mongoose';
 import User from '../models/userModel';
 
 Connect_db()
 const KEY = config.get("secretJWT")
 
 
-export default function (req, res){
+export default async function (req, res){
     if(!req.body){
         return res.status(404).json({message:"Ошибка при регристарции"})
     }
     const {nickanme ,email, password, password_repeat} = JSON.parse(req.body) //парсим строку в объку тк хук useHttp приводит его к строке
 
     if(
-        !validator.isEmpty(nickanme ) &&
-        !validator.isEmpty(email ) &&
-        !validator.isEmpty(password ) &&
-        !validator.isEmpty(password_repeat ) &&
-        validator.isEmail(email) &&
-        password === password_repeat
+        !validator.isEmpty( nickanme ) &&
+        !validator.isEmpty( email ) &&
+        !validator.isEmpty( password ) &&
+        !validator.isEmpty( password_repeat ) &&
+        validator.isEmail( email) &&
+        password === password_repeat &&
+        password.length >= 6  
         ){
             try{
-                const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(12)); //хэщируем пароль
+                //Поиск уже существующешго аккаунта с тамим ником и почтой
+                const condidate = await User.findOne({email}).exec()
+                
 
-                const token = jwt.sign({ nickanme, email, password }, KEY)
+                if (condidate){ 
+                    return res.status(400).json({message:"Такой пользователь уже сущестует"})
+                }
 
-                const user = new User({
+                const hashedPassword = await bcrypt.hashSync(password, bcrypt.genSaltSync(12)); //хэщируем пароль
+
+                const token = await jwt.sign({ nickanme, email, password }, KEY)
+
+                const user = await new User({
                     email:email,
                     nickname:nickanme,
                     password:hashedPassword
                 })
-                user.save()
+                await user.save()
 
                 return res.status(201).json({message:"Пользьователь создан"})
                 
