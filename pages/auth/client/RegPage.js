@@ -15,26 +15,6 @@ export default function RegPage () {
     const [password_repeat , setPassword_repeat] = useState("")
 
     const {loading, request} = useHttp()
-    
-
-    async function RegSubmit(){
-        const dataFromInputs = JSON.stringify({nickanme, email ,password,password_repeat})
-        // console.log(dataFromInputs)
-        try{
-            const responce = await request("../../api/auth/registration", "POST", dataFromInputs)
-            console.log("responce",responce)
-        } catch(e){
-            console.log(e)
-        }
-        // const res = await fetch('../../api/auth/registration',{
-        //     method:"POST",
-        //     body: JSON.stringify({nickanme, email ,password,password_repeat}),
-        //     headers:{"Content-Type":"application/json"}
-        // }).then((t)=>t.json())
-        // const token = res.token
-        // console.log(token)
-
-    }
 
     return(
         <MainLayout title={"Registration"}>
@@ -61,4 +41,21 @@ export default function RegPage () {
             </MuiThemeProvider>
         </MainLayout>
     )
+    async function RegSubmit(){
+        const dataFromInputs = JSON.stringify({nickanme, email , password ,password_repeat})
+        // console.log(dataFromInputs)
+        try{
+            const responce = await request("../../api/auth/registration", "POST", dataFromInputs)
+        } catch(e){
+            console.log(e)
+        }
+        // const res = await fetch('../../api/auth/registration',{
+        //     method:"POST",
+        //     body: JSON.stringify({nickanme, email ,password,password_repeat}),
+        //     headers:{"Content-Type":"application/json"}
+        // }).then((t)=>t.json())
+        // const token = res.token
+        // console.log(token)
+
+    }
 }
