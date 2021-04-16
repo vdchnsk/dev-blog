@@ -14,6 +14,9 @@ a {
 * {
   box-sizing: border-box;
 }
+*::selection {
+  background-color: rgb(189, 189, 189);
+ }
 /*ScrollBar settings*/
 ::-webkit-scrollbar-track{
 	border-radius: 10px;

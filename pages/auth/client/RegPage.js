@@ -7,19 +7,34 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import {theme} from '../../../styles/material_ui_presets/blackColorPreset'
 import { useHttp } from "../../hooks/useHttp";
 import styles from '../../../styles/auth.module.scss'
+import { Notification } from "../../../components/Notification";
+import { showAlert } from "../../redux/actions/alertActions";
+import { useDispatch } from "react-redux";
 
 export default function RegPage () {
     const [nickanme , setNickanme] = useState("")
     const [email , setEmail] = useState("")
     const [password , setPassword] = useState("")
     const [password_repeat , setPassword_repeat] = useState("")
-
     const {loading, request} = useHttp()
+    const dispatch = useDispatch()
+
+    async function RegSubmit(){
+        
+        const dataFromInputs = JSON.stringify({nickanme, email , password ,password_repeat})
+
+        try {
+            const responce = await request("../../api/auth/registration", "POST", dataFromInputs)
+        } catch(e) {
+            dispatch(showAlert(e.message))
+        }
+    }
 
     return(
         <MainLayout title={"Registration"}>
             <MuiThemeProvider theme={theme}>
-                <div className={styles.wrapper}>
+                <Notification/>
+                <div className={styles.wrapper}>  
                     <div className={styles.wrapper__window}>
                         <div className={styles.RegWindow__content}>
                             <h1 className={styles.window__content__heading}>Registration</h1>
@@ -41,21 +56,4 @@ export default function RegPage () {
             </MuiThemeProvider>
         </MainLayout>
     )
-    async function RegSubmit(){
-        const dataFromInputs = JSON.stringify({nickanme, email , password ,password_repeat})
-        // console.log(dataFromInputs)
-        try{
-            const responce = await request("../../api/auth/registration", "POST", dataFromInputs)
-        } catch(e){
-            console.log(e)
-        }
-        // const res = await fetch('../../api/auth/registration',{
-        //     method:"POST",
-        //     body: JSON.stringify({nickanme, email ,password,password_repeat}),
-        //     headers:{"Content-Type":"application/json"}
-        // }).then((t)=>t.json())
-        // const token = res.token
-        // console.log(token)
-
-    }
 }

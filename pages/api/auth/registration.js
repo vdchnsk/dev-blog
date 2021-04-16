@@ -11,7 +11,7 @@ const KEY = config.get("secretJWT")
 
 export default async function (req, res){
     if(!req.body){
-        return res.status(404).json({message:"Ошибка при регристарции"})
+        return res.status(404).json({message:"Заполните поля рагистрации!"})
     }
     const {nickanme ,email, password, password_repeat} = JSON.parse(req.body) //парсим строку в объку тк хук useHttp приводит его к строке
 
@@ -28,9 +28,8 @@ export default async function (req, res){
                 //Поиск уже существующешго аккаунта с тамим ником и почтой
                 const condidate = await User.findOne({email}).exec()
                 
-
                 if (condidate){ 
-                    return res.status(400).json({message:"Такой пользователь уже сущестует"})
+                    return res.status(400).json({message:"Такой пользователь уже сущестует!"})
                 }
 
                 const hashedPassword = await bcrypt.hashSync(password, bcrypt.genSaltSync(12)); //хэщируем пароль
@@ -44,13 +43,13 @@ export default async function (req, res){
                 })
                 await user.save()
 
-                return res.status(201).json({message:"Пользьователь создан"})
+                return res.status(201).json({message:"Пользьователь создан!"})
                 
             }catch(e){
-                return res.status(404).json({message:"Ошибка при регристарции"})
+                return res.status(404).json({message:"Не удалось создать нового пользователя!"})
             }
         } 
     else {
-        return res.status(404).json({message:"Ошибка при регристарции"})
+        return res.status(404).json({message:"Введены некорректные данные!"})
     }
 }
