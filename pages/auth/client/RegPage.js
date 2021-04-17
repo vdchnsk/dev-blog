@@ -10,6 +10,9 @@ import styles from '../../../styles/auth.module.scss'
 import { Notification } from "../../../components/Notification";
 import { showAlert } from "../../redux/actions/alertActions";
 import { useDispatch } from "react-redux";
+import { useAuth } from "../../hooks/auth.hook";
+import { useRouter } from 'next/router'
+
 
 export default function RegPage () {
     const [nickanme , setNickanme] = useState("")
@@ -17,7 +20,9 @@ export default function RegPage () {
     const [password , setPassword] = useState("")
     const [password_repeat , setPassword_repeat] = useState("")
     const {loading, request} = useHttp()
+    const {login}  = useAuth()
     const dispatch = useDispatch()
+    const router = useRouter()
 
     async function RegSubmit(){
         
@@ -25,6 +30,10 @@ export default function RegPage () {
 
         try {
             const responce = await request("../../api/auth/registration", "POST", dataFromInputs)
+            console.log(responce.userId)
+            console.log(responce.token)
+            login(responce.token, responce.userId)
+            router.push("/")
         } catch(e) {
             dispatch(showAlert(e.message))
         }

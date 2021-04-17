@@ -1,8 +1,19 @@
 import Head from "next/head"
 import Link from "next/link"
 import { Fragment } from "react"
+import { useSelector } from "react-redux"
+import { useAuth } from "../pages/hooks/auth.hook"
+import { useRouter } from 'next/router'
 
 export const MainLayout = ({children , title = "Next"}) => { 
+    const globalState = useSelector(state => state)
+    const router = useRouter()
+    const { logout }  = useAuth()
+
+    const logoutHandler = () => {
+        logout()
+        router.push("/")
+    }
     return (
         <Fragment>
             <Head>
@@ -15,7 +26,7 @@ export const MainLayout = ({children , title = "Next"}) => {
                     <Link href={"/posts"}><a>Posts</a></Link>
                 </div>
                 <div className="nav__secondaryButtons">
-                    <Link href={"/auth/client/LogInPage"}><a>Log in</a></Link>
+                    { globalState.auth.token === null  ? <Link href={"/auth/client/LogInPage"}><a>Log in</a></Link> : <button onClick={logoutHandler} className={"logoutButton"}>Log Out</button>}
                 </div>
             </nav>
             <main>
@@ -51,6 +62,14 @@ export const MainLayout = ({children , title = "Next"}) => {
                     position:absolute;
                     right:0;
                     margin-right:1%;
+                }
+                .logoutButton{
+                    background:none;
+                    color:white;
+                    border:none;
+                    font-size:.9rem;
+                    cursor:pointer;
+                    outline:none;
                 }
             `}
             </style>

@@ -43,7 +43,9 @@ export default async function (req, res){
                 })
                 await user.save()
 
-                return res.status(201).json({message:"Пользьователь создан!"})
+                const userId = user.id
+                
+                return res.status(201).json({message:"Пользьователь создан!", token:token, userId:userId})
                 
             }catch(e){
                 return res.status(404).json({message:"Не удалось создать нового пользователя!"})
