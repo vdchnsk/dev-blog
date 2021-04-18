@@ -3,16 +3,15 @@ import Link from "next/link"
 import { Fragment } from "react"
 import { useSelector } from "react-redux"
 import { useAuth } from "../pages/hooks/auth.hook"
-import { useRouter } from 'next/router'
 
 export const MainLayout = ({children , title = "Next"}) => { 
     const globalState = useSelector(state => state)
-    const router = useRouter()
     const { logout }  = useAuth()
+    
 
+    // console.log(globalState.auth)
     const logoutHandler = () => {
         logout()
-        router.push("/")
     }
     return (
         <Fragment>

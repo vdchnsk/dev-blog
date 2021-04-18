@@ -6,8 +6,6 @@ const nothing = ()=>{} //just dont ask
 const initState = {
     token:null,
     userId:null,
-    login:nothing,
-    logout:nothing,
     isAuthenticated:false
 }
 
