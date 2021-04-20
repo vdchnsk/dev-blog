@@ -10,6 +10,7 @@ const KEY = config.get("secretJWT")
 
 
 export default async function (req, res){
+    console.log(globalState)
     if(!req.body){
         return res.status(404).json({message:"Заполните поля рагистрации!"})
     }

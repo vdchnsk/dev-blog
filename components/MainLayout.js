@@ -7,9 +7,7 @@ import { useAuth } from "../pages/hooks/auth.hook"
 export const MainLayout = ({children , title = "Next"}) => { 
     const globalState = useSelector(state => state)
     const { logout }  = useAuth()
-    
 
-    // console.log(globalState.auth)
     const logoutHandler = () => {
         logout()
     }
