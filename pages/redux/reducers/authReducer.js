@@ -1,8 +1,6 @@
 import { CHANGE_AUTHON_LOGIN } from "../types"
 
 
-const nothing = ()=>{} //just dont ask
-
 const initState = {
     token:null,
     userId:null,

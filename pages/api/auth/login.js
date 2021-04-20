@@ -1,4 +1,4 @@
-import bcrypt from "bcryptjs"
+import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import validator from 'validator';
 import config from 'config'
@@ -10,7 +10,7 @@ const KEY = config.get("secretJWT")
 
 
 export default async function (req, res){
-    console.log(globalState)
+    
     if(!req.body){
         return res.status(404).json({message:"Заполните поля рагистрации!"})
     }
@@ -27,27 +27,23 @@ export default async function (req, res){
         ){
             try{
                 //Поиск уже существующешго аккаунта с тамим ником и почтой
-                const condidate = await User.findOne({email}).exec()
-                
-                if (condidate){ 
-                    return res.status(400).json({message:"Такой пользователь уже сущестует!"})
+                const user = await User.findOne({email, nickanme}).exec()
+
+                if (!user){
+                    return res.status(400).json({message:"Такого пользвователя не существует!"})
+                }
+
+                const isMatch = await bcrypt.compare(password , user.password)//сравнение введенного пользователем пароля с имеющимся в бд 
+
+                if (!isMatch){
+                    return res.status(400).json({message:"Был введен неверный пароль!"})
                 }
 
                 // const hashedPassword = await bcrypt.hashSync(password, bcrypt.genSaltSync(12)); //хэщируем пароль
-                const hashedPassword = await bcrypt.hash(password, 12)
 
                 const token = await jwt.sign({ nickanme, email, password }, KEY)
-
-                const user = await new User({
-                    email:email,
-                    nickname:nickanme,
-                    password:hashedPassword
-                })
-                await user.save()
-
-                const userId = user.id
                 
-                return res.status(201).json({message:"Пользьователь создан!", token:token, userId:userId})
+                return res.status(201).json({message:"Пользователь удачно авторизован!", token:token, userId:user.id})
                 
             }catch(e){
                 return res.status(404).json({message:"Не удалось создать нового пользователя!"})
