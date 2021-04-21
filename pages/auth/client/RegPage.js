@@ -24,14 +24,12 @@ export default function RegPage () {
     const dispatch = useDispatch()
     const router = useRouter()
 
-    async function RegSubmit(){
+    async function regSubmit(){
         
         const dataFromInputs = JSON.stringify({nickanme, email , password ,password_repeat})
 
         try {
             const responce = await request("../../api/auth/registration", "POST", dataFromInputs)
-            console.log(responce.userId)
-            console.log(responce.token)
             login(responce.token, responce.userId)
             router.push("/")
         } catch(e) {
@@ -54,7 +52,7 @@ export default function RegPage () {
                                 <TextField onChange={(e) => setPassword_repeat(e.target.value)} value={password_repeat} name="password_repeat" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Repeat password" type="password" />
                             </div>
                             <div className={styles.window__content__buttons}>
-                                <Button onClick={RegSubmit} variant="contained" size="medium" className={styles.formButton} disabled ={loading}>Register</Button>
+                                <Button onClick={regSubmit} variant="contained" size="medium" className={styles.formButton} disabled ={loading}>Register</Button>
                             </div>
                             <div className={styles.window__content__registrationRef}>
                                 <span >Already have got an account? <Link href="/auth/client/LogInPage"> login!</Link> </span>

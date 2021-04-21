@@ -50,6 +50,10 @@
                     margin-left: auto;
                     width: 25%;
                 }
+                .formButton:disabled{
+                    content: 'select two'!IMPORTANT;
+                    background: gray;
+                }
             }
             .window__content__registrationRef{
                 margin-top: 30px;
