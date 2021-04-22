@@ -18,13 +18,12 @@ export default async function (req, res){
     if(
         !validator.isEmpty( nickanmeOrLogin ) &&
         !validator.isEmpty( password )
-        ){
+        ){  
             try{
-                //Поиск уже существующешго аккаунта с тамим ником и почтой
-                let user = await User.findOne({nickname: nickanmeOrLogin})
+                let user = await User.findOne({nickname: nickanmeOrLogin}) //поиск по нику
 
                 if (!user){
-                    user = await User.findOne({email: nickanmeOrLogin})
+                    user = await User.findOne({email: nickanmeOrLogin}) //поиск по мейлу
                     if(!user){
                         return res.status(400).json({message:"Такого пользвователя не существует!"})
                     }
@@ -41,7 +40,7 @@ export default async function (req, res){
                 return res.status(201).json({message:"Пользователь удачно авторизован!", token:token, userId:user.id})
                 
             }catch(e){
-                return res.status(404).json({message:"Не удалось создать нового пользователя!"})
+                return res.status(404).json({message:"Не удалось авторизоваться!"})
             }
         } 
     else {

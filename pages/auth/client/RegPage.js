@@ -32,6 +32,7 @@ export default function RegPage () {
             const responce = await request("../../api/auth/registration", "POST", dataFromInputs)
             login(responce.token, responce.userId)
             router.push("/")
+            dispatch(showAlert(""))// очищаем состояние alert в redux
         } catch(e) {
             dispatch(showAlert(e.message))
         }
@@ -39,7 +40,6 @@ export default function RegPage () {
 
     return(
         <MainLayout title={"Registration"}>
-            <MuiThemeProvider theme={theme}>
                 <Notification/>
                 <div className={styles.wrapper}>  
                     <div className={styles.wrapper__window}>
@@ -47,7 +47,7 @@ export default function RegPage () {
                             <h1 className={styles.window__content__heading}>Registration</h1>
                             <div className={styles.window__content__inuts}>
                                 <TextField onChange={(e) => setNickanme(e.target.value)} value={nickanme} name="nickanme" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Nickname" type="text" />
-                                <TextField onChange={(e) => setEmail(e.target.value)} value={email} name="email" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Email or login" type="text" />
+                                <TextField onChange={(e) => setEmail(e.target.value)} value={email} name="email" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Email" type="text" />
                                 <TextField onChange={(e) => setPassword(e.target.value)} value={password} name="password" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Password" type="password" />
                                 <TextField onChange={(e) => setPassword_repeat(e.target.value)} value={password_repeat} name="password_repeat" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Repeat password" type="password" />
                             </div>
@@ -60,7 +60,6 @@ export default function RegPage () {
                         </div>
                     </div>
                 </div>
-            </MuiThemeProvider>
         </MainLayout>
     )
 }

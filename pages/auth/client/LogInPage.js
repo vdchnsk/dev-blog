@@ -29,6 +29,7 @@ export default function LogInPage () {
             const responce = await request("../../api/auth/login", "POST", dataFromInputs)
             login(responce.token, responce.userId)
             router.push("/")
+            dispatch(showAlert(""))// очищаем состояние alert в redux
         } catch(e) {
             dispatch(showAlert(e.message))
         }
@@ -36,7 +37,6 @@ export default function LogInPage () {
 
     return(
         <MainLayout title={"Log in"}>
-            <MuiThemeProvider theme={theme}> 
                 <Notification/>
                 <div className={styles.wrapper}>
                     <div className={styles.wrapper__window}>
@@ -55,7 +55,6 @@ export default function LogInPage () {
                         </div>
                     </div>
                 </div>
-            </MuiThemeProvider>
         </MainLayout>
     )
 }

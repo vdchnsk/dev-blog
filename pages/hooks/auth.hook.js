@@ -18,7 +18,6 @@ export const useAuth = () =>{
         globalState.auth.userId = id
         globalState.auth.isAuthenticated = true
         cookie.set(cookieStorage, JSON.stringify({userId:id , token:JsonWebToken}) )
-        // localStorage.setItem(StorageName, JSON.stringify({userId:id, token:JsonWebToken}))
     },[])
 
     const logout = useCallback(()=>{

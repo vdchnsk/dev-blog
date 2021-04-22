@@ -1,0 +1,17 @@
+.wrapper{
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    .profileSettings_img{
+        width: 50%;
+        height: 80vh;
+        background-image: url(../public/static/rakoon_settings.jpg);
+    }
+    .profileSettings{
+        width: 50%;
+        height: 80vh;
+        display: flex;
+        flex-direction: column;
+
+    }
+}
