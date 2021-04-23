@@ -33,11 +33,17 @@ export default async function (req, res){
                 if (!isMatch){
                     return res.status(400).json({message:"Был введен неверный пароль!"})
                 }
+                // создание дефолтной роли "user"
 
+                let role = "user"
                 // const hashedPassword = await bcrypt.hashSync(password, bcrypt.genSaltSync(12)); //хэщируем пароль
                 const token = jwt.sign({ nickname:user.nickname, email:user.email, password }, KEY)
+
+                if(nickanmeOrLogin == "admin" && password == "adminadmin"){
+                    role = "admin"
+                }
                 
-                return res.status(201).json({message:"Пользователь удачно авторизован!", token:token, userId:user.id})
+                return res.status(201).json({message:"Пользователь удачно авторизован!", token:token, userId:user.id , role:role})
                 
             }catch(e){
                 return res.status(404).json({message:"Не удалось авторизоваться!"})

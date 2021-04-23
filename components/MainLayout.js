@@ -7,32 +7,17 @@ import {  useSelector } from "react-redux"
 import { useAuth } from "../pages/hooks/auth.hook"
 import { MuiThemeProvider } from "@material-ui/core"
 import { theme } from "../styles/material_ui_presets/blackColorPreset"
-import cookie from "js-cookie"
 import SettingsIcon from '@material-ui/icons/Settings';
+import cookie from "js-cookie"
 
 
-function Redirect({to}){
-    const router = useRouter()
-    useEffect(()=>{
-        router.push(to)
-    },[to]) 
-    return null
-}
 
 export const MainLayout = ({children , title = "Next"}) => { 
     const userData = cookie.get('UserData')
     const globalState = useSelector(state => state)
     const { logout }  = useAuth()
     const query = router
-
-    if(userData && globalState.auth.token === null){
-        globalState.auth.isAuthenticated = true
-    } 
-
-
-    const logoutHandler = () => {
-        logout()
-    }    
+    
     return (
         <Fragment>
             <MuiThemeProvider theme={theme}> 
@@ -46,7 +31,7 @@ export const MainLayout = ({children , title = "Next"}) => {
                         <Link href={"/posts"}><a>Posts</a></Link>
                     </div>
                     <div className="nav__secondaryButtons">
-                        { globalState.auth.isAuthenticated === false  ? <Link href={"/auth/client/LogInPage"}><a>Log in</a></Link> : <> <button onClick={logoutHandler} className={"logoutButton"}>Log Out</button> <button onClick={()=>{router.push('profile/profileSettings')}} className={"settingsutton"}> <SettingsIcon color={"primary"}/> </button> </>}
+                        { globalState.auth.isAuthenticated === false  ? <Link href={"/auth/client/LogInPage"}><a>Log in</a></Link> : <> <button onClick={logout} className={"logoutButton"}>Log Out</button> <button onClick={()=>{router.push('profile/profileSettings')}} className={"settingsutton"}> <SettingsIcon color={"primary"}/> </button> </>}
                     </div>
                 </nav>
                 <main>

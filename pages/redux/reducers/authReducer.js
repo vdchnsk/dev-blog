@@ -4,6 +4,7 @@ import { CHANGE_AUTHON_LOGIN } from "../types"
 const initState = {
     token:null,
     userId:null,
+    userRole:null,
     isAuthenticated:false
 }
 
