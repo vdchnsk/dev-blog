@@ -1,23 +1,33 @@
 import Head from "next/head"
 import Link from "next/link"
 import router,{ useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Fragment } from "react"
 import {  useSelector } from "react-redux"
 import { useAuth } from "../pages/hooks/auth.hook"
 import { MuiThemeProvider } from "@material-ui/core"
 import { theme } from "../styles/material_ui_presets/blackColorPreset"
 import SettingsIcon from '@material-ui/icons/Settings';
-import cookie from "js-cookie"
 
 
 
 export const MainLayout = ({children , title = "Next"}) => { 
-    const userData = cookie.get('UserData')
+    const [userStatus, setUserStatus] = useState(null)
     const globalState = useSelector(state => state)
     const { logout }  = useAuth()
-    const query = router
+    // const query = router
+
     
+    const logoutHandler = () => {
+        try {
+            logout()
+            fetch("../../api/auth/logout", {method:"post", headers:{"Content-Type":"application/json",}, body:""})
+            setUserStatus("loged out")
+        } catch(e) {
+            console.log("logout is failed")
+        }
+    }
+
     return (
         <Fragment>
             <MuiThemeProvider theme={theme}> 
@@ -31,7 +41,7 @@ export const MainLayout = ({children , title = "Next"}) => {
                         <Link href={"/posts"}><a>Posts</a></Link>
                     </div>
                     <div className="nav__secondaryButtons">
-                        { globalState.auth.isAuthenticated === false  ? <Link href={"/auth/client/LogInPage"}><a>Log in</a></Link> : <> <button onClick={logout} className={"logoutButton"}>Log Out</button> <button onClick={()=>{router.push('profile/profileSettings')}} className={"settingsutton"}> <SettingsIcon color={"primary"}/> </button> </>}
+                        { globalState.auth.isAuthenticated === false  ? <Link href={"/auth/client/LogInPage"}><a>Log in</a></Link> : <> <button onClick={logoutHandler} className={"logoutButton"}>Log Out</button> <button onClick={()=>{router.push('profile/profileSettings')}} className={"settingsutton"}> <SettingsIcon color={"primary"}/> </button> </>}
                     </div>
                 </nav>
                 <main>

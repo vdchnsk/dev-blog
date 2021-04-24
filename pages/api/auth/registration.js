@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 import validator from 'validator';
 import config from 'config'
 import Connect_db from '../../../utils/dbConnect'
+import cookie from "cookie"
 import User from '../models/userModel';
 
 Connect_db()
@@ -47,7 +48,16 @@ export default async function (req, res){
 
                 const userId = user.id
                 
-                return res.status(201).json({message:"Пользьователь создан!", token:token, userId:userId})
+                return (
+                    res.status(201)
+                    .setHeader("Set-Cookie", cookie.serialize("token",token, {
+                        httpOnly: true, 
+                        secure: process.env.NODE_ENV !== "development",
+                        sameSite:"strict",
+                        path:"/"
+                        // maxAge: 60*60,
+                    }))
+                    .json({message:"Пользьователь создан!", token:token, userId:userId, role:"user"}))
                 
             }catch(e){
                 return res.status(404).json({message:"Не удалось создать нового пользователя!"})

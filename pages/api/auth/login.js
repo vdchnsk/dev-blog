@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken'
 import validator from 'validator';
 import config from 'config'
 import Connect_db from '../../../utils/dbConnect'
-import User from '../models/userModel';
 import cookie from "cookie"
+import User from '../models/userModel';
 
 Connect_db()
 const KEY = config.get("secretJWT")
