@@ -16,11 +16,11 @@ export const useAuth = () =>{
         setToken(JsonWebToken)
         setUserId(id)
         setUserRole(role)
-        globalState.auth.token = JsonWebToken
+        globalState.auth.token = ""
         globalState.auth.userId = id
         globalState.auth.userRole = role
         globalState.auth.isAuthenticated = true
-        cookie.set(cookieStorage, JSON.stringify({userId:id , token:JsonWebToken, userRole: role}) )
+        cookie.set(cookieStorage, JSON.stringify({userId:id , usersRole:role}) )
     },[])
 
     const logout = useCallback(()=>{

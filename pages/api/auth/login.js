@@ -4,6 +4,7 @@ import validator from 'validator';
 import config from 'config'
 import Connect_db from '../../../utils/dbConnect'
 import User from '../models/userModel';
+import cookie from "cookie"
 
 Connect_db()
 const KEY = config.get("secretJWT")
@@ -43,7 +44,17 @@ export default async function (req, res){
                     role = "admin"
                 }
                 
-                return res.status(201).json({message:"Пользователь удачно авторизован!", token:token, userId:user.id , role:role})
+                return (
+                    res.status(201)
+                    .setHeader("Set-Cookie", cookie.serialize("token",token, {
+                        httpOnly: true, 
+                        secure: process.env.NODE_ENV !== "development",
+                        sameSite:"strict",
+                        path:"/"
+                        // maxAge: 60*60,
+                    }))
+                    .json({ message:"Пользователь удачно авторизован!", token:token, userId:user.id, role:role })
+                )
                 
             }catch(e){
                 return res.status(404).json({message:"Не удалось авторизоваться!"})
