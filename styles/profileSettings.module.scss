@@ -24,5 +24,9 @@
             margin-bottom: 3%;
             width: 60%;
         }
+        .formButton:disabled{
+            content: 'select two'!IMPORTANT;
+            background: gray;
+        }
     }
 }

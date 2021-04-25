@@ -17,7 +17,7 @@ export default async function (req, res){
         return res.status(502).json({message:"Тело запроса отсутсвует!"})
     }
 
-    const { nickname, email, password, userId } = req.body //парсим строку в объку тк хук useHttp приводит его к строке
+    const { nickname, email, password, userId } = JSON.parse(req.body) //парсим строку в объку тк хук useHttp приводит его к строке
 
     if(
         !validator.isEmpty( nickname ) &&
@@ -27,24 +27,26 @@ export default async function (req, res){
         password.length >= 6 
         ){
             try{
+                const user = await User.findOne({_id:userId}) //поиск по id
+
                 let condidate = await User.findOne({email:email})
-                if (condidate){
+                if (condidate && condidate.email !== user.email){
+                    console.log(condidate , user.email)
                     return res.status(502).json({message:"Пользователь с такой почтой уже существует!"})
                 }else{
                     condidate = await User.findOne({nickname:nickname})
-                    if(condidate){
+                    if(condidate && condidate.nickname !== user.nickname ){
                         return res.status(502).json({message:"Пользователь с таким никнеймом уже существует!"})
                     }
                 }
 
-                const user = await User.findOne({_id:userId}) //поиск по id
                 user.email = email
                 user.nickname = nickname
                 let hashedPassword = await bcrypt.hash(password, 12)
                 user.password = hashedPassword
                 user.save()
                 
-                const token = jwt.sign({ nickname:user.nickname, email:user.email, id:userId }, KEY)
+                const token = jwt.sign({ nickname:user.nickname, email:user.email, id:userId, password:password}, KEY)
 
                 return (
                     res.status(201)

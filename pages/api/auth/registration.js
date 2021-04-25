@@ -47,7 +47,7 @@ export default async function (req, res){
                 
                 const userId = user.id
                 
-                const token = await jwt.sign({ nickanme:nickanme, email:email,id:userId}, KEY)
+                const token = jwt.sign({ nickname:nickanme, email:email, id:userId, password:password }, KEY)
 
                 return (
                     res.status(201)

@@ -41,7 +41,7 @@ export const MainLayout = ({children , title = "Next"}) => {
                         <Link href={"/posts"}><a>Posts</a></Link>
                     </div>
                     <div className="nav__secondaryButtons">
-                        { globalState.auth.isAuthenticated === false  ? <Link href={"/auth/client/LogInPage"}><a>Log in</a></Link> : <> <button onClick={logoutHandler} className={"logoutButton"}>Log Out</button> <button onClick={()=>{router.push('profile/profileSettings')}} className={"settingsutton"}> <SettingsIcon color={"primary"}/> </button> </>}
+                        { globalState.auth.isAuthenticated === false  ? <Link href={"/auth/client/LogInPage"}><a>Log in</a></Link> : <Fragment> <button onClick={logoutHandler} className={"logoutButton"}>Log Out</button> <button onClick={()=>{router.push('profile/profileSettings')}} className={"settingsutton"}> <SettingsIcon color={"primary"}/> </button> </Fragment>} //Star, if u also love fuck-like long pieces of inline-code
                     </div>
                 </nav>
                 <main>
