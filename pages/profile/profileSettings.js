@@ -10,6 +10,7 @@ import { Notification } from '../../components/Notification'
 
 export default function profileSettings ({...data}) {
     const userData = data.datatoken
+    const userId = userData.id
     const [nickname, setNickname] = useState(userData.nickname)
     const [email, setEmail] = useState(userData.email)
     const [password, setPassword] = useState(userData.password)
@@ -17,7 +18,7 @@ export default function profileSettings ({...data}) {
 
     async function changeDataSubmit(){
         
-        const dataFromInputs = JSON.stringify({ nickname, email, password })
+        const dataFromInputs = JSON.stringify({ nickname, email, password, userId})
         if( nickname === userData.nickname &&
             email === userData.email &&
             password === userData.password
@@ -25,7 +26,7 @@ export default function profileSettings ({...data}) {
                 dispatch(showAlert("Данные не были изменены!")) 
             }else{
                 try {
-                    const responce = await request("../../api/auth/login", "POST", dataFromInputs)
+                    const responce = await request("../../api/auth/changeData", "POST", dataFromInputs)
                     login(responce.token, responce.userId, responce.role)
                     router.push("/")
                     dispatch(showAlert(""))//очищаем состояние alert в redux

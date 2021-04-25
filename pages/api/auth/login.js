@@ -10,7 +10,7 @@ Connect_db()
 const KEY = config.get("secretJWT")
 
 export default async function (req, res){
-    
+    console.log(req.body);
     if(!req.body){
         return res.status(404).json({message:"Заполните поля авторизации!"})
     }
@@ -38,7 +38,7 @@ export default async function (req, res){
 
                 let role = "user"
                 // const hashedPassword = await bcrypt.hashSync(password, bcrypt.genSaltSync(12)); //хэщируем пароль
-                const token = jwt.sign({ nickname:user.nickname, email:user.email, password }, KEY)
+                const token = jwt.sign({ nickname:user.nickname, email:user.email, id:user.id }, KEY)
 
                 if(nickanmeOrLogin == "admin" && password == "adminadmin"){
                     role = "admin"

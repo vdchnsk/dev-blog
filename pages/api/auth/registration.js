@@ -37,17 +37,18 @@ export default async function (req, res){
                 // const hashedPassword = await bcrypt.hashSync(password, bcrypt.genSaltSync(12)); //хэщируем пароль
                 const hashedPassword = await bcrypt.hash(password, 12)
 
-                const token = await jwt.sign({ nickanme, email, password }, KEY)
-
                 const user = await new User({
                     email:email,
                     nickname:nickanme,
                     password:hashedPassword
                 })
                 await user.save()
-
+                
+                
                 const userId = user.id
                 
+                const token = await jwt.sign({ nickanme:nickanme, email:email,id:userId}, KEY)
+
                 return (
                     res.status(201)
                     .setHeader("Set-Cookie", cookie.serialize("token",token, {
