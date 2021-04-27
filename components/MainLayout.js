@@ -7,6 +7,7 @@ import {  useSelector } from "react-redux"
 import { useAuth } from "../pages/hooks/auth.hook"
 import { MuiThemeProvider } from "@material-ui/core"
 import { theme } from "../styles/material_ui_presets/blackColorPreset"
+import { useRoutes_custom } from "../pages/router"
 import SettingsIcon from '@material-ui/icons/Settings';
 
 
@@ -15,8 +16,10 @@ export const MainLayout = ({children , title = "Next"}) => {
     const [userStatus, setUserStatus] = useState(null)
     const globalState = useSelector(state => state)
     const { logout }  = useAuth()
-    // const query = router
 
+    useEffect(() => {
+        useRoutes_custom(globalState.auth.isAuthenticated)
+    },[])
     
     const logoutHandler = () => {
         try {
@@ -27,7 +30,6 @@ export const MainLayout = ({children , title = "Next"}) => {
             console.log("logout is failed")
         }
     }
-
     return (
         <Fragment>
             <MuiThemeProvider theme={theme}> 
@@ -41,7 +43,7 @@ export const MainLayout = ({children , title = "Next"}) => {
                         <Link href={"/posts"}><a>Posts</a></Link>
                     </div>
                     <div className="nav__secondaryButtons">
-                        { globalState.auth.isAuthenticated === false  ? <Link href={"/auth/client/LogInPage"}><a>Log in</a></Link> : <Fragment> <button onClick={logoutHandler} className={"logoutButton"}>Log Out</button> <button onClick={()=>{router.push('profile/profileSettings')}} className={"settingsutton"}> <SettingsIcon color={"primary"}/> </button> </Fragment>} //Star, if u also love fuck-like long pieces of inline-code
+                        { globalState.auth.isAuthenticated === false  ? <Link href={"/auth/client/LogInPage"}><a>Log in</a></Link> : <Fragment> <button onClick={logoutHandler} className={"logoutButton"}>Log Out</button> <button onClick={()=>{router.push('profile/profileSettings')}} className={"settingsButton"}> <SettingsIcon color={"primary"}/> </button> </Fragment>}
                     </div>
                 </nav>
                 <main>
@@ -89,7 +91,7 @@ export const MainLayout = ({children , title = "Next"}) => {
                         cursor:pointer;
                         outline:none;
                     }
-                    .settingsutton{
+                    .settingsButton{
                         background:none;
                         border:none;
                         cursor:pointer;

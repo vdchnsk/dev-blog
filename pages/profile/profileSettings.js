@@ -62,9 +62,15 @@ export default function profileSettings ({...data}) {
     )
 }
 export async function getServerSideProps({req}) {
-    const token = req.cookies.token
-    const decodedJWT = jwt.verify(token, config.get("secretJWT"))
-    return {
-        props: {datatoken: decodedJWT || {}}
+    if(req.cookies.token){
+        const token = req.cookies.token
+        const decodedJWT = jwt.verify(token, config.get("secretJWT"))
+        return {
+            props: {datatoken: decodedJWT || {}}
+        }
+    } else {
+        return {
+            props: {datatoken:{}}
+        }
     }
 }   
