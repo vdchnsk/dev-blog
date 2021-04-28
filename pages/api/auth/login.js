@@ -10,7 +10,6 @@ Connect_db()
 const KEY = config.get("secretJWT")
 
 export default async function (req, res){
-    console.log(req.body);
     if(!req.body){
         return res.status(404).json({message:"Заполните поля авторизации!"})
     }
@@ -53,7 +52,7 @@ export default async function (req, res){
                         path:"/"
                         // maxAge: 60*60,
                     }))
-                    .json({ message:"Пользователь удачно авторизован!", token:token, userId:user.id, role:role })
+                    .json({ message:"Пользователь удачно авторизован!", nickname:user.nickname, userId:user.id, role:role })
                 )
                 
             }catch(e){

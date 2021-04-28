@@ -1,6 +1,3 @@
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
-import config from 'config'
 import cookie from "cookie"
  
 export default async function (req, res){
@@ -12,7 +9,6 @@ export default async function (req, res){
             sameSite:"strict",
             path:"/",
             expires: new Date(0)
-            // maxAge: 60*60,
         }))
         .json({ message:"Вы вышли из учетной записи!"})
     )

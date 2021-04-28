@@ -7,25 +7,25 @@ const cookieStorage = 'UserData'
 export const useAuth = () =>{
     const globalState = useSelector(state => state)
     
-    const [token, setToken] = useState(null)
+    const [nickname, setNickname] = useState(null)
     const [ready, setReady] = useState(false)
     const [userId, setUserId] = useState(null)
     const [userRole, setUserRole] = useState(null)
 
-    const login = useCallback((JsonWebToken, id, role)=>{
-        setToken(JsonWebToken)
+    const login = useCallback((nickname, id, role)=>{
+        setNickname(nickname)
         setUserId(id)
         setUserRole(role)
-        globalState.auth.token = ""
+        globalState.auth.nickname = nickname
         globalState.auth.userId = id
         globalState.auth.userRole = role
         globalState.auth.isAuthenticated = true
-        cookie.set(cookieStorage, JSON.stringify({userId:id , usersRole:role}) )
+        cookie.set(cookieStorage, JSON.stringify({nickname:nickname, userId:id, usersRole:role}) )
     },[])
 
     const logout = useCallback(()=>{
         //очищаем локальный state 
-        setToken(null)
+        setNickname(null)
         setUserId(null)
         setUserRole(null)
 
@@ -33,9 +33,9 @@ export const useAuth = () =>{
         cookie.remove(cookieStorage)
 
         //очищаем глобальный стейт
-        globalState.auth.token = null
+        globalState.auth.nickname = null
         globalState.auth.userId = null
-        globalState.auth.role = null
+        globalState.auth.userRole = null
         globalState.auth.isAuthenticated = false
     },[])
     useEffect(() => {
@@ -48,5 +48,5 @@ export const useAuth = () =>{
         }
     },[login])
 
-    return {login, logout, token, userId ,userRole, ready}
+    return {login, logout, nickname, userId ,userRole, ready}
 }

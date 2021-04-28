@@ -27,7 +27,7 @@ export default function LogInPage () {
 
         try {
             const responce = await request("../../api/auth/login", "POST", dataFromInputs)
-            login(responce.token, responce.userId, responce.role)
+            login(responce.nickname, responce.userId, responce.role)
             router.push("/")
             dispatch(showAlert(""))//очищаем состояние alert в redux
         } catch(e) {

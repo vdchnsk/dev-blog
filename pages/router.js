@@ -1,7 +1,4 @@
-import Link from "next/link"
 import router from 'next/router'
-import { useEffect, useState } from 'react'
-import {  useSelector } from "react-redux"
 
 
 export const useRoutes_custom = isAuthenticated =>{ //получаем информациб о том,авторизован ли юзер,перенаправляем его соответсвенно

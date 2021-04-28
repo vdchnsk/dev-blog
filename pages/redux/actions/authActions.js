@@ -1,17 +1,11 @@
 import {CHANGE_AUTHON_LOGIN , CHANGE_AUTHON_LOGOUT} from "../types"
 
-export function changeAuthStatusLogin (token, userId, isAuthenticated) {
+export function changeUserData (nickname, userId, isAuthenticated) {
     return {
         type:CHANGE_AUTHON_LOGIN,
-        token:token,
+        nickname:nickname,
         userId:userId,
-        isAuthenticated:isAuthenticated
+        isAuthenticated:isAuthenticated,
+        role:role
     }
 }
-// export function changeAuthStatusLogout(token, userId){
-//     return {
-//         type:CHANGE_AUTHON_LOGOUT,
-//         token:token,
-//         userId:userId
-//     }
-// }

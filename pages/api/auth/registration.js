@@ -58,7 +58,7 @@ export default async function (req, res){
                         path:"/"
                         // maxAge: 60*60,
                     }))
-                    .json({message:"Пользьователь создан!", token:token, userId:userId, role:"user"}))
+                    .json({message:"Пользьователь создан!", nickname:nickanme, userId:userId, role:"user"}))
                 
             }catch(e){
                 return res.status(404).json({message:"Не удалось создать нового пользователя!"})
