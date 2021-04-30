@@ -42,6 +42,7 @@ export const MainLayout = ({children , title = "Next"}) => {
                         margin:0;
                     }
                     nav{
+                        z-index: 1000;
                         position:fixed;
                         top:0;
                         height:60px;
