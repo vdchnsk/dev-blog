@@ -4,8 +4,8 @@ import Head from "next/head";
 import Image from 'next/image'
 import { MainLayout } from "../components/MainLayout";
 import { Loader } from '../components/Loader';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import VisibilityIcon from '@material-ui/icons/Visibility';
+import {PostStats} from "../components/posts/PostStats"
+import {PostTags} from "../components/posts/PostTags"
 
 export default function Posts({ posts : serverPosts }){
     const [posts , setPosts] = useState(serverPosts)
@@ -36,37 +36,26 @@ export default function Posts({ posts : serverPosts }){
         )
     }
     return (
-        <MainLayout>
-            <Head>
-                <title>Next | Posts</title>
-            </Head>
+        <MainLayout title={"Posts"}>
             <div className="feeds">
                 <div className="feeds__newsFeed">
                     <h1>Posts</h1>
                     <ul>
                         {posts.map(post => (
-                            <div className="newsBlock">
-                                <li key={post.id}>
-                                    <div className="news__heading">
-                                        <Link className="news__heading__link" href={`/post/[id]`} as={`/post/${post.id}`}><a> {post.title} </a></Link>
-                                        <div className="news__heading__stats">
-                                            <span className="news__heading__stats__stat news__heading__stats__likes"><FavoriteBorderIcon style={{color: "#ff00e0",marginRight:"4px"}}/>{post.liked}</span>
-                                            <span className="news__heading__stats__stat news__heading__stats__watched"><VisibilityIcon style={{color: "#4780e6", marginRight:"4px"}} />{post.watched}</span>
-                                        </div>
-                                        <div className="news__heading__stats__tags">
-                                                {post.tags.map(tag =>(
-                                                    <span style={{marginRight:"5px", opacity:"75%", fontWeight:"500", borderRadius:"10px",padding:"5px", border: `2px solid ${tag.color}`, color:`${tag.color}`, cursor:"pointer"}}>{tag.value}</span>
-                                                ))}
-                                            </div>
-                                        <hr/>
-                                    </div>
-                                    <div className="news__descriptin">{post.body}</div>
-                                    <Image src={`/static/uploads/${post.preview}`} alt="post preview picture" width="1920" height="1080" />
-                                    <div className="news__footer">
-                                        <h4 style={{textAlign:"start"}} className="news__footer__item news__footer__news__date">{post.date}</h4>
-                                        <h4 style={{textAlign:"end"}} className="news__footer__item news__footer__news__author">by {post.author}</h4>
-                                    </div>
-                                </li>
+                            <div key={post.id} className="newsBlock">
+                                <div className="news__heading">
+                                    <Link className="news__heading__link" href={`/post/[id]`} as={`/post/${post.id}`}><a> {post.title} </a></Link>
+                                    <PostStats liked={post.liked} watched={post.watched}/>
+                                    <PostTags tagsList={post.tags}/>
+                                    <hr/>
+                                </div>
+                                <div className="news__descriptin">{post.bodyPreview}</div>
+                                {/* вместо чисел width и height в Image можно указать "auto" */}
+                                <Image src={`/static/uploads/${post.preview}`} alt="post preview picture" width="1920" height="1080" /> 
+                                <div className="news__footer">
+                                    <h4 style={{textAlign:"start"}} className="news__footer__item news__footer__news__date">{post.date}</h4>
+                                    <h4 style={{textAlign:"end"}} className="news__footer__item news__footer__news__author">by {post.author}</h4>
+                                </div>
                             </div>
                             ))
                         }
@@ -113,6 +102,7 @@ export default function Posts({ posts : serverPosts }){
                     display:flex;
                 }
                 .news__descriptin{
+                    color:#424242;
                     text-align: justify;
                     max-height: 200px;
                     overflow: hidden;
@@ -127,7 +117,7 @@ export default function Posts({ posts : serverPosts }){
                 }
                 a{
                     font-size: 1.9em;
-                    color: black;
+                    color: #232323;
                     font-weight: 500;
                 }
                 .news__footer__item{
