@@ -3,8 +3,6 @@ import { TextField } from "@material-ui/core";
 import Button from '@material-ui/core/Button';
 import { MainLayout } from "../../../components/MainLayout";
 import Link from "next/link"
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import {theme} from '../../../styles/material_ui_presets/blackColorPreset'
 import { useHttp } from "../../hooks/useHttp";
 import styles from '../../../styles/auth.module.scss'
 import { Notification } from "../../../components/Notification";

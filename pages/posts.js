@@ -124,6 +124,21 @@ export default function Posts({ posts : serverPosts }){
                     width:50%;
                     opacity:60%;
                 }
+                @media(max-width:1340px){
+                    .feeds__newsFeed{
+                        width:70%  
+                    }
+                }
+                @media(max-width:800px){
+                    .feeds__newsFeed{
+                        width:80%  
+                    }
+                }
+                @media(max-width:660px){
+                    .feeds__newsFeed{
+                        width:100%  
+                    }
+                }
             `}
             </style>
         </MainLayout>
