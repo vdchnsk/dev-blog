@@ -1,14 +1,16 @@
 import {useState , useEffect} from 'react'
 import Link from "next/link";
-import Head from "next/head";
-import Image from 'next/image'
+import Image from 'next/image'  
 import { MainLayout } from "../components/MainLayout";
 import { Loader } from '../components/Loader';
 import {PostStats} from "../components/posts/PostStats"
 import {PostTags} from "../components/posts/PostTags"
+import { useSelector } from 'react-redux';
+import Router from 'next/router'
 
 export default function Posts({ posts : serverPosts }){
     const [posts , setPosts] = useState(serverPosts)
+    const userData = useSelector(state => state.auth)
 
     useEffect(() => {
         //frontend query
@@ -21,13 +23,9 @@ export default function Posts({ posts : serverPosts }){
             load()
         }
     }, [])
-
-    const tags = [
-        {
-            "value":"programming",
-            "color":"red"
-        } 
-    ]
+    const clickHandles = ()=>{
+        Router.push("./post/createPost")
+    }
     if(!posts){ //если посты не подгрузились , показывает лоадер
         return (
             <MainLayout>
@@ -39,7 +37,10 @@ export default function Posts({ posts : serverPosts }){
         <MainLayout title={"Posts"}>
             <div className="feeds">
                 <div className="feeds__newsFeed">
-                    <h1>Posts</h1>
+                    <div style={{display:"flex", alignItems:"center", justifyContent:"space-between"}} className="feeds__newsFeed__feedHeading">
+                        <h1>POSTS</h1>
+                        { userData.nickname == "admin" ? <button onClick={clickHandles} className="crateArticleButton">Создать статью </button> : <div></div>}
+                    </div>
                     <ul>
                         {posts.map(post => (
                             <div key={post.id} className="newsBlock">
@@ -124,6 +125,23 @@ export default function Posts({ posts : serverPosts }){
                     width:50%;
                     opacity:60%;
                 }
+                .crateArticleButton{
+                    background:white;
+                    color:black;
+                    border:2px solid black;
+                    transition:.3s;
+                    padding:1%;
+                    cursor:pointer;
+                    border-radius:8px;
+                }
+                .crateArticleButton:hover{
+                    background:black;
+                    color:white;
+                }
+                .crateArticleButton:focus{
+                    background:black;
+                    color:white;
+                }
                 @media(max-width:1340px){
                     .feeds__newsFeed{
                         width:70%  
@@ -152,5 +170,7 @@ Posts.getInitialProps = async (ctx) => { // getInitialProps хорошо под�
     const responce = await fetch("http://localhost:4200/posts")
     const posts = await responce.json()
 
-    return {posts}
+    return {
+        posts
+    }
 }
