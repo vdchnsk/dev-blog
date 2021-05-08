@@ -14,7 +14,7 @@ export default function Post ({ post:serverPost }) {
     const [commentValue, setCommentValue] = useState("")
     const router = useRouter()
 
-    const unputCommentRef = useRef()
+    const inputCommentRef = useRef()
 
     useEffect(()=>{
         const load = async () => {
@@ -73,7 +73,7 @@ export default function Post ({ post:serverPost }) {
                                     </div>
                                     <div className="body__comments__comment__footer">
                                         <button onClick={()=>{
-                                            unputCommentRef.current.focus()
+                                            inputCommentRef.current.focus()
                                             setCommentValue(comment.author+",")
                                             }}className="body__comments__comment__footer__replyBut" style={{marginTop:"1%",fontSize:".9rem",color:"black", background:"none", border:"none", cursor:"pointer",padding:"0",paddingBottom:"3px"}}>reply</button>
                                     </div>
@@ -83,7 +83,7 @@ export default function Post ({ post:serverPost }) {
                         <div className="body__comments__comment__actions">
                             <TextareaAutosize 
                                 onChange={(e) => setCommentValue(e.target.value)} 
-                                value={commentValue} ref={unputCommentRef} 
+                                value={commentValue} ref={inputCommentRef} 
                                 style={{minHeight:"50px", minWidth:"30%", maxWidth:"60%", padding:"10px", height:"150px", width:"50%", fontFamily:"Roboto"}} 
                                 rowsMax={10} 
                                 aria-label="maximum height" 
@@ -122,6 +122,21 @@ export default function Post ({ post:serverPost }) {
                 .body__comments__comment__actions{
                     width:100%;
                     display:flex;
+                }
+                @media(max-width:1340px){
+                    .post{
+                        width:70%  
+                    }
+                }
+                @media(max-width:800px){
+                    .post{
+                        width:80%  
+                    }
+                }
+                @media(max-width:660px){
+                    .post{
+                        width:100%  
+                    }
                 }
                 
             `}</style>
