@@ -13,7 +13,6 @@ export default function CreatePost({tags}){
     const [postBody, setPostBody] = useState("")
     const [postPreview, setPostPreview] = useState("")
 
-    const [apiTags, setApiTags] = useState({tags})
     const [isAutoCompleteOpen, setIsAutoCompleteOpen] = useState(true)
     const [postTagsFilled, setPostTagsFilled] = useState("")
     const [postTags, setPostTags] = useState([])
@@ -36,12 +35,21 @@ export default function CreatePost({tags}){
         setIsAutoCompleteOpen(true)
     }
     const addToPostTags = ({tags}, exectTag)=>{
-        if(tags.findIndex(i => i.value === exectTag)){
+        if (tags.findIndex(i => i.value === exectTag)){
             let indexOfElement = tags.findIndex(i => i.value === exectTag)
+
+            if (postTags.includes(tags[indexOfElement]) || postTags.length == 3){
+                console.warn("Error of adding the tag!")
+                return setPostTagsFilled("")
+            }
             postTags.push(tags[indexOfElement])
             setPostTagsFilled("")
 
-        }else{
+        } else {
+            if (postTags.findIndex(i => i.value === exectTag) == 0 || postTags.length == 3){
+                console.warn("Error of adding the tag!")
+                return setPostTagsFilled("")
+            }
             let newTag = {
                 "id":Math.floor(Math.random() * 1000000) * 1,
                 "value":exectTag,
@@ -50,14 +58,11 @@ export default function CreatePost({tags}){
             postTags.push(newTag)
             setPostTagsFilled("")
         }
-        return 
     }
-    const clearTags = ()=>{
+    const clearTags = () =>{
         setPostTags([])
     }
-
-    // console.log(tags)
-    // console.log(tags.findIndex(i=>i.value === "Microsoft"))
+    
     const bodyInput = useRef()
     return (
         <MainLayout title={"Create new post"}>
