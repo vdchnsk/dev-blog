@@ -8,6 +8,7 @@ var randomColor = require('randomcolor');
 
 
 export default function CreatePost({tags, BackupTags}){
+    console.log(BackupTags)
     const [postTitle, setPostTitle] = useState("")
     const [postDescription, setPostDescription] = useState("")
     const [postBody, setPostBody] = useState("")
@@ -64,7 +65,8 @@ export default function CreatePost({tags, BackupTags}){
     }
     const clearTags = () =>{
         setPostTags([])
-        setChosenTags(BackUptags)
+        setChosenTags(BackupTags.slice(0)) //создание дубликата бэкап-массива, иначе будет происходить мутация даже этого самого бэкап-массива
+        console.log(chosenTags)
         return
     }
 
