@@ -7,12 +7,13 @@ var randomColor = require('randomcolor');
 
 
 
-export default function CreatePost({tags}){
+export default function CreatePost({tags, BackupTags}){
     const [postTitle, setPostTitle] = useState("")
     const [postDescription, setPostDescription] = useState("")
     const [postBody, setPostBody] = useState("")
     const [postPreview, setPostPreview] = useState("")
 
+    const [chosenTags, setChosenTags] = useState(tags)
     const [isAutoCompleteOpen, setIsAutoCompleteOpen] = useState(true)
     const [postTagsFilled, setPostTagsFilled] = useState("")
     const [postTags, setPostTags] = useState([])
@@ -22,27 +23,28 @@ export default function CreatePost({tags}){
         bodyInput.current.focus()
     }
 
-    const filtredTags = tags.filter(tag=>{
+    const filtredTags = chosenTags.filter(tag=>{
         return tag.value.toLowerCase().includes(postTagsFilled.toLowerCase())
     })
     const ACItemClickHandler = (e) =>{
         setPostTagsFilled(e.target.textContent)
         setIsAutoCompleteOpen(false)
-        addToPostTags({tags}, e.target.textContent)
+        addToPostTags({chosenTags}, e.target.textContent)
         
     }
     const setIsAutoCompleteOpenHandler = ()=>{
         setIsAutoCompleteOpen(true)
     }
-    const addToPostTags = ({tags}, exectTag)=>{
-        if (tags.findIndex(i => i.value === exectTag)){
-            let indexOfElement = tags.findIndex(i => i.value === exectTag)
+    const addToPostTags = ({chosenTags}, exectTag) =>{
+        if (chosenTags.findIndex(i => i.value === exectTag)){
+            let indexOfElement = chosenTags.findIndex(i => i.value === exectTag)
 
-            if (postTags.includes(tags[indexOfElement]) || postTags.length == 3){
+            if (postTags.includes(chosenTags[indexOfElement]) || postTags.length == 3){
                 console.warn("Error of adding the tag!")
                 return setPostTagsFilled("")
             }
-            postTags.push(tags[indexOfElement])
+            postTags.push(chosenTags[indexOfElement])
+            chosenTags.splice(1,indexOfElement)
             setPostTagsFilled("")
 
         } else {
@@ -56,12 +58,16 @@ export default function CreatePost({tags}){
                 "color":randomColor()
             }
             postTags.push(newTag)
+
             setPostTagsFilled("")
         }
     }
     const clearTags = () =>{
         setPostTags([])
+        setChosenTags(BackUptags)
+        return
     }
+
     
     const bodyInput = useRef()
     return (
@@ -234,7 +240,10 @@ export async function getServerSideProps({req}) {
     const tags = await responce.json()
 
     return {
-        props: {tags:tags}
+        props: {
+            tags:tags,
+            BackupTags:tags
+        }
     }
         
 }
