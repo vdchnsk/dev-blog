@@ -2,7 +2,7 @@
 
 **Version 0.2.0**
 
-📃 Blog on keyboard topic, where everybody is able to write his own articles
+📃 My own blog on keyboard topic
 
 ## 👨‍💻 Contributors
 
