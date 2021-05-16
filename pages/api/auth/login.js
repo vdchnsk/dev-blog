@@ -29,7 +29,7 @@ export default async function (req, res){
                     }
                 }
                 const isMatch = await bcrypt.compare(password , user.password)//сравнение введенного пользователем пароля с имеющимся в бд 
-
+                
                 if (!isMatch){
                     return res.status(400).json({message:"Был введен неверный пароль!"})
                 }

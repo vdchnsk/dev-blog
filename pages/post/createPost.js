@@ -235,6 +235,7 @@ export default function CreatePost({tags, BackupTags}){
                     text-decoration:underline;
                 } 
                 .textStat.active{
+                    // outline: 1px solid black;
                     border: 2px solid black !important;
                 }
 

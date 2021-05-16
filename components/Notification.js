@@ -14,7 +14,7 @@ export const Notification = () =>{
     if(alertProperties.text !== ""){
         return(
             <>
-                <StyledAlert severity = "warning">{alertProperties.text}</StyledAlert>
+                <StyledAlert severity={`${alertProperties.type}`} >{alertProperties.text}</StyledAlert>
 
             </>
         )

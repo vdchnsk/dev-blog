@@ -1,4 +1,4 @@
-import {Schema , model,models} from "mongoose"
+import {Schema , model,models, mongoose} from "mongoose"
 
 //схема объектов коллекции
 
@@ -10,16 +10,13 @@ const schema = new Schema({
     },
     nickname:{
         type:String,
-        required:true, 
-    },
-    date:{
-        type:Date,
         required:true,
+        unique:true, 
     },
-    value:{
+    password:{
         type:String,
-        required:true
-    }
+        requiered:true
+    },
 })
 
 //Монго создает коллекцию с имением из первого вргумента,дабвляет к окончанию "s"(в данном случае не добавляет тк я третим аргументом указал название коллекции).К примеру ,если изменить "User" на любое другое название,то при подклбчении к бд,автоматически создастся новая коллекция с соответсвующем названием во множественном числе * странно как-то

@@ -44,10 +44,10 @@ export default function RegPage () {
                         <div className={styles.RegWindow__content}>
                             <h1 className={styles.window__content__heading}>Registration</h1>
                             <div className={styles.window__content__inuts}>
-                                <TextField onChange={(e) => setNickanme(e.target.value)} value={nickanme} name="nickanme" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Nickname" type="text" />
-                                <TextField onChange={(e) => setEmail(e.target.value)} value={email} name="email" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Email" type="text" />
-                                <TextField onChange={(e) => setPassword(e.target.value)} value={password} name="password" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Password" type="password" />
-                                <TextField onChange={(e) => setPassword_repeat(e.target.value)} value={password_repeat} name="password_repeat" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Repeat password" type="password" />
+                                <TextField onChange={(e) => setNickanme(e.target.value)} value={nickanme} name="nickanme" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Nickname" type="text" autoComplete="Off"/>
+                                <TextField onChange={(e) => setEmail(e.target.value)} value={email} name="email" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Email" type="text" autoComplete="Off"/>
+                                <TextField onChange={(e) => setPassword(e.target.value)} value={password} name="password" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Password" type="password" autoComplete="Off"/>
+                                <TextField onChange={(e) => setPassword_repeat(e.target.value)} value={password_repeat} name="password_repeat" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Repeat password" type="password" autoComplete="Off"/>
                             </div>
                             <div className={styles.window__content__buttons}>
                                 <Button onClick={regSubmit} variant="contained" size="medium" className={styles.formButton} disabled ={loading}>Register</Button>

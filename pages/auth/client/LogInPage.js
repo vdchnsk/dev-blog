@@ -43,8 +43,8 @@ export default function LogInPage () {
                         <div className={styles.window__content}>
                             <h1 className={styles.window__content__heading}>Authorization</h1>
                             <div className={styles.window__content__inuts}>
-                                <TextField onChange={(e) => setNickanmeOrLogin(e.target.value)} value={nickanmeOrLogin} name="email_or_login" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Email or login" type="text" />
-                                <TextField onChange={(e) => setPassword(e.target.value)} value={password} name="password" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Password" type="password" />
+                                <TextField onChange={(e) => setNickanmeOrLogin(e.target.value)} value={nickanmeOrLogin} name="email_or_login" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Email or login" type="text" autoComplete="Off"/>
+                                <TextField onChange={(e) => setPassword(e.target.value)} value={password} name="password" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Password" type="password" autoComplete="Off"/>
                             </div>
                             <div className={styles.window__content__buttons}>
                                 <Button disabled={loading} onClick={loginSubmit} variant="contained" size="medium" className={styles.formButton} >Log in</Button>
