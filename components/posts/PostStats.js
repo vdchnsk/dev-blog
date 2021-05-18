@@ -1,7 +1,8 @@
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import {memo} from 'react'
 
-export const PostStats = ({liked, watched}) => {
+const PostStats = ({liked, watched}) => {
     return (
         <div className="news__heading__stats">
             <span className="news__heading__stats__stat news__heading__stats__likes"><FavoriteBorderIcon style={{color: "#ff00e0",marginRight:"4px"}}/>{liked}</span>
@@ -23,3 +24,4 @@ export const PostStats = ({liked, watched}) => {
         </div>
     )
 }
+export default memo(PostStats)

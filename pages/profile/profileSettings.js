@@ -29,15 +29,15 @@ export default function profileSettings ({...data}) {
             email === userData.email &&
             password === userData.password
             ){
-                dispatch(showAlert("Данные не были изменены!")) 
+                dispatch(showAlert("Данные не были изменены!", "warning")) 
             }else{
                 try {
                     const responce = await request("../../api/auth/changeData", "POST", dataFromInputs)
                     login(responce.nickname, responce.userId, responce.role)
                     router.push("/")
-                    dispatch(showAlert(""))//очищаем состояние alert в redux
+                    dispatch(showAlert("", "warning"))//очищаем состояние alert в redux
                 } catch(e) {
-                    dispatch(showAlert(e.message))  
+                    dispatch(showAlert(e.message, "warning"))  
                 }
             }
     }

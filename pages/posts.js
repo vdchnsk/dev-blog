@@ -3,9 +3,9 @@ import Link from "next/link";
 import Image from 'next/image'  
 import { MainLayout } from "../components/MainLayout";
 import { Loader } from '../components/Loader';
-import {PostStats} from "../components/posts/PostStats"
 import {PostTags} from "../components/posts/PostTags"
 import { useSelector } from 'react-redux';
+import PostStats from "../components/posts/PostStats"
 import Router from 'next/router'
 
 export default function Posts({ posts : serverPosts }){

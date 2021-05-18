@@ -30,9 +30,9 @@ export default function RegPage () {
             const responce = await request("../../api/auth/registration", "POST", dataFromInputs)
             login(responce.nickname, responce.userId)
             router.push("/")
-            dispatch(showAlert(""))// очищаем состояние alert в redux
+            dispatch(showAlert("", "warning"))// очищаем состояние alert в redux
         } catch(e) {
-            dispatch(showAlert(e.message))
+            dispatch(showAlert(e.message, "warning"))
         }
     }
 

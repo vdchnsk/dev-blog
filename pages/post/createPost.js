@@ -3,6 +3,8 @@ import { TextareaAutosize, TextField } from "@material-ui/core";
 import { MainLayout } from "../../components/MainLayout";
 import PublishIcon from '@material-ui/icons/Publish';
 import {PostTags} from "../../components/posts/PostTags"
+import { useDispatch } from 'react-redux'
+import { addArticleInfo } from "../redux/actions/articleAddingReducerActions";
 var randomColor = require('randomcolor');
 
 
@@ -10,8 +12,8 @@ var randomColor = require('randomcolor');
 export default function CreatePost({tags, BackupTags}){
     const [postTitle, setPostTitle] = useState("")
     const [postDescription, setPostDescription] = useState("")
-    const [postBody, setPostBody] = useState("")
     const [postPreview, setPostPreview] = useState("")
+    const [postBody, setPostBody] = useState("")
     
     const [chosenTags, setChosenTags] = useState(tags)
     const [isAutoCompleteOpen, setIsAutoCompleteOpen] = useState(true)
@@ -20,6 +22,7 @@ export default function CreatePost({tags, BackupTags}){
     
     const bodyInput = useRef()
     
+    const dispatch = useDispatch()
     
     const KeyCheck = (event) => {
         if(event.keyCode === 13) {
@@ -91,6 +94,8 @@ export default function CreatePost({tags, BackupTags}){
                         <div className="newPost__content__main__metaInpust">
                             <TextField value={postTitle} onChange={(e) => setPostTitle(e.target.value)} style={{width:"60%",margin:"10px 0px"}} className="metaInput" color={"secondary"} label="Title" />
                             <TextareaAutosize
+                                onChange={(e) => setPostDescription(e.target.value)}
+                                value={postDescription}
                                 style={{minHeight:"100px", minWidth:"100%", maxWidth:"100%", padding:"10px", fontFamily:"Roboto"}} 
                                 aria-label="maximum height" 
                                 placeholder="Description of your article"/>
@@ -129,6 +134,7 @@ export default function CreatePost({tags, BackupTags}){
                                 rowsMax={10} 
                                 aria-label="maximum height" 
                                 placeholder="Body of your article"/>
+
                         </div>
                         <div className="textStat" style={{width:"100%",display:"flex",flexDirection:"row", background:"white",borderRadius:"0px 0px 10px 10px", border:"1px solid black", transform:"translate(0px, -21px)"}}>
                             <div style={{opacity:"65%", padding:"10px"}}>{postBody.length} symbols</div>
@@ -152,7 +158,9 @@ export default function CreatePost({tags, BackupTags}){
                                 <PostTags tagsList={postTags}/>
                             </div>
                         </div>
-                        <button className="footer__tags__button">Next</button>
+                        <button className="footer__tags__button" onClick={()=>{
+                            dispatch(addArticleInfo(postTitle, postDescription, postPreview, postBody, postTags))
+                        }}>Next</button>
                     </div>
                 </div>
             </div>

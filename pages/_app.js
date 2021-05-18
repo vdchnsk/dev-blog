@@ -17,6 +17,7 @@ const  MyApp = ({ Component, pageProps }) => {
   if(userData){
     globalState.auth.userId = userData.userId
     globalState.auth.nickname = userData.nickname
+    globalState.auth.userRole = userData.usersRole  
     globalState.auth.isAuthenticated = true
   }
 

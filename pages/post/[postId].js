@@ -3,11 +3,11 @@ import { useRouter } from 'next/router'
 import { MainLayout } from '../../components/MainLayout'
 import { Loader } from '../../components/Loader'
 import { PostStats } from '../../components/posts/PostStats'
-import { PostTags } from '../../components/posts/PostTags'
 import { TextareaAutosize } from '@material-ui/core'
 import SubdirectoryArrowLeftIcon from '@material-ui/icons/SubdirectoryArrowLeft';
 import Button from '@material-ui/core/Button'
 import Link from 'next/link'
+import  PostTags  from '../../components/posts/PostTags'
 
 export default function Post ({ post:serverPost }) {
     const [post , setPost] = useState(serverPost)

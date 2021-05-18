@@ -3,8 +3,6 @@ import Button from '@material-ui/core/Button';
 import { MainLayout } from "../../../components/MainLayout";
 import styles from '../../../styles/auth.module.scss'
 import Link from "next/link"
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import {theme} from '../../../styles/material_ui_presets/blackColorPreset'
 import { useState } from "react";
 import { useAuth } from "../../hooks/auth.hook";
 import { useDispatch } from "react-redux";
@@ -29,12 +27,15 @@ export default function LogInPage () {
             const responce = await request("../../api/auth/login", "POST", dataFromInputs)
             login(responce.nickname, responce.userId, responce.role)
             router.push("/")
-            dispatch(showAlert(""))//очищаем состояние alert в redux
+            dispatch(showAlert("", "warning"))//очищаем состояние alert в redux
         } catch(e) {
-            dispatch(showAlert(e.message))
+            dispatch(showAlert(e.message, "warning"))
         }
     }
 
+    // const responseGoogle = (res)  => {
+    //     console.log(res)
+    // }
     return(
         <MainLayout title={"Log in"}>
                 <Notification/>
@@ -52,6 +53,14 @@ export default function LogInPage () {
                             <div className={styles.window__content__registrationRef}>
                                 <span >You have got no account? Then <Link href="/auth/client/RegPage"> register! </Link> </span>
                             </div>
+                            {/* <GoogleLogin
+                                clientId="139188701722-jm9e4ebmke8bealg2dsi7c5mp3l1e7d2.apps.googleusercontent.com"
+                                buttonText="Sign in with Google"
+                                onSucces={responseGoogle}
+                                onFailure={responseGoogle}
+                                isSignedIn={true}
+                                cookiePolicy={'single_host_origin'}
+                            /> */}
                         </div>
                     </div>
                 </div>

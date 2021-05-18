@@ -37,11 +37,12 @@ export default async function (req, res){
 
                 let role = "user"
                 // const hashedPassword = await bcrypt.hashSync(password, bcrypt.genSaltSync(12)); //хэщируем пароль
-                const token = jwt.sign({ nickname:user.nickname, email:user.email, id:user.id, password:password}, KEY)
-
-                if(nickanmeOrLogin == "admin" && password == "adminadmin"){
+                
+                if (nickanmeOrLogin == "admin" && password == "adminadmin"){
                     role = "admin"
                 }
+                
+                const token = jwt.sign({ nickname:user.nickname, email:user.email, id:user.id, password:password}, KEY)
                 
                 return (
                     res.status(201)
