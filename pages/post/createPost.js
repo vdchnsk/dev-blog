@@ -5,8 +5,9 @@ import PublishIcon from '@material-ui/icons/Publish';
 import {PostTags} from "../../components/posts/PostTags"
 import { useDispatch } from 'react-redux'
 import { addArticleInfo } from "../redux/actions/articleAddingReducerActions";
+import { showAlert } from "../redux/actions/alertActions";
+import {Notification} from "../../components/Notification"
 var randomColor = require('randomcolor');
-
 
 
 export default function CreatePost({tags, BackupTags}){
@@ -54,19 +55,29 @@ export default function CreatePost({tags, BackupTags}){
     const addToPostTags = ({chosenTags}, exectTag) =>{
         if (chosenTags.findIndex(i => i.value === exectTag)!== -1){
             let indexOfElement = chosenTags.findIndex(i => i.value === exectTag)
-            if (postTags.includes(chosenTags[indexOfElement]) || postTags.length == 3){
-                console.warn("Error of adding the tag!")
+
+            if (postTags.length == 3){
+                dispatch(showAlert("Максимольное кол-во тэгов - 3", "warning"))
+                return setPostTagsFilled("")
+            } else if (postTags.includes(chosenTags[indexOfElement])){
+                dispatch(showAlert("Этот тэг уже был добавлен!", "warning"))
                 return setPostTagsFilled("")
             }
+
             postTags.push(chosenTags[indexOfElement])
             chosenTags.splice(1,indexOfElement)
             setPostTagsFilled("")
 
         } else {
-            if (postTags.findIndex(i => i.value === exectTag) == 0 || postTags.length == 3){
-                console.warn("Error of adding the tag!")
+
+            if (postTags.length == 3){
+                dispatch(showAlert("Максимольное кол-во тэгов - 3", "warning"))
+                return setPostTagsFilled("")
+            } else if (postTags.findIndex(i => i.value === exectTag) == 0){
+                dispatch(showAlert("Этот тэг уже был добавлен!", "warning"))
                 return setPostTagsFilled("")
             }
+            
             let newTag = {
                 "id":Math.floor(Math.random() * 1000000) * 1,
                 "value":exectTag,
@@ -85,6 +96,7 @@ export default function CreatePost({tags, BackupTags}){
     
     return (
         <MainLayout title={"Create new post"}>
+            <Notification/>
             <div className="wrapper">
                 <div className="newPost__content">
                     <div className="newPost__content__header">
