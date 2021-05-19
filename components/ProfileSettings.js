@@ -22,7 +22,7 @@ export const ProfileSettings = () => {
 
   const handleSettings = () => {
     setAnchorEl(null)
-    router.push('profile/profileSettings')
+    router.push('/profile/profileSettings')
   };
   const handleLogout = () => {
       try {

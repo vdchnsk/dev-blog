@@ -4,7 +4,7 @@ import { MainLayout } from "../components/MainLayout";
 
 export default function Home(props) {
   return (
-    <MainLayout title={'Home'}>
+    <MainLayout title={'Home 👩‍💻👨‍💻'}>
       <Head>
         <meta name="keywords" content="next js react node"/>
         <meta name="description" content="NextJS app"/>

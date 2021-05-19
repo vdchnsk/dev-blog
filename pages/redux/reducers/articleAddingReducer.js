@@ -2,11 +2,11 @@ import { ADD_ARTICLE } from "../types"
 
 
 const initState = {
-    title:null,
-    description:null,
+    title:"",
+    description:"",
     preview:null,
-    body:null,
-    tags:null,
+    body:"",
+    tags:[],
 }
 
 export const articleAddingReducer = (state = initState, action) =>{

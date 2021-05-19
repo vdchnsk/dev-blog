@@ -1,29 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 import { TextareaAutosize, TextField } from "@material-ui/core";
 import { MainLayout } from "../../components/MainLayout";
-import PublishIcon from '@material-ui/icons/Publish';
 import {PostTags} from "../../components/posts/PostTags"
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addArticleInfo } from "../redux/actions/articleAddingReducerActions";
 import { showAlert } from "../redux/actions/alertActions";
 import {Notification} from "../../components/Notification"
-var randomColor = require('randomcolor');
+import PublishIcon from '@material-ui/icons/Publish';
+import router from 'next/router';
+var randomColor = require('randomcolor')
 
 
 export default function CreatePost({tags, BackupTags}){
-    const [postTitle, setPostTitle] = useState("")
-    const [postDescription, setPostDescription] = useState("")
+    const globalState = useSelector(state => state) 
+    const dispatch = useDispatch()
+
+    const [postTitle, setPostTitle] = useState(globalState.article.title)
+    const [postDescription, setPostDescription] = useState(globalState.article.description)
     const [postPreview, setPostPreview] = useState("")
-    const [postBody, setPostBody] = useState("")
+    const [postBody, setPostBody] = useState(globalState.article.body)
     
     const [chosenTags, setChosenTags] = useState(tags)
     const [isAutoCompleteOpen, setIsAutoCompleteOpen] = useState(true)
     const [postTagsFilled, setPostTagsFilled] = useState("")
-    const [postTags, setPostTags] = useState([])
+    const [postTags, setPostTags] = useState(globalState.article.tags)
     
     const bodyInput = useRef()
     
-    const dispatch = useDispatch()
     
     const KeyCheck = (event) => {
         if(event.keyCode === 13) {
@@ -53,14 +56,14 @@ export default function CreatePost({tags, BackupTags}){
         setIsAutoCompleteOpen(true)
     }
     const addToPostTags = ({chosenTags}, exectTag) =>{
-        if (chosenTags.findIndex(i => i.value === exectTag)!== -1){
+        if (chosenTags.findIndex(i => i.value === exectTag) !== -1){
             let indexOfElement = chosenTags.findIndex(i => i.value === exectTag)
 
             if (postTags.length == 3){
-                dispatch(showAlert("Максимольное кол-во тэгов - 3", "warning"))
+                dispatch(showAlert("Максимольное кол-во тэгов - 3", "warning")) // против мудаков, которые выполнят функцию на фронете без инпута
                 return setPostTagsFilled("")
             } else if (postTags.includes(chosenTags[indexOfElement])){
-                dispatch(showAlert("Этот тэг уже был добавлен!", "warning"))
+                dispatch(showAlert(`Тэг "${exectTag}" уже был добавлен!`, "warning"))
                 return setPostTagsFilled("")
             }
 
@@ -73,8 +76,8 @@ export default function CreatePost({tags, BackupTags}){
             if (postTags.length == 3){
                 dispatch(showAlert("Максимольное кол-во тэгов - 3", "warning"))
                 return setPostTagsFilled("")
-            } else if (postTags.findIndex(i => i.value === exectTag) == 0){
-                dispatch(showAlert("Этот тэг уже был добавлен!", "warning"))
+            } else if (postTags.findIndex(i => i.value.toLowerCase() === exectTag.toLowerCase()) == 0){ //Если массив уже готовых тегов содержит элемент с таким же значаним, как ввел пользователь(т.е. тег повторяется)(метод в таком случае выводит "0"), выдает ошибку о том, что тег уже был добавлен
+                dispatch(showAlert(`Тэг "${exectTag}" уже был добавлен!`, "warning"))
                 return setPostTagsFilled("")
             }
             
@@ -95,7 +98,7 @@ export default function CreatePost({tags, BackupTags}){
     }
     
     return (
-        <MainLayout title={"Create new post"}>
+        <MainLayout title={"Create new post ✍ "}>
             <Notification/>
             <div className="wrapper">
                 <div className="newPost__content">
@@ -108,7 +111,7 @@ export default function CreatePost({tags, BackupTags}){
                             <TextareaAutosize
                                 onChange={(e) => setPostDescription(e.target.value)}
                                 value={postDescription}
-                                style={{minHeight:"100px", minWidth:"100%", maxWidth:"100%", padding:"10px", fontFamily:"Roboto"}} 
+                                style={{overflow:"auto", minHeight:"100px", minWidth:"100%", maxWidth:"100%", padding:"10px", fontFamily:"Roboto"}} 
                                 aria-label="maximum height" 
                                 placeholder="Description of your article"/>
                             <label htmlFor="upload" style={{cursor:"pointer", width:"24%",margin:"10px 0px"}} >
@@ -158,7 +161,7 @@ export default function CreatePost({tags, BackupTags}){
                         <div className="footer__tags " style={{margin:"0px 0 25px 0px", display:"flex", flexDirection:"row"}}>
                             <div className="footer__tags__item footer__tags__tagChoosing" style={{display:"flex", flexDirection:"column"}}>
                                 <span style={{width:"100%", fontWeight:"500"}}>Choose not more than 3 suiteble tags</span>
-                                <TextField onClick={setIsAutoCompleteOpenHandler} onChange={(e) => setPostTagsFilled(e.target.value)} value={postTagsFilled} style={{width:"53%", position:"relative"}} className="metaInput" color={"secondary"} label="suiteble tag" />
+                                <TextField disabled={postTags.length === 3} onClick={setIsAutoCompleteOpenHandler} onChange={(e) => setPostTagsFilled(e.target.value)} value={postTagsFilled} style={{width:"53%", position:"relative"}} className="metaInput" color={"secondary"} label="suiteble tag" />
                                 <ul style={{listStyle:"none", padding:"0", margin:"0", width:"53%"}} className="tag__autocomplete">
                                     {
                                         postTagsFilled && isAutoCompleteOpen ? filtredTags.map((tag) => { return<li onClick={ACItemClickHandler} className="tag__autocomplete__item" key={tag.id}>{tag.value}</li>}) : null
@@ -172,7 +175,8 @@ export default function CreatePost({tags, BackupTags}){
                         </div>
                         <button className="footer__tags__button" onClick={()=>{
                             dispatch(addArticleInfo(postTitle, postDescription, postPreview, postBody, postTags))
-                        }}>Next</button>
+                            router.push('/post/createPostPreview')
+                        }}> Next </button>
                     </div>
                 </div>
             </div>

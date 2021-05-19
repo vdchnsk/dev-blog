@@ -44,7 +44,7 @@ export default function profileSettings ({...data}) {
 
     return (
         <>
-        <MainLayout>
+        <MainLayout title={"Settings ⚙"}>
             <Notification/>
             <div className={styles.wrapper} >
                 <div className={styles.profileSettings_img}></div>

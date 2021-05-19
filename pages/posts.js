@@ -34,12 +34,12 @@ export default function Posts({ posts : serverPosts }){
         )
     }
     return (
-        <MainLayout title={"Posts"}>
+        <MainLayout title={"Posts 💻"}>
             <div className="feeds">
                 <div className="feeds__newsFeed">
                     <div style={{display:"flex", alignItems:"center", justifyContent:"space-between"}} className="feeds__newsFeed__feedHeading">
                         <h1>POSTS</h1>
-                        { userData.nickname == "admin" ? <button onClick={clickHandles} className="crateArticleButton">Создать статью </button> : <div></div>}
+                        { userData.userRole == "admin" ||  userData.userRole == "creator" ? <button onClick={clickHandles} className="crateArticleButton">Создать статью </button> : <div></div>}
                     </div>
                     <ul>
                         {posts.map(post => (
@@ -85,7 +85,6 @@ export default function Posts({ posts : serverPosts }){
                     margin-bottom: 2%;
                     border-radius:5px;
                     display:block;
-                    padding:10px;
                 }
                 .news__heading__stats{
                     align-items: center;
