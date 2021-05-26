@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { MainLayout } from '../../components/MainLayout'
-import { Button, TextField } from '@material-ui/core'
+import { Button, Checkbox, TextField } from '@material-ui/core'
 import config from "config"
 import jwt from 'jsonwebtoken'
 import { useDispatch } from 'react-redux'
@@ -10,6 +10,8 @@ import { useHttp } from '../hooks/useHttp'
 import { useAuth } from '../hooks/auth.hook'
 import { useRouter } from 'next/router'
 import styles from '../../styles/profileSettings.module.scss'
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
 export default function profileSettings ({...data}) {
     const userData = data.datatoken
@@ -17,11 +19,11 @@ export default function profileSettings ({...data}) {
     const [nickname, setNickname] = useState(userData.nickname)
     const [email, setEmail] = useState(userData.email)
     const [password, setPassword] = useState(userData.password)
+    const [passwordVisible, setPasswordVisible] = useState("password")
     const dispatch = useDispatch()
     const {loading, request} = useHttp()
     const {login}  = useAuth()
     const router = useRouter()
-
     async function changeDataSubmit(){
         
         const dataFromInputs = JSON.stringify({ nickname, email, password, userId})
@@ -52,8 +54,10 @@ export default function profileSettings ({...data}) {
                     <h1>Profile settings</h1>
                     <TextField onChange={(e) => setNickname(e.target.value)} className={styles.profileSettings__input} color={"secondary"} id="standard-required" label="nickname" defaultValue={userData.nickname} />
                     <TextField onChange={(e) => setEmail(e.target.value)} className={styles.profileSettings__input} color={"secondary"} id="standard-required" label="email" defaultValue={userData.email} />
-                    <TextField onChange={(e) => setPassword(e.target.value)} className={styles.profileSettings__input} color={"secondary"} id="standard-required" label="password" defaultValue={userData.password} />
-                    {/* <TextField color={"secondary"} id="standard-required" label="repeat password" defaultValue="" /> */}
+                    <div style={{display:"flex", flexDirection:"column"}} className={styles.profileSettings__input}>
+                        <TextField onChange={(e) => setPassword(e.target.value)} type={`${passwordVisible}`} color={"secondary"} id="standard-required" label="password" defaultValue={userData.password} />
+                        <strong style={{textAlign:"center", display:"flex", marginTop:"20px"}}>Show the password<input onChange={()=>{passwordVisible === "password"?setPasswordVisible("text"):setPasswordVisible("password")}} style={{cursor:"pointer",marginLeft:"5px", width:"17px", height:"17px"}} type="checkbox"/></strong>
+                    </div>
                     <Button disabled={loading} onClick={changeDataSubmit} className={styles.profileSettings__button} color={"secondary"} variant="contained">Save</Button>
                 </div>
             </div>

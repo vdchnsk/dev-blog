@@ -8,8 +8,6 @@ import { theme } from "../styles/material_ui_presets/blackColorPreset"
 import { useRoutes_custom } from "../pages/router"
 import { ProfileSettings } from "./ProfileSettings"
 
-
-
 export const MainLayout = ({children , title = "Next"}) => { 
     const globalState = useSelector(state => state)
 
@@ -40,6 +38,10 @@ export const MainLayout = ({children , title = "Next"}) => {
                     * {
                         padding:0;
                         margin:0;
+                    }
+                    .bar-of-progress{
+                        z-index:50;
+                        opacity:0;
                     }
                     nav{
                         z-index: 1000;

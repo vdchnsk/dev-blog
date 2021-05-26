@@ -1,12 +1,23 @@
-import { useEffect } from 'react'
 import {  useSelector } from "react-redux"
-import { useAuth } from "../pages/hooks/auth.hook"
 import { wrapper } from "./redux";
 import cookie from "js-cookie"
 import "../styles/globals.scss"
+import Router from "next/router";
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />;
+import ProgressBar from "@badrap/bar-of-progress";
 
 
+
+
+const progress = new ProgressBar({
+  size: 3,
+  color: "#b797ef",
+  className: "bar-of-progress",
+});
+
+Router.events.on("routeChangeStart", progress.start);
+Router.events.on("routeChangeComplete", progress.finish);
+Router.events.on("routeChangeError", progress.finish);
 
 const  MyApp = ({ Component, pageProps }) => {
   const globalState = useSelector(state => state)

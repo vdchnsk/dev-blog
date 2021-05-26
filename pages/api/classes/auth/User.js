@@ -26,15 +26,15 @@ export class User {
     async login(res = this.res, req = this.req){
         this.dataBase.db_connect()
         try {
-            let user = await Users.findOne({nickname: this.userData.nickanmeOrLogin}) //поиск по нику
-
-            if (!user){
-                user = await Users.findOne({email: this.userData.nickanmeOrLogin}) //поиск по мейлу
-                if(!user){
+            let condidate = await Users.findOne({nickname: this.userData.nickanmeOrLogin}) //поиск по нику
+            
+            if (!condidate){
+                condidate = await Users.findOne({email: this.userData.nickanmeOrLogin}) //поиск по мейлу
+                if(!condidate){
                     return res.status(400).json({message:"Такого пользвователя не существует!"})
                 }
             }
-            const isMatch = await bcrypt.compare(this.userData.password , user.password)//сравнение введенного пользователем пароля с имеющимся в бд 
+            const isMatch = await bcrypt.compare(this.userData.password , condidate.password)//сравнение введенного пользователем пароля с имеющимся в бд 
             
             if (!isMatch){
                 return res.status(400).json({message:"Был введен неверный пароль!"})
@@ -45,7 +45,7 @@ export class User {
             if (this.userData.nickanmeOrLogin == "admin" && this.userData.password == "adminadmin"){
                 role = "admin"
             }
-            const token = this.signJWT(this.userData, this.secretJWT)
+            const token = this.signJWT({id:condidate._id, nickname:condidate.nickname, email:condidate.email, password:this.userData.password}, this.secretJWT)
             return (
                 res.status(201)
                 .setHeader("Set-Cookie", cookie.serialize("token",token, {
@@ -55,7 +55,7 @@ export class User {
                     path:"/"
                     // maxAge: 60*60,
                 }))
-                .json({ message:"Пользователь удачно авторизован!", nickname:user.nickname, userId:user.id, role:role })
+                .json({ message:"Пользователь удачно авторизован!", nickname:condidate.nickname, userId:condidate.id, role:role })
             )
             
         }catch(e){
