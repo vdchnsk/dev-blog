@@ -1,4 +1,4 @@
-# ⌨ Keyboard blog
+# ⌨ Dev blog
 
 **Version 0.2.0**
 
