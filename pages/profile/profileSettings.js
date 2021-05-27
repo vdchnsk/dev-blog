@@ -19,11 +19,12 @@ export default function profileSettings ({...data}) {
     const [nickname, setNickname] = useState(userData.nickname)
     const [email, setEmail] = useState(userData.email)
     const [password, setPassword] = useState(userData.password)
-    const [passwordVisible, setPasswordVisible] = useState("password")
     const dispatch = useDispatch()
     const {loading, request} = useHttp()
     const {login}  = useAuth()
     const router = useRouter()
+    const [passwordVisible, setPasswordVisible] = useState("password")
+    const userError = []
     async function changeDataSubmit(){
         
         const dataFromInputs = JSON.stringify({ nickname, email, password, userId})
@@ -52,10 +53,10 @@ export default function profileSettings ({...data}) {
                 <div className={styles.profileSettings_img}></div>
                 <div className={styles.profileSettings}>
                     <h1>Profile settings</h1>
-                    <TextField onChange={(e) => setNickname(e.target.value)} className={styles.profileSettings__input} color={"secondary"} id="standard-required" label="nickname" defaultValue={userData.nickname} />
-                    <TextField onChange={(e) => setEmail(e.target.value)} className={styles.profileSettings__input} color={"secondary"} id="standard-required" label="email" defaultValue={userData.email} />
+                    <TextField error={userError.includes("nickname")} onChange={(e) => setNickname(e.target.value)} className={styles.profileSettings__input} color={"secondary"} id="standard-required" label="nickname" defaultValue={userData.nickname} />
+                    <TextField error={userError.includes("email")} onChange={(e) => setEmail(e.target.value)} className={styles.profileSettings__input} color={"secondary"} id="standard-required" label="email" defaultValue={userData.email} />
                     <div style={{display:"flex", flexDirection:"column"}} className={styles.profileSettings__input}>
-                        <TextField onChange={(e) => setPassword(e.target.value)} type={`${passwordVisible}`} color={"secondary"} id="standard-required" label="password" defaultValue={userData.password} />
+                        <TextField  error={userError.includes("password")} onChange={(e) => setPassword(e.target.value)} type={passwordVisible} color={"secondary"} id="standard-required" label="password" defaultValue={userData.password} />
                         <strong style={{textAlign:"center", display:"flex", marginTop:"20px"}}>Show the password<input onChange={()=>{passwordVisible === "password"?setPasswordVisible("text"):setPasswordVisible("password")}} style={{cursor:"pointer",marginLeft:"5px", width:"17px", height:"17px"}} type="checkbox"/></strong>
                     </div>
                     <Button disabled={loading} onClick={changeDataSubmit} className={styles.profileSettings__button} color={"secondary"} variant="contained">Save</Button>

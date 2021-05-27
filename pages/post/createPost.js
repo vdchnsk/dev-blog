@@ -8,8 +8,7 @@ import { showAlert } from "../redux/actions/alertActions";
 import {Notification} from "../../components/Notification"
 import PublishIcon from '@material-ui/icons/Publish';
 import router from 'next/router';
-var randomColor = require('randomcolor')
-
+import randomColor from "randomcolor"
 
 export default function CreatePost({tags, BackupTags}){
     const globalState = useSelector(state => state) 
@@ -103,7 +102,7 @@ export default function CreatePost({tags, BackupTags}){
             <div className="wrapper">
                 <div className="newPost__content">
                     <div className="newPost__content__header">
-                        <h1>New article</h1>
+                        <h1>New article 📝</h1>
                     </div>
                     <div className="newPost__content__main">
                         <div className="newPost__content__main__metaInpust">

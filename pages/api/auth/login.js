@@ -16,6 +16,6 @@ export default async function (req, res){
             return user.login()
         } 
     else {
-        return res.status(404).json({message:"Введены некорректные данные!"})
+        return res.status(404).json({message:"Введены некорректные данные!", errorCausedBy:["nickanmeOrLogin","password"]})
     }
 }

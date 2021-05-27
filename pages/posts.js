@@ -38,7 +38,7 @@ export default function Posts({ posts : serverPosts }){
             <div className="feeds">
                 <div className="feeds__newsFeed">
                     <div style={{display:"flex", alignItems:"center", justifyContent:"space-between"}} className="feeds__newsFeed__feedHeading">
-                        <h1>POSTS</h1>
+                        <h1>POSTS 📃</h1>
                         { userData.userRole == "admin" ||  userData.userRole == "creator" ? <button onClick={clickHandles} className="crateArticleButton">Создать статью </button> : <div></div>}
                     </div>
                     <ul>

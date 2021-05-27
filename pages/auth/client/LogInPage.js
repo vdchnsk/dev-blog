@@ -29,6 +29,7 @@ export default function LogInPage () {
             router.push("/")
             dispatch(showAlert("", "warning"))//очищаем состояние alert в redux
         } catch(e) {
+            console.log(e)
             dispatch(showAlert(e.message, "warning"))
         }
     }
