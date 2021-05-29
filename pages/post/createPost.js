@@ -9,6 +9,7 @@ import {Notification} from "../../components/Notification"
 import PublishIcon from '@material-ui/icons/Publish';
 import router from 'next/router';
 import randomColor from "randomcolor"
+import validator from 'validator';
 
 export default function CreatePost({tags, BackupTags}){
     const globalState = useSelector(state => state) 
@@ -19,7 +20,7 @@ export default function CreatePost({tags, BackupTags}){
     const [postPreview, setPostPreview] = useState("")
     const [postBody, setPostBody] = useState(globalState.article.body)
     
-    const [chosenTags, setChosenTags] = useState(tags)
+    const [chosenTags, setChosenTags] = useState(globalState.article.tags)
     const [isAutoCompleteOpen, setIsAutoCompleteOpen] = useState(true)
     const [postTagsFilled, setPostTagsFilled] = useState("")
     const [postTags, setPostTags] = useState(globalState.article.tags)
@@ -94,6 +95,23 @@ export default function CreatePost({tags, BackupTags}){
         setPostTags([])
         setChosenTags(BackupTags.slice(0)) //создание дубликата бэкап-массива, иначе будет происходить мутация даже этого самого бэкап-массива
         return
+    }
+    const stransferData = () => {
+        if(
+            !validator.isEmpty( postTitle ) &&
+            !validator.isEmpty( postDescription ) &&
+            !validator.isEmpty( postPreview ) &&
+            !validator.isEmpty( postBody ) &&
+            chosenTags !== [] 
+
+            ){  
+                dispatch(addArticleInfo(postTitle, postDescription, postPreview, postBody, postTags))
+                router.push('/post/createPostPreview')
+                return
+            } 
+        else {
+            return dispatch(showAlert("Вы заполнили не все нужные поля!","warning"))
+        }
     }
     
     return (
@@ -172,10 +190,7 @@ export default function CreatePost({tags, BackupTags}){
                                 <PostTags tagsList={postTags}/>
                             </div>
                         </div>
-                        <button className="footer__tags__button" onClick={()=>{
-                            dispatch(addArticleInfo(postTitle, postDescription, postPreview, postBody, postTags))
-                            router.push('/post/createPostPreview')
-                        }}> Next </button>
+                        <button className="footer__tags__button" onClick={stransferData}> Next </button>
                     </div>
                 </div>
             </div>

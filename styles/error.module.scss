@@ -1,12 +1,19 @@
-$ErrorBackground:darkred;
-$TextWithDargBGColor:aliceblue;
-
-.errorTitle{
-    background-color: $ErrorBackground;
-    color: $TextWithDargBGColor;
+.Error_wrapper{
+    font-family: Roboto;
+    height: 80vh;
+    width: 100%;
+    display:flex;
+    justify-content: center;
     text-align: center;
-    padding: 10px;
 }
-.errorTextSecondary{
-    text-align: center  ;
+.Error_wrapper__window{
+    padding:8%;
+    margin:auto;
+    background:rgb(233, 233, 233);
+    width: 50%;
+    border-radius: 10px                                           ;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
 }
