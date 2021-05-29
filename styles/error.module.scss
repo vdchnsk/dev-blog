@@ -9,11 +9,30 @@
 .Error_wrapper__window{
     padding:8%;
     margin:auto;
-    background:rgb(233, 233, 233);
     width: 50%;
     border-radius: 10px                                           ;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     -ms-border-radius: 10px;
     -o-border-radius: 10px;
+}
+.Error_text{
+    width: 150px;
+    height: 70px;
+    background:black;
+}
+.Error_text::after{
+    content: "404";
+    background-color: white;
+    width: 150px;
+    font-size: 3rem;
+    height: 70px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border: 2px solid;
+    transform: translate(-18px, 12px);
+}
+.errorTextSecondary{
+    margin-top: 40px;
 }

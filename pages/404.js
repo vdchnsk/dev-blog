@@ -10,11 +10,11 @@ export default function ErrorPage (){
             <h2 className={ErrorStyles.errorTextSecondary}>Plaese, <Link href={"/"}>go back</Link> to safety</h2> */}
             <div className={ErrorStyles.Error_wrapper}>
                 <div className={ErrorStyles.Error_wrapper__window} >
-                    <div className="Error-window__header">
-                        <span style={{color:"black", fontSize:"1.2rem",}}>Ooops...It seems that this page doesn't exist</span>
+                    <div style={{color:"black", fontSize:"2.0rem", marginBottom:"30px"}} className="Error-window__header">
+                        <span >Ooops...Page not found 😐</span>
                     </div>
-                    <div className="Error-window__body">
-                        <span style={{color:"black", fontSize:"1.2rem",}}>Error <span style={{color:"#771010", fontSize:"3rem"}}>404</span></span>
+                    <div style={{display:"flex", justifyContent:"center"}}>
+                        <div className={ErrorStyles.Error_text}></div>
                     </div>
                     <div className="Error-window__footer">
                         <h2 className={ErrorStyles.errorTextSecondary}><Link href={"/"}>Plaese, go back to safety</Link></h2>
