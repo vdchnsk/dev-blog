@@ -1,10 +1,11 @@
-import { DataBase } from '../../database/DataBase'
-import { Comment } from '../posts/Comment'
-import { Token } from './Token'
 import config from 'config'
 import cookie from "cookie"
 import Users from '../../models/userModel';
 import bcrypt from 'bcryptjs'
+import { DataBase } from '../../database/DataBase'
+import { Comment } from '../posts/Comment'
+import { Token } from './Token'
+import { UserCheck } from './UserCheck'
 
 
 const KEY = config.get("secretJWT")
@@ -12,9 +13,10 @@ const KEY = config.get("secretJWT")
 export class User {
     constructor( userData, res, req ){
         this.userData = userData
-        this.dataBase = new DataBase
         this.secretJWT = KEY
+        this.dataBase = new DataBase
         this.comment = new Comment
+        this.userCheck = new UserCheck
         this.res = res
         this.req = req
     }
@@ -26,6 +28,11 @@ export class User {
     async login(res = this.res, req = this.req){
         this.dataBase.db_connect()
         try {
+            const isHuman = await this.userCheck.checkGoogleCaptcha(this.userData.captchaToken)
+            if(!isHuman){
+                return res.status(400).json({message:"Вы не прошли проверку"})
+            }
+
             let condidate = await Users.findOne({nickname: this.userData.nickanmeOrLogin}) //поиск по нику
             
             if (!condidate){

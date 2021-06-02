@@ -1,16 +1,28 @@
 import router from 'next/router'
 
 
-export const useRoutes_custom = isAuthenticated =>{ //получаем информациб о том,авторизован ли юзер,перенаправляем его соответсвенно
+export const useRoutes_custom = isAuthenticated => { //получаем информациб о том,авторизован ли юзер,перенаправляем его соответсвенно
     const query = router.router.pathname
-    if ( !isAuthenticated ){
+    if ( isAuthenticated == false ){
         if(query == "/profile/profileSettings"){
-            return router.push("/auth/client/LogInPage")
+            router.push("/")
+            return {
+                redirect:{
+                    destination:"/",
+                    permanent:false
+                }
+            }
         }
-    } else {
+    }else{
         if(query == "/auth/client/LogInPage"){
-            return router.push("/")
+            router.push("/")
+            return {
+                redirect:{
+                    destination:"/",
+                    permanent:false
+                }
+            }
         }
     }
-    return
 }
+

@@ -1,5 +1,6 @@
 import Head from "next/head"
 import Link from "next/link"
+import cookie from "cookie"
 import { useEffect, useMemo, useState } from 'react'
 import { Fragment } from "react"
 import {  useSelector } from "react-redux"
@@ -8,7 +9,7 @@ import { theme } from "../styles/material_ui_presets/blackColorPreset"
 import { useRoutes_custom } from "../pages/router"
 import { ProfileSettings } from "./ProfileSettings"
 
-export const MainLayout = ({children , title = "Next"}) => { 
+export const MainLayout = ({children , title = "Next", data}) => {
     const globalState = useSelector(state => state)
 
     useEffect(() => {

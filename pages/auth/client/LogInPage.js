@@ -24,12 +24,13 @@ export default function LogInPage () {
     async function loginSubmit(){
         
         const captchaToken = await reCaptchRef.current.getValue()
+        console.log(captchaToken)
         
         const dataFromInputs = JSON.stringify({ nickanmeOrLogin, password, captchaToken })
         
         try {
             const responce = await request("../../api/auth/login", "POST", dataFromInputs)
-            login(responce.nickname, responce.userId, responce.role, captchaToken)
+            login(responce.nickname, responce.userId, responce.role)
             router.push("/")
             dispatch(showAlert("", "warning"))//очищаем состояние alert в redux
             await reCaptchRef.current.reset()

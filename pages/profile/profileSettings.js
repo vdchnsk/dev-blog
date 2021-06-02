@@ -10,8 +10,6 @@ import { useHttp } from '../hooks/useHttp'
 import { useAuth } from '../hooks/auth.hook'
 import { useRouter } from 'next/router'
 import styles from '../../styles/profileSettings.module.scss'
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
 export default function profileSettings ({...data}) {
     const userData = data.datatoken

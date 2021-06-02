@@ -1,3 +1,11 @@
-module.exports = {
-    /* config options here */
-  }
+// module.exports = {
+//   async redirects() {
+//     return [
+//       {
+//         source: '/about',
+//         destination: '/',
+//         permanent: true,
+//       },
+//     ]
+//   },
+// }
