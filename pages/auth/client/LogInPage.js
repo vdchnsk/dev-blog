@@ -1,8 +1,5 @@
 import { TextField } from "@material-ui/core";
-import Button from '@material-ui/core/Button';
 import { MainLayout } from "../../../components/MainLayout";
-import styles from '../../../styles/auth.module.scss'
-import Link from "next/link"
 import { useRef, useState } from "react";
 import { useAuth } from "../../hooks/auth.hook";
 import { useDispatch } from "react-redux";
@@ -10,12 +7,17 @@ import { useRouter } from "next/router";
 import { useHttp } from "../../hooks/useHttp";
 import { showAlert } from "../../redux/actions/alertActions";
 import { Notification } from "../../../components/Notification";
+import {providers, getSession,signIn, useSession} from "next-auth/client"
+import Button from '@material-ui/core/Button';
+import Link from "next/link"
 import ReCAPTCHA from "react-google-recaptcha"
+import styles from '../../../styles/auth.module.scss'
 
-export default function LogInPage () {
+export default function LogInPage ({providers}) {
     const [nickanmeOrLogin , setNickanmeOrLogin] = useState("")
     const [password , setPassword] = useState("")
-    const {loading, request} = useHttp()
+    const [session, loading] = useSession() // session.user
+    const {inProcess, request} = useHttp()
     const {login}  = useAuth()
     const dispatch = useDispatch()
     const router = useRouter()
@@ -41,9 +43,6 @@ export default function LogInPage () {
         }
     }
 
-    // const responseGoogle = (res)  => {
-    //     console.log(res)
-    // }
     return(
         <MainLayout title={"Log in"}>
                 <Notification/>
@@ -62,22 +61,27 @@ export default function LogInPage () {
                                 size="normal"
                             />
                             <div className={styles.window__content__buttons}>
-                                <Button disabled={loading} onClick={loginSubmit} variant="contained" size="medium" className={styles.formButton} >Log in</Button>
+                                <Button disabled={inProcess} onClick={loginSubmit} variant="contained" size="medium" className={styles.formButton} >Log in</Button>
+                                <div className={styles.formButton__socialMedia}>
+                                    {Object.values(providers).map(provider => {
+                                        return <button key={`${provider.id}`} onClick={()=>{signIn(provider.id, { callbackUrl: 'http://localhost:3000/auth/callback/social_m/SocCallback' })}} className={styles.formButtonSocMed} style={{backgroundImage: "url("+"/static/socialMedia/" + `${provider.id}`+"_logo.png" + ")"}}></button>
+                                    })}
+                                </div>
                             </div>
                             <div className={styles.window__content__registrationRef}>
                                 <span >You have got no account? Then <Link href="/auth/client/RegPage"> register! </Link> </span>
                             </div>
-                            {/* <GoogleLogin
-                                clientId="139188701722-jm9e4ebmke8bealg2dsi7c5mp3l1e7d2.apps.googleusercontent.com"
-                                buttonText="Sign in with Google"
-                                onSucces={responseGoogle}
-                                onFailure={responseGoogle}
-                                isSignedIn={true}
-                                cookiePolicy={'single_host_origin'}
-                            /> */}
                         </div>
                     </div>
                 </div>
         </MainLayout>
     )
+}
+
+LogInPage.getInitialProps = async(context) => {
+    return {
+        session:undefined, 
+        providers: await providers(context),
+    }
+
 }

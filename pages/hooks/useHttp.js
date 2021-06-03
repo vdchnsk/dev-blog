@@ -1,12 +1,12 @@
 import {useState, useCallback} from 'react'
 
 export const useHttp = () => {
-    const [loading, setLoading] = useState(false)
+    const [inProcess, setInProcess] = useState(false)
     const [error, setError] = useState(null)
     
 
     const request = useCallback(async  (url , method = "GET", body = null, headers = {}) =>{
-        setLoading(true)
+        setInProcess(true)
         try {
             if ( body ){
                 body = JSON.stringify(body) //приводим body к строке
@@ -19,11 +19,11 @@ export const useHttp = () => {
             if(!responce.ok){
                 throw new Error(data.message || "Что-то пошло не так!")
             }
-            setLoading(false)
+            setInProcess(false)
 
             return data
         }catch(e){
-            setLoading(false)
+            setInProcess(false)
             setError(e.message)
             throw e
         }
@@ -31,6 +31,6 @@ export const useHttp = () => {
     const clearErrors = () => setError(null, [])
 
     
-    return {loading , error , request, clearErrors}
+    return {inProcess , error , request, clearErrors}
     
 }

@@ -1,10 +1,12 @@
 import {  useSelector } from "react-redux"
 import { wrapper } from "./redux";
 import cookie from "js-cookie"
+import { Provider } from "next-auth/client";
 import "../styles/globals.scss"
 import Router from "next/router";
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />;
 import ProgressBar from "@badrap/bar-of-progress";
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />;
 
 
 
@@ -34,7 +36,9 @@ const  MyApp = ({ Component, pageProps }) => {
 
 
   return (
-    <Component {...pageProps} />
+  <Provider session={pageProps.session}>
+      <Component {...pageProps} />
+    </Provider>
   )
 }
 

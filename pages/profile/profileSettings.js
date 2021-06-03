@@ -18,7 +18,7 @@ export default function profileSettings ({...data}) {
     const [email, setEmail] = useState(userData.email)
     const [password, setPassword] = useState(userData.password)
     const dispatch = useDispatch()
-    const {loading, request} = useHttp()
+    const {inProcess, request} = useHttp()
     const {login}  = useAuth()
     const router = useRouter()
     const [passwordVisible, setPasswordVisible] = useState("password")
@@ -57,7 +57,7 @@ export default function profileSettings ({...data}) {
                         <TextField  error={userError.includes("password")} onChange={(e) => setPassword(e.target.value)} type={passwordVisible} color={"secondary"} id="standard-required" label="password" defaultValue={userData.password} />
                         <strong style={{textAlign:"center", display:"flex", marginTop:"20px"}}>Show the password<input onChange={()=>{passwordVisible === "password"?setPasswordVisible("text"):setPasswordVisible("password")}} style={{cursor:"pointer",marginLeft:"5px", width:"17px", height:"17px"}} type="checkbox"/></strong>
                     </div>
-                    <Button disabled={loading} onClick={changeDataSubmit} className={styles.profileSettings__button} color={"secondary"} variant="contained">Save</Button>
+                    <Button disabled={inProcess} onClick={changeDataSubmit} className={styles.profileSettings__button} color={"secondary"} variant="contained">Save</Button>
                 </div>
             </div>
         </MainLayout>

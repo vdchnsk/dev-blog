@@ -1,6 +1,5 @@
 import Head from "next/head"
 import Link from "next/link"
-import cookie from "cookie"
 import { useEffect, useMemo, useState } from 'react'
 import { Fragment } from "react"
 import {  useSelector } from "react-redux"
@@ -8,9 +7,13 @@ import { MuiThemeProvider } from "@material-ui/core"
 import { theme } from "../styles/material_ui_presets/blackColorPreset"
 import { useRoutes_custom } from "../pages/router"
 import { ProfileSettings } from "./ProfileSettings"
+import { useSession } from "next-auth/client"
 
 export const MainLayout = ({children , title = "Next", data}) => {
     const globalState = useSelector(state => state)
+
+    const [session] = useSession()
+    // console.log(session)
 
     useEffect(() => {
         useRoutes_custom(globalState.auth.isAuthenticated)
@@ -28,7 +31,7 @@ export const MainLayout = ({children , title = "Next", data}) => {
                         <Link href={"/posts"}><a>Posts</a></Link>
                     </div>
                     <div className="nav__secondaryButtons">
-                        { globalState.auth.isAuthenticated === false  ? <Link href={"/auth/client/LogInPage"}><a>Log in</a></Link> : <ProfileSettings />}
+                        { globalState.auth.isAuthenticated === false  ? <Link style={{cursor:"pointer"}} href="/auth/client/LogInPage"><a>Log in</a></Link> : <ProfileSettings />}
                     </div>
                 </nav>
                 <main>

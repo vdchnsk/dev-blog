@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+import generator from "generate-password"
 
 export class Token {
     constructor( userData, KEY){

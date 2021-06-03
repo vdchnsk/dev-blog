@@ -17,7 +17,7 @@ export default function RegPage () {
     const [email , setEmail] = useState("")
     const [password , setPassword] = useState("")
     const [password_repeat , setPassword_repeat] = useState("")
-    const {loading, request} = useHttp()
+    const {inProcess, request} = useHttp()
     const {login}  = useAuth()
     const dispatch = useDispatch()
     const router = useRouter()
@@ -50,7 +50,7 @@ export default function RegPage () {
                                 <TextField onChange={(e) => setPassword_repeat(e.target.value)} value={password_repeat} name="password_repeat" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Repeat password" type="password" autoComplete="Off"/>
                             </div>
                             <div className={styles.window__content__buttons}>
-                                <Button onClick={regSubmit} variant="contained" size="medium" className={styles.formButton} disabled ={loading}>Register</Button>
+                                <Button onClick={regSubmit} variant="contained" size="medium" className={styles.formButton} disabled ={inProcess}>Register</Button>
                             </div>
                             <div className={styles.window__content__registrationRef}>
                                 <span >Already have got an account? <Link href="/auth/client/LogInPage"> login!</Link> </span>
