@@ -1,4 +1,3 @@
-import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import validator from 'validator';
 import config from 'config'
@@ -6,6 +5,7 @@ import Connect_db from '../../../utils/dbConnect'
 import cookie from "cookie"
 import User from '../models/userModel';
 import next from 'next';
+import { Crypter } from '../classes/general/Crypter';
 
 Connect_db()
 const KEY = config.get("secretJWT")
@@ -27,6 +27,7 @@ export default async function (req, res){
         password.length >= 6 
         ){
             try{
+                const crypter = new Crypter
                 const user = await User.findOne({_id:userId}) //поиск по id
 
                 let condidate = await User.findOne({email:email})
@@ -42,7 +43,8 @@ export default async function (req, res){
 
                 user.email = email
                 user.nickname = nickname
-                let hashedPassword = await bcrypt.hash(password, 12)
+                
+                let hashedPassword = await crypter.encrypt(password)
                 user.password = hashedPassword
                 user.save()
                 

@@ -1,8 +1,10 @@
 import Link from 'next/link'
 import Head from 'next/head'
 import { MainLayout } from "../components/MainLayout";
+import { MainFeed } from "./home/feeds/MainFeed"
+import { SecondaryFeed } from "./home/feeds/SecondaryFeed"
 
-export default function Home(props) {
+export default function Home() {
   return (
     <MainLayout title={'Home 👩‍💻👨‍💻'}>
       <Head>
@@ -11,22 +13,48 @@ export default function Home(props) {
         <meta charSet="utf-8"/>
       </Head>
 
-      <h1>Home</h1>
-      <p> <Link href="/about"> About</Link> </p>
-      <span>{props.numbers.theFirstOne}</span> <br/>
-      <span>{props.numbers.theSecondOne}</span>
+      <div className="wrapper">
+        <div className="home">
+          <MainFeed/>
+          <SecondaryFeed/>
+        </div>
+      </div>
+      <style jsx >{`
+          .wrapper{
+            display:flex;
+            width:100%;
+            min-height:80vh;
+            justify-content:center;
+          }
+          .home{
+            width:75%;
+            display:flex;
+            align-items:center;
+            margin-top: 20px;
+          }
+          .home__content__main{
+            width:80%;
+          }
+          .home__content__secondary{
+            padding:10px;
+            width:20%;
+            height:700px;
+            display: flex;
+            flex-direction: column;
+          }
+          .home__content__desk{
+            border-radius: 10px;
+            height:60%;
+            background-color:#F7F7F7;
+            margin-bottom:10px;
+          }
+          .home__content__creators{
+            border-radius: 10px;
+            height:40%;
+            background-color:#F7F7F7;
+          }
+      `}
+        </style>
     </MainLayout>
   )
-}
-
-export function getServerSideProps(){
-  return {
-    props :{
-      numbers:
-        {
-        theFirstOne:"from 'server' 1",
-        theSecondOne:"from 'server' 2"
-        },
-    }
-  }
 }

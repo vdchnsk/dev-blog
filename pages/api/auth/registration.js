@@ -5,20 +5,20 @@ import config from 'config'
 import Connect_db from '../../../utils/dbConnect'
 import cookie from "cookie"
 import User from '../models/userModel';
+import { Crypter } from "../classes/general/Crypter";
 
 Connect_db()
 const KEY = config.get("secretJWT")
 
 
 export default async function (req, res){
-    
     if(!req.body){
-        return res.status(404).json({message:"Заполните поля рагистрации!"})
+        return res.status(402).json({message:"Заполните поля рагистрации!"})
     }
-    const {nickanme ,email, password, password_repeat} = JSON.parse(req.body) //парсим строку в объку тк хук useHttp приводит его к строке
+    const {nickname ,email, password, password_repeat} = JSON.parse(req.body) //парсим строку в объку тк хук useHttp приводит его к строке
 
     if(
-        !validator.isEmpty( nickanme ) &&
+        !validator.isEmpty( nickname ) &&
         !validator.isEmpty( email ) &&
         !validator.isEmpty( password ) &&
         !validator.isEmpty( password_repeat ) &&
@@ -28,6 +28,7 @@ export default async function (req, res){
         ){
             try{
                 //Поиск уже существующешго аккаунта с тамим ником и почтой
+                const crypter = new Crypter()
                 const condidate = await User.findOne({email}).exec()
                 
                 if (condidate){ 
@@ -35,11 +36,11 @@ export default async function (req, res){
                 }
 
                 // const hashedPassword = await bcrypt.hashSync(password, bcrypt.genSaltSync(12)); //хэщируем пароль
-                const hashedPassword = await bcrypt.hash(password, 12)
+                const hashedPassword = await crypter.encrypt(password)
 
                 const user = await new User({
                     email:email,
-                    nickname:nickanme,
+                    nickname:nickname,
                     password:hashedPassword
                 })
                 await user.save()
@@ -47,7 +48,7 @@ export default async function (req, res){
                 
                 const userId = user.id
                 
-                const token = jwt.sign({ nickname:nickanme, email:email, id:userId, password:password }, KEY)
+                const token = jwt.sign({ nickname:nickname, email:email, id:userId, password:password }, KEY)
 
                 return (
                     res.status(201)
@@ -58,13 +59,13 @@ export default async function (req, res){
                         path:"/"
                         // maxAge: 60*60,
                     }))
-                    .json({message:"Пользьователь создан!", nickname:nickanme, userId:userId, role:"user"}))
+                    .json({message:"Пользьователь создан!", nickname:nickname, userId:userId, role:"user"}))
                 
             }catch(e){
-                return res.status(404).json({message:"Не удалось создать нового пользователя!"})
+                return res.status(402).json({message:"Не удалось создать нового пользователя!"})
             }
         } 
     else {
-        return res.status(404).json({message:"Введены некорректные данные!"})
+        return res.status(402).json({message:"Введены некорректные данные!"})
     }
 }

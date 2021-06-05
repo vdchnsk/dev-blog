@@ -1,11 +1,11 @@
 import config from 'config'
 import cookie from "cookie"
-import Users from '../../models/userModel';
-import bcrypt from 'bcryptjs'
+import Users from '../../models/userModel'
 import { DataBase } from '../../database/DataBase'
 import { Comment } from '../posts/Comment'
 import { Token } from './Token'
 import { UserCheck } from './UserCheck'
+import { Crypter } from '../general/Crypter'
 
 
 const KEY = config.get("secretJWT")
@@ -17,6 +17,7 @@ export class User {
         this.dataBase = new DataBase
         this.comment = new Comment
         this.userCheck = new UserCheck
+        this.crypter = new Crypter
         this.res = res
         this.req = req
     }
@@ -28,9 +29,11 @@ export class User {
     async login(res = this.res, req = this.req){
         this.dataBase.db_connect()
         try {
-            const isHuman = await this.userCheck.checkGoogleCaptcha(this.userData.captchaToken)
-            if(!isHuman){
-                return res.status(400).json({message:"Вы не прошли проверку"})
+            if(this.userData.captchaToken !== "noNeed"){
+                const isHuman = await this.userCheck.checkGoogleCaptcha(this.userData.captchaToken)
+                if(!isHuman){
+                    return res.status(400).json({message:"Вы не прошли проверку"})
+                }
             }
 
             let condidate = await Users.findOne({nickname: this.userData.nickanmeOrLogin}) //поиск по нику
@@ -41,7 +44,7 @@ export class User {
                     return res.status(400).json({message:"Такого пользвователя не существует!"})
                 }
             }
-            const isMatch = await bcrypt.compare(this.userData.password , condidate.password)//сравнение введенного пользователем пароля с имеющимся в бд 
+            const isMatch = await this.crypter.compare(this.userData.password , condidate.password)//сравнение введенного пользователем пароля с имеющимся в бд 
             
             if (!isMatch){
                 return res.status(400).json({message:"Был введен неверный пароль!"})

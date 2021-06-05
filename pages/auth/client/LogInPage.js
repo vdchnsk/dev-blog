@@ -26,7 +26,6 @@ export default function LogInPage ({providers}) {
     async function loginSubmit(){
         
         const captchaToken = await reCaptchRef.current.getValue()
-        console.log(captchaToken)
         
         const dataFromInputs = JSON.stringify({ nickanmeOrLogin, password, captchaToken })
         

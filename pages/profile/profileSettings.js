@@ -29,18 +29,19 @@ export default function profileSettings ({...data}) {
         if( nickname === userData.nickname &&
             email === userData.email &&
             password === userData.password
-            ){
-                dispatch(showAlert("Данные не были изменены!", "warning")) 
-            }else{
-                try {
-                    const responce = await request("../../api/auth/changeData", "POST", dataFromInputs)
-                    login(responce.nickname, responce.userId, responce.role)
-                    router.push("/")
-                    dispatch(showAlert("", "warning"))//очищаем состояние alert в redux
-                } catch(e) {
-                    dispatch(showAlert(e.message, "warning"))  
-                }
+        ){
+            dispatch(showAlert("Данные не были изменены!", "warning")) 
+        }else{
+            try {
+                const responce = await request("../../api/auth/changeData", "POST", dataFromInputs)
+                console.log(responce)
+                login(responce.newNickname, responce.userId, responce.role)
+                router.push("/")
+                dispatch(showAlert("", "warning"))//очищаем состояние alert в redux
+            } catch(e) {
+                dispatch(showAlert(e.message, "warning"))  
             }
+        }
     }
 
     return (

@@ -13,7 +13,7 @@ import { useRouter } from 'next/router'
 
 
 export default function RegPage () {
-    const [nickanme , setNickanme] = useState("")
+    const [nickname , setNickname] = useState("")
     const [email , setEmail] = useState("")
     const [password , setPassword] = useState("")
     const [password_repeat , setPassword_repeat] = useState("")
@@ -24,7 +24,7 @@ export default function RegPage () {
 
     async function regSubmit(){
         
-        const dataFromInputs = JSON.stringify({nickanme, email , password ,password_repeat})
+        const dataFromInputs = JSON.stringify({nickname, email , password ,password_repeat})
 
         try {
             const responce = await request("../../api/auth/registration", "POST", dataFromInputs)
@@ -44,7 +44,7 @@ export default function RegPage () {
                         <div className={styles.RegWindow__content}>
                             <h1 className={styles.window__content__heading}>Registration</h1>
                             <div className={styles.window__content__inuts}>
-                                <TextField onChange={(e) => setNickanme(e.target.value)} value={nickanme} name="nickanme" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Nickname" type="text" autoComplete="Off"/>
+                                <TextField onChange={(e) => setNickname(e.target.value)} value={nickname} name="nickname" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Nickname" type="text" autoComplete="Off"/>
                                 <TextField onChange={(e) => setEmail(e.target.value)} value={email} name="email" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Email" type="text" autoComplete="Off"/>
                                 <TextField onChange={(e) => setPassword(e.target.value)} value={password} name="password" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Password" type="password" autoComplete="Off"/>
                                 <TextField onChange={(e) => setPassword_repeat(e.target.value)} value={password_repeat} name="password_repeat" className={styles.textInput} color={"secondary"} id="standard-password-input" label="Repeat password" type="password" autoComplete="Off"/>

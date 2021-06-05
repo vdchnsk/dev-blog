@@ -5,7 +5,7 @@ export class DataBase{
         this.mongoose = mongoose
     }
 
-    async db_connect(){
+    db_connect(){
         const mongoose = this.mongoose
         if (mongoose.connection.readyState >= 1) {
             return null
