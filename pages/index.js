@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Head from 'next/head'
 import { MainLayout } from "../components/MainLayout";
 import { MainFeed } from "./home/feeds/MainFeed"
-import { SecondaryFeed } from "./home/feeds/SecondaryFeed"
+import { SecondaryFeed } from "./home/feeds/SecondaryFeed/index"
 
 export default function Home() {
   return (
@@ -36,22 +36,17 @@ export default function Home() {
             width:80%;
           }
           .home__content__secondary{
-            padding:10px;
             width:20%;
             height:700px;
             display: flex;
             flex-direction: column;
           }
           .home__content__desk{
+            padding: 13px;
             border-radius: 10px;
             height:60%;
             background-color:#F7F7F7;
             margin-bottom:10px;
-          }
-          .home__content__creators{
-            border-radius: 10px;
-            height:40%;
-            background-color:#F7F7F7;
           }
       `}
         </style>
