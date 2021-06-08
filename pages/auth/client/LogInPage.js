@@ -63,7 +63,7 @@ export default function LogInPage ({providers}) {
                                 <Button disabled={inProcess} onClick={loginSubmit} variant="contained" size="medium" className={styles.formButton} >Log in</Button>
                                 <div className={styles.formButton__socialMedia}>
                                     {Object.values(providers).map(provider => {
-                                        return <button key={`${provider.id}`} onClick={()=>{signIn(provider.id, { callbackUrl: 'http://localhost:3000/auth/callback/social_m/SocCallback' })}} className={styles.formButtonSocMed} style={{backgroundImage: "url("+"/static/socialMedia/" + `${provider.id}`+"_logo.png" + ")"}}></button>
+                                        return <button key={`${provider.id}`} onClick={()=>{signIn( provider.id, { callbackUrl: 'http://localhost:3000/auth/callback/social_m/SocCallback' })}} className={styles.formButtonSocMed} style={{backgroundImage: "url("+"/static/socialMedia/" + `${provider.id}`+"_logo.png" + ")"}}></button>
                                     })}
                                 </div>
                             </div>

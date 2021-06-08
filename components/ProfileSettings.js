@@ -2,19 +2,21 @@
 import { useState } from 'react'
 import { Fragment } from "react"
 import {  useSelector } from "react-redux"
+import { useRouter } from "next/router";
 import { useAuth } from "../pages/hooks/auth.hook"
-import router from 'next/router'
-import SettingsIcon from '@material-ui/icons/Settings';
+import SettingsIcon from '@material-ui/icons/Settings'
 import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+import PermIdentityIcon from '@material-ui/icons/PermIdentity'
+import { signOut } from 'next-auth/client'
 
-export const ProfileSettings = () => {
+export const ProfileSettings = ({socSession}) => {
     const globalState = useSelector(state => state)
     const { logout }  = useAuth()
     const [anchorEl, setAnchorEl] = useState(null)
+    const router = useRouter()
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -24,16 +26,29 @@ export const ProfileSettings = () => {
     setAnchorEl(null)
     router.push('/profile/profileSettings')
   };
-  const handleLogout = () => {
-      try {
-        logout()
-        fetch("../../api/auth/logout", {method:"post", headers:{"Content-Type":"application/json"}, body:""})
-        setAnchorEl(null)
-        router.push("/")
-      } catch(e) {
-        console.log(e)
+  const handleLogout = async () => {
+      if(!socSession){
+        try {
+          logout()
+          fetch("../../api/auth/logout", {method:"post", headers:{"Content-Type":"application/json"}, body:""})
+          setAnchorEl(null)
+          router.push("/")
+        } catch(e) {
+          console.log(e)
+        }
+      } else {
+        const signOutData = await signOut({redirect: false, callbackUrl: "http://localhost:3000/"}) //обязательно await
+        try {
+          logout()
+          fetch("../../api/auth/logout", {method:"post", headers:{"Content-Type":"application/json"}, body:""})
+          setAnchorEl(null)
+          router.push("/")
+        } catch(e) {
+          console.log(e)
+        }
+        router.push(signOutData.url) //для того, чтобы страница не обновлялась, при выходы из аккаунта google
+        }
       }
-    }
     const handleClose = () => {
         setAnchorEl(null);
     };

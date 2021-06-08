@@ -67,6 +67,7 @@ export default function profileSettings ({...data}) {
 }
 export async function getServerSideProps({req}) {
     if(req.cookies.token){
+        console.log(req.cookies)
         const token = req.cookies.token
         const decodedJWT = jwt.verify(token, config.get("secretJWT"))
         return {

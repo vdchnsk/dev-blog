@@ -1,14 +1,11 @@
 import {useState, useEffect, useRef} from 'react'
 import { useRouter } from 'next/router'
 import { MainLayout } from '../../components/MainLayout'
-import { Loader } from '../../components/Loader'
-import  PostStats  from '../../components/posts/PostStats'
-import { TextareaAutosize } from '@material-ui/core'
 import SubdirectoryArrowLeftIcon from '@material-ui/icons/SubdirectoryArrowLeft';
-import Button from '@material-ui/core/Button'
 import Link from 'next/link'
 import  {PostTags}  from '../../components/posts/PostTags'
 import { useSelector } from 'react-redux'
+import parse from "html-react-parser"
 
 export default function Post ({}) {
     const router = useRouter()
@@ -19,6 +16,8 @@ export default function Post ({}) {
         body:globalState.article.body,
         tags:globalState.article.tags,
     }
+    // const PostBody = new DOMParser().parseFromString(post.body, "text/xml");
+
     return (
         <MainLayout title={`${post.title} - Preview`}>
             <div className="main">
@@ -32,7 +31,8 @@ export default function Post ({}) {
                             <hr style={{opacity:"50%"}}/>
                         </div>
                         <div className="post__content__body">
-                            <p>{post.body}</p>
+                            {/* Парсим строку в html */}
+                            <p>{parse(post.body)}</p> 
                         </div>
                         <div className="post__content__footer">
                             <Link href="/post/createPost"><a style={{display:"flex", alignItems:"center", width:"10%"}}>Get back <SubdirectoryArrowLeftIcon/></a></Link>

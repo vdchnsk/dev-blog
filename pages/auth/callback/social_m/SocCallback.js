@@ -54,7 +54,9 @@ export default function SocCallback ({session, generated_password}) {
                     <div className="callback_window__body">
                         <div style={{display:"flex", flexDirection:"column"}} className="callback_window__body_profileInfo">
                             <span className="callback_window__body_profileInfo-item" >Your email: <strong>{userData.email}</strong></span>
-                            <span className="callback_window__body_profileInfo-item" >Your password: <strong>{userPassword}</strong> </span>
+                            <span className="callback_window__body_profileInfo-item" >Your password: <strong>
+                                {userPassword === undefined ? <span style={{opacity:"40%"}}>loading...</span> : userPassword}</strong> 
+                            </span>
                             <span className="callback_window__body_profileInfo-item" >You're able to change everything in your profile settings page</span>
                         </div> 
                     </div>

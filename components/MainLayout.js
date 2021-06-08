@@ -11,9 +11,7 @@ import { useSession } from "next-auth/client"
 
 export const MainLayout = ({children , title = "Next", data}) => {
     const globalState = useSelector(state => state)
-
     const [session] = useSession()
-    // console.log(session)
 
     useEffect(() => {
         useRoutes_custom(globalState.auth.isAuthenticated)
@@ -31,7 +29,7 @@ export const MainLayout = ({children , title = "Next", data}) => {
                         <Link href={"/posts"}><a>Posts</a></Link>
                     </div>
                     <div className="nav__secondaryButtons">
-                        { globalState.auth.isAuthenticated === false  ? <Link style={{cursor:"pointer"}} href="/auth/client/LogInPage"><a>Log in</a></Link> : <ProfileSettings />}
+                        { globalState.auth.isAuthenticated === false  ? <Link style={{cursor:"pointer"}} href="/auth/client/LogInPage"><a>Log in</a></Link> : <ProfileSettings socSession={session}/>}
                     </div>
                 </nav>
                 <main>

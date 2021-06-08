@@ -117,8 +117,14 @@
         }
     }
 }
+.formButton__socialMedia{
+    width:100%;
+    display:flex;
+    justify-content:center;
+}
 .formButtonSocMed{
     height: 40px;
+    width:25%;
     margin: 10px 10px 0px 10px;
     cursor: pointer;
     background: white;
