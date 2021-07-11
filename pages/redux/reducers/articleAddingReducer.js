@@ -4,7 +4,7 @@ import { ADD_ARTICLE } from "../types"
 const initState = {
     title:"",
     description:"",
-    preview:null,
+    preview:"",
     body:"",
     tags:[],
 }

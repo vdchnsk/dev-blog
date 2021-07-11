@@ -1,41 +1,49 @@
 {
-  "name": "nextjs-course-first",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "build": "next build",
-    "start": "next start",
-    "mock_server": "json-server -w db.json -p 4200",
-    "dev": "concurrently \"next dev\" \"npm run mock_server\" "
-  },
-  "dependencies": {
-    "@badrap/bar-of-progress": "^0.1.2",
-    "@material-ui/core": "^4.11.3",
-    "@material-ui/icons": "^4.11.2",
-    "@material-ui/lab": "*",
-    "bcryptjs": "^2.4.3",
-    "config": "^3.3.6",
-    "cookie": "^0.4.1",
-    "cryptr": "^6.0.2",
-    "generate-password": "^1.6.0",
-    "html-react-parser": "^1.2.6",
-    "js-cookie": "^2.2.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.12.3",
-    "next": "10.1.2",
-    "next-auth": "^3.24.1",
-    "next-redux-wrapper": "^6.0.2",
-    "randomcolor": "^0.6.2",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-google-recaptcha": "^2.1.0",
-    "react-redux": "^7.2.3",
-    "redux": "^4.0.5",
-    "redux-devtools-extension": "^2.13.9",
-    "sass": "^1.32.8",
-    "validator": "^13.5.2"
-  },
-  "devDependencies": {
-    "concurrently": "^6.0.1"
-  }
+	"name": "nextjs-course-first",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"build": "next build",
+		"start": "next start",
+		"mock_server": "json-server -w db.json -p 4200",
+		"dev": "concurrently \"next dev\" \"npm run mock_server\" "
+	},
+	"dependencies": {
+		"@badrap/bar-of-progress": "^0.1.2",
+		"@material-ui/core": "^4.11.3",
+		"@material-ui/icons": "^4.11.2",
+		"@material-ui/lab": "*",
+		"bcryptjs": "^2.4.3",
+		"config": "^3.3.6",
+		"cookie": "^0.4.1",
+		"cryptr": "^6.0.2",
+		"generate-password": "^1.6.0",
+		"html-react-parser": "^1.2.6",
+		"js-cookie": "^2.2.1",
+		"jsonwebtoken": "^8.5.1",
+		"mongoose": "^5.12.3",
+		"next": "10.1.2",
+		"next-auth": "^3.24.1",
+		"next-redux-wrapper": "^6.0.2",
+		"randomcolor": "^0.6.2",
+		"react": "17.0.2",
+		"react-dom": "17.0.2",
+		"react-google-recaptcha": "^2.1.0",
+		"react-redux": "^7.2.4",
+		"redux": "^4.1.0",
+		"redux-devtools-extension": "^2.13.9",
+		"sass": "^1.32.8",
+		"validator": "^13.5.2"
+	},
+	"devDependencies": {
+		"concurrently": "^6.0.1",
+		"eslint": "^7.30.0",
+		"eslint-config-airbnb": "^18.2.1",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-import": "^2.23.4",
+		"eslint-plugin-jsx-a11y": "^6.4.1",
+		"eslint-plugin-react": "^7.24.0",
+		"eslint-plugin-react-hooks": "^4.2.0",
+		"prettier": "^2.3.2"
+	}
 }
