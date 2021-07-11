@@ -1,6 +1,6 @@
 # ⌨ Dev blog
 
-**Version 0.2.0**
+**Version 0.8.0**
 
 📃 My own blog on keyboard topic
 
