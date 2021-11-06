@@ -5,7 +5,7 @@
 	"scripts": {
 		"build": "next build",
 		"start": "next start",
-		"mock_server": "json-server -w db.json -p 4200",
+		"mock_server": "npx json-server -w db.json -p 4200",
 		"dev": "concurrently \"next dev\" \"npm run mock_server\" "
 	},
 	"dependencies": {
