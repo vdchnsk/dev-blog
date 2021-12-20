@@ -9,13 +9,13 @@
 - Valeriy Dichansky <dichansky@gmail.com>
 
 ## ⚙ Technologies
-### Fornt-end
+### 💅 Front-end
   - React
   - Redux
   - SCSS
   - Material UI
-### Back-end
+### 🧠 Back-end
   - NextJS
   - Mongoose
-### DB
+### 💾 DB
   - MongoDB
