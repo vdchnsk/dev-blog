@@ -1,4 +1,5 @@
 import Router from 'next/router'
+import { API } from '../../../constants/API'
 import { MainLayout } from '../../components/MainLayout'
 
 export default function about({ heading }) {
@@ -14,7 +15,7 @@ export default function about({ heading }) {
     )
 }
 about.getInitialProps = async () => {
-    const responce = await fetch('http://localhost:4200/about')
+    const responce = await fetch(`${API.mockUri}}about`)
     const data = await responce.json()
     return { heading: data.title }
 }

@@ -14,6 +14,7 @@ import PermIdentityIcon from '@material-ui/icons/PermIdentity'
 import { useAuth } from '../pages/hooks/auth.hook'
 
 import styles from '../../styles/mainLayout/profileSettings.module.scss'
+import { API } from '../../constants/API'
 
 export const ProfileSettings = ({ socSession }) => {
     const globalState = useSelector((state) => state)
@@ -35,7 +36,7 @@ export const ProfileSettings = ({ socSession }) => {
         if (!socSession) {
             try {
                 logout()
-                fetch('../../api/auth/logout', {
+                fetch(`${API.baseUri}api/auth/logout`, {
                     method: 'post',
                     headers: { 'Content-Type': 'application/json' },
                     body: '',

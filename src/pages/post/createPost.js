@@ -1,15 +1,20 @@
 import { useEffect, useRef, useState } from 'react'
-import { TextareaAutosize, TextField } from '@material-ui/core'
-import { MainLayout } from '../../components/MainLayout'
-import { PostTags } from '../../components/posts/PostTags'
 import { useDispatch, useSelector } from 'react-redux'
-import { addArticleInfo } from '../redux/actions/articleAddingReducerActions'
-import { showAlert } from '../redux/actions/alertActions'
-import { Notification } from '../../components/Notification'
-import PublishIcon from '@material-ui/icons/Publish'
 import router from 'next/router'
 import randomColor from 'randomcolor'
 import validator from 'validator'
+
+import PublishIcon from '@material-ui/icons/Publish'
+import { TextareaAutosize, TextField } from '@material-ui/core'
+
+import { addArticleInfo } from '../redux/actions/articleAddingReducerActions'
+import { showAlert } from '../redux/actions/alertActions'
+
+import { MainLayout } from '../../components/MainLayout'
+import { PostTags } from '../../components/posts/PostTags'
+import { Notification } from '../../components/Notification'
+
+import { API } from '../../../constants/API'
 
 export default function CreatePost({ tags, BackupTags }) {
     const globalState = useSelector((state) => state)
@@ -473,7 +478,7 @@ export async function getServerSideProps({ req }) {
     if (!req) {
         return { tags: null }
     }
-    const responce = await fetch(`http://localhost:4200/tags`)
+    const responce = await fetch(`${API.mockUri}/tags`)
     const tags = await responce.json()
 
     return {

@@ -10,6 +10,7 @@ import { PostTags } from '../../components/posts/PostTags'
 import PostStats from '../../components/posts/PostStats'
 
 import styles from '../../../styles/posts/posts_page.module.scss'
+import { API } from '../../../constants/API'
 
 export default function Posts({ posts: serverPosts }) {
     const [posts, setPosts] = useState(serverPosts)
@@ -18,7 +19,7 @@ export default function Posts({ posts: serverPosts }) {
     useEffect(() => {
         const load = async () => {
             //! Why do we call api several times in one render?
-            const responce = await fetch(`http://localhost:4200/posts`)
+            const responce = await fetch(`${API.mockUri}posts`)
             const data = await responce.json()
             setPosts(data)
         }
@@ -107,7 +108,7 @@ Posts.getInitialProps = async (context) => {
         return { posts: null }
     }
 
-    const responce = await fetch('http://localhost:4200/posts')
+    const responce = await fetch(`${API.mockUri}posts`)
     const posts = await responce.json()
 
     return {
