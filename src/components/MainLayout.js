@@ -9,6 +9,8 @@ import { useRoutes_custom } from '../pages/router'
 import { ProfileSettings } from './ProfileSettings'
 import { useSession } from 'next-auth/client'
 
+import styles from '../../styles/mainLayout/mainlayout.module.scss'
+
 export const MainLayout = ({ children, title = 'Next', data }) => {
     const globalState = useSelector((state) => state)
     const [session] = useSession()
@@ -22,19 +24,19 @@ export const MainLayout = ({ children, title = 'Next', data }) => {
                 <Head>
                     <title>Next | {title}</title>
                 </Head>
-                <nav>
-                    <div className="nav__navButton">
+                <nav className={styles.nav}>
+                    <div className={styles.nav__navButton}>
                         <Link href={'/'}>
-                            <a>Home</a>
+                            <a className={styles.nav__link}>Home</a>
                         </Link>
                         <Link href={'/about'}>
-                            <a>About</a>
+                            <a className={styles.nav__link}>About</a>
                         </Link>
                         <Link href={'/posts'}>
-                            <a>Posts</a>
+                            <a className={styles.nav__link}>Posts</a>
                         </Link>
                     </div>
-                    <div className="nav__secondaryButtons">
+                    <div className={styles.nav__secondaryButtons}>
                         {globalState.auth.isAuthenticated === false ? (
                             <Link style={{ cursor: 'pointer' }} href="/auth/client/LogInPage">
                                 <a>Log in</a>
@@ -44,62 +46,7 @@ export const MainLayout = ({ children, title = 'Next', data }) => {
                         )}
                     </div>
                 </nav>
-                <main>{children}</main>
-                {/* если добавить "global" в тэг "style", то стили станут глобальными */}
-                <style jsx>
-                    {`
-                        * {
-                            padding: 0;
-                            margin: 0;
-                        }
-                        .bar-of-progress {
-                            z-index: 50;
-                            opacity: 0;
-                        }
-                        nav {
-                            z-index: 1000;
-                            position: fixed;
-                            top: 0;
-                            height: 60px;
-                            left: 0;
-                            right: 0;
-                            width: 100%;
-                            background-color: #131039;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                        }
-                        a {
-                            color: white;
-                            text-decoration: none;
-                            padding: 10px;
-                        }
-                        main {
-                            margin-top: 60px;
-                        }
-                        .nav__secondaryButtons {
-                            position: absolute;
-                            right: 0;
-                            margin-right: 1%;
-                            display: flex;
-                        }
-                        .logoutButton {
-                            margin-right: 5px;
-                            background: none;
-                            color: white;
-                            border: none;
-                            font-size: 0.9rem;
-                            cursor: pointer;
-                            outline: none;
-                        }
-                        .settingsButton {
-                            background: none;
-                            border: none;
-                            cursor: pointer;
-                            outline: none;
-                        }
-                    `}
-                </style>
+                <main className={styles.content}>{children}</main>
             </MuiThemeProvider>
         </Fragment>
     )

@@ -1,14 +1,17 @@
 import { useState } from 'react'
-import { MainLayout } from '../../components/MainLayout'
+import { useDispatch } from 'react-redux'
+import { useRouter } from 'next/router'
 import { Button, Checkbox, TextField } from '@material-ui/core'
 import config from 'config'
 import jwt from 'jsonwebtoken'
-import { useDispatch } from 'react-redux'
-import { showAlert } from '../redux/actions/alertActions'
+
+import { MainLayout } from '../../components/MainLayout'
 import { Notification } from '../../components/Notification'
+
+import { showAlert } from '../redux/actions/alertActions'
+
 import { useHttp } from '../hooks/useHttp'
 import { useAuth } from '../hooks/auth.hook'
-import { useRouter } from 'next/router'
 
 import styles from '../../../styles/profileSettings.module.scss'
 

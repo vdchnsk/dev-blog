@@ -1,4 +1,4 @@
-import { useState, Fragment } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import { useRouter } from 'next/router'
@@ -13,10 +13,14 @@ import PermIdentityIcon from '@material-ui/icons/PermIdentity'
 
 import { useAuth } from '../pages/hooks/auth.hook'
 
+import styles from '../../styles/mainLayout/profileSettings.module.scss'
+
 export const ProfileSettings = ({ socSession }) => {
     const globalState = useSelector((state) => state)
-    const { logout } = useAuth()
+
     const [anchorEl, setAnchorEl] = useState(null)
+
+    const { logout } = useAuth()
     const router = useRouter()
 
     const handleClick = (event) => {
@@ -42,7 +46,7 @@ export const ProfileSettings = ({ socSession }) => {
                 console.log(e)
             }
         } else {
-            const signOutData = await signOut({ redirect: false, callbackUrl: 'http://localhost:3000/' }) //обязательно await
+            const signOutData = await signOut({ redirect: false, callbackUrl: 'http://localhost:3000/' })
             try {
                 logout()
                 fetch('../../api/auth/logout', {
@@ -55,7 +59,7 @@ export const ProfileSettings = ({ socSession }) => {
             } catch (e) {
                 console.log(e)
             }
-            router.push(signOutData.url) //для того, чтобы страница не обновлялась, при выходы из аккаунта google
+            router.push(signOutData.url)
         }
     }
     const handleClose = () => {
@@ -63,14 +67,14 @@ export const ProfileSettings = ({ socSession }) => {
     }
 
     return (
-        <Fragment>
+        <>
             <Button aria-controls="simple-menu" color={'primary'} aria-haspopup="true" onClick={handleClick}>
                 {globalState.auth.nickname}
             </Button>
+
             <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-                <span className="pupup__heading">
-                    <PermIdentityIcon color={'secondary'} />
-                    {globalState.auth.nickname}
+                <span className={styles.pupup__heading}>
+                    <PermIdentityIcon color={'secondary'} /> {globalState.auth.nickname}
                 </span>
                 <MenuItem onClick={handleSettings}>
                     <SettingsIcon color={'secondary'} /> Settings
@@ -79,20 +83,6 @@ export const ProfileSettings = ({ socSession }) => {
                     <ExitToAppIcon color={'secondary'} /> Logout
                 </MenuItem>
             </Menu>
-            <style jsx>
-                {`
-                    .pupup__heading {
-                        width: 100%;
-                        text-align: center;
-                        align-items: center;
-                        display: flex;
-                        justify-content: center;
-                        padding: 3px;
-                        font-weight: 700;
-                        padding-right: 15px;
-                    }
-                `}
-            </style>
-        </Fragment>
+        </>
     )
 }

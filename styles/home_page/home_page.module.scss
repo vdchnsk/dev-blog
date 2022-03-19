@@ -4,21 +4,24 @@
     min-height: 80vh;
     justify-content: center;
 }
+
 .home {
     width: 75%;
     display: flex;
     align-items: center;
     margin-top: 20px;
+    &__content_main {
+        width: 80%;
+    }
 }
-.home__content__main {
-    width: 80%;
-}
+
 .home__content__secondary {
     width: 20%;
     height: 700px;
     display: flex;
     flex-direction: column;
 }
+
 .home__content__desk {
     padding: 13px;
     border-radius: 10px;

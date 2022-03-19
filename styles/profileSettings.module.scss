@@ -1,31 +1,36 @@
-.wrapper{
+.wrapper {
     width: 100%;
     height: 90vh;
     display: flex;
-    .profileSettings_img{
+
+    .profileSettings_img {
         width: 50%;
         height: 100%;
         background-repeat: no-repeat;
-        background-image: url("../public/static/settings__rakoon.jpg");
+        background-image: url('../public/static/settings__rakoon.jpg');
         background-position: center;
         background-size: contain;
     }
-    .profileSettings{
-        padding-top:10%;
+
+    .profileSettings {
+        padding-top: 10%;
         width: 50%;
         height: 100%;
         display: flex;
         flex-direction: column;
-        .profileSettings__input{
+
+        &__input {
             width: 60%;
             margin-bottom: 5%;
         }
-        .profileSettings__button{
+
+        &__button {
             margin-bottom: 3%;
             width: 60%;
         }
-        .formButton:disabled{
-            content: 'select two'!IMPORTANT;
+
+        .formButton:disabled {
+            content: 'select two' !important;
             background: gray;
         }
     }
