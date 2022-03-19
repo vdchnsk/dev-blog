@@ -1,44 +1,42 @@
-
 html,
 body {
-  -webkit-box-pack: start; 
-  -ms-flex-pack: start; 
-  justify-content: flex-start; 
-  -webkit-box-align: start; 
-  -ms-flex-align: start; 
-  align-items: flex-start;
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+        Helvetica Neue, sans-serif;
 }
 
-
 a {
-  color: inherit;
-  text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 *::selection {
-  background-color: rgb(189, 189, 189);
- }
+    background-color: rgb(189, 189, 189);
+}
 /*ScrollBar settings*/
-::-webkit-scrollbar-track{
-	border-radius: 10px;
-	background-color: #000;
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #000;
 }
-::-webkit-scrollbar{
-	width: 12px;
-	background-color: #000;
+::-webkit-scrollbar {
+    width: 12px;
+    background-color: #000;
 }
-::-webkit-scrollbar-thumb{
-	border-radius: 10px;
-	background-color: #EEEEEE;
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #eeeeee;
 }
-.bar-of-progress{
-  opacity: 0;
-  margin-top: 60px;
+.bar-of-progress {
+    opacity: 0;
+    margin-top: 60px;
 }
