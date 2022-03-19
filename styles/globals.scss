@@ -40,3 +40,7 @@ a {
     opacity: 0;
     margin-top: 60px;
 }
+
+input[type='file']::-webkit-file-upload-button {
+    display: 'none';
+}

@@ -16,6 +16,8 @@ import { Notification } from '../../components/Notification'
 
 import { API } from '../../../constants/API'
 
+import styles from '../../../styles/create_post_page/create_post_page.module.scss'
+
 export default function CreatePost({ tags, BackupTags }) {
     const globalState = useSelector((state) => state)
     const dispatch = useDispatch()
@@ -34,10 +36,11 @@ export default function CreatePost({ tags, BackupTags }) {
 
     const KeyCheck = (event) => {
         if (event.keyCode === 13) {
-            postTagsFilled != '' ? addToPostTags({ chosenTags }, postTagsFilled) : null
+            postTagsFilled != '' && addToPostTags({ chosenTags }, postTagsFilled)
         }
         document.removeEventListener('keydown', KeyCheck)
     }
+
     useEffect(() => {
         document.addEventListener('keydown', KeyCheck)
     }, [postTagsFilled])
@@ -50,22 +53,27 @@ export default function CreatePost({ tags, BackupTags }) {
     const filtredTags = chosenTags.filter((tag) => {
         return tag.value.toLowerCase().includes(postTagsFilled.toLowerCase())
     })
+
     const ACItemClickHandler = (e) => {
         setPostTagsFilled(e.target.textContent)
         setIsAutoCompleteOpen(false)
         addToPostTags({ chosenTags }, e.target.textContent)
     }
+
     const setIsAutoCompleteOpenHandler = () => {
         setIsAutoCompleteOpen(true)
     }
+
     const addToPostTags = ({ chosenTags }, exectTag) => {
         if (chosenTags.findIndex((i) => i.value === exectTag) !== -1) {
             let indexOfElement = chosenTags.findIndex((i) => i.value === exectTag)
 
             if (postTags.length == 3) {
-                dispatch(showAlert('Максимольное кол-во тэгов - 3', 'warning')) // против мудаков, которые выполнят функцию на фронете без инпута
+                dispatch(showAlert('Максимольное кол-во тэгов - 3', 'warning'))
                 return setPostTagsFilled('')
-            } else if (postTags.includes(chosenTags[indexOfElement])) {
+            }
+
+            if (postTags.includes(chosenTags[indexOfElement])) {
                 dispatch(showAlert(`Тэг "${exectTag}" уже был добавлен!`, 'warning'))
                 return setPostTagsFilled('')
             }
@@ -77,58 +85,62 @@ export default function CreatePost({ tags, BackupTags }) {
             if (postTags.length == 3) {
                 dispatch(showAlert('Максимольное кол-во тэгов - 3', 'warning'))
                 return setPostTagsFilled('')
-            } else if (postTags.findIndex((i) => i.value.toLowerCase() === exectTag.toLowerCase()) == 0) {
-                //Если массив уже готовых тегов содержит элемент с таким же значаним, как ввел пользователь(т.е. тег повторяется)(метод в таком случае выводит "0"), выдает ошибку о том, что тег уже был добавлен
+            }
+
+            if (postTags.findIndex((i) => i.value.toLowerCase() === exectTag.toLowerCase()) == 0) {
                 dispatch(showAlert(`Тэг "${exectTag}" уже был добавлен!`, 'warning'))
                 return setPostTagsFilled('')
             }
 
-            let newTag = {
-                id: Math.floor(Math.random() * 1000000) * 1,
+            const newTag = {
+                id: Math.floor(Math.random() * 1000000),
                 value: exectTag,
                 color: randomColor(),
             }
+
             postTags.push(newTag)
 
             setPostTagsFilled('')
         }
     }
+
     const clearTags = () => {
         setPostTags([])
-        setChosenTags(BackupTags.slice(0)) //создание дубликата бэкап-массива, иначе будет происходить мутация даже этого самого бэкап-массива
+        setChosenTags(BackupTags.slice(0))
         return
     }
+
     const stransferData = () => {
         if (
-            !validator.isEmpty(postTitle) &&
-            !validator.isEmpty(postDescription) &&
-            !validator.isEmpty(postPreview) &&
-            !validator.isEmpty(postBody) &&
+            validator.isEmpty(postTitle) == false &&
+            validator.isEmpty(postDescription) == false &&
+            validator.isEmpty(postPreview) == false &&
+            validator.isEmpty(postBody) == false &&
             chosenTags !== []
         ) {
             dispatch(addArticleInfo(postTitle, postDescription, postPreview, postBody, postTags))
-            router.push('/post/createPostPreview')
-            return
-        } else {
-            return dispatch(showAlert('Вы заполнили не все нужные поля!', 'warning'))
+
+            return router.push('/post/createPostPreview')
         }
+
+        return dispatch(showAlert('Вы заполнили не все нужные поля!', 'warning'))
     }
 
     return (
         <MainLayout title={'Create new post ✍ '}>
             <Notification />
-            <div className="wrapper">
-                <div className="newPost__content">
-                    <div className="newPost__content__header">
+            <div className={styles.wrapper}>
+                <div className={styles.newPost__content}>
+                    <div className={styles.newPost__content__header}>
                         <h1>New article 📝</h1>
                     </div>
-                    <div className="newPost__content__main">
-                        <div className="newPost__content__main__metaInpust">
+                    <div className={styles.newPost__content__main}>
+                        <div className={styles.newPost__content__main__metaInpust}>
                             <TextField
                                 value={postTitle}
                                 onChange={(e) => setPostTitle(e.target.value)}
                                 style={{ width: '60%', margin: '10px 0px' }}
-                                className="metaInput"
+                                className={styles.metaInput}
                                 color={'secondary'}
                                 label="Title"
                             />
@@ -149,14 +161,14 @@ export default function CreatePost({ tags, BackupTags }) {
                             <label htmlFor="upload" style={{ cursor: 'pointer', width: '24%', margin: '10px 0px' }}>
                                 <div
                                     tabIndex="0"
-                                    className="uploadFileButton"
+                                    className={styles.uploadFileButton}
                                     style={{
                                         padding: '5px',
                                         borderRadius: '3px',
                                         display: 'flex',
                                         justifyContent: 'center',
                                         alignItems: 'center',
-                                        background: 'black',
+                                        background: '#49AE92',
                                         color: 'white',
                                     }}
                                 >
@@ -188,13 +200,13 @@ export default function CreatePost({ tags, BackupTags }) {
                                 </div>
                             </label>
                         </div>
-                        <div className="newPost__content__main__aricleInput">
-                            <div className="newPost__content__main__aricleInput__toolbar">
+                        <div className={styles.newPost__content__main__aricleInput}>
+                            <div className={styles.newPost__content__main__aricleInput__toolbar}>
                                 <button
                                     onClick={() => {
                                         modifyText('<strong></strong>')
                                     }}
-                                    className="toolbar__element"
+                                    className={styles.toolbar__element}
                                 >
                                     <strong>bold</strong>
                                 </button>
@@ -202,7 +214,7 @@ export default function CreatePost({ tags, BackupTags }) {
                                     onClick={() => {
                                         modifyText('<i></i>')
                                     }}
-                                    className="toolbar__element"
+                                    className={styles.toolbar__element}
                                 >
                                     <i>italic</i>
                                 </button>
@@ -210,7 +222,7 @@ export default function CreatePost({ tags, BackupTags }) {
                                     onClick={() => {
                                         modifyText('<h1></h1>')
                                     }}
-                                    className="toolbar__element"
+                                    className={styles.toolbar__element}
                                 >
                                     <span>h1</span>
                                 </button>
@@ -218,7 +230,7 @@ export default function CreatePost({ tags, BackupTags }) {
                                     onClick={() => {
                                         modifyText('<h2></h2>')
                                     }}
-                                    className="toolbar__element"
+                                    className={styles.toolbar__element}
                                 >
                                     <span>h2</span>
                                 </button>
@@ -226,7 +238,7 @@ export default function CreatePost({ tags, BackupTags }) {
                                     onClick={() => {
                                         modifyText('<h3></h3>')
                                     }}
-                                    className="toolbar__element"
+                                    className={styles.toolbar__element}
                                 >
                                     <span>h3</span>
                                 </button>
@@ -234,7 +246,7 @@ export default function CreatePost({ tags, BackupTags }) {
                                     onClick={() => {
                                         modifyText('<h4></h4>')
                                     }}
-                                    className="toolbar__element"
+                                    className={styles.toolbar__element}
                                 >
                                     <span>h4</span>
                                 </button>
@@ -242,7 +254,7 @@ export default function CreatePost({ tags, BackupTags }) {
                                     onClick={() => {
                                         modifyText('•')
                                     }}
-                                    className="toolbar__element"
+                                    className={styles.toolbar__element}
                                 >
                                     list
                                 </button>
@@ -250,8 +262,8 @@ export default function CreatePost({ tags, BackupTags }) {
                                     onClick={() => {
                                         modifyText('<img></img>')
                                     }}
-                                    className="toolbar__element"
-                                    style={{ borderRight: '2px solid black' }}
+                                    className={styles.toolbar__element}
+                                    style={{ borderRight: '2px solid #131039' }}
                                 >
                                     image
                                 </button>
@@ -291,7 +303,7 @@ export default function CreatePost({ tags, BackupTags }) {
                                 flexDirection: 'row',
                                 background: 'white',
                                 borderRadius: '0px 0px 10px 10px',
-                                border: '1px solid black',
+                                border: '1px solid #131039',
                                 transform: 'translate(0px, -21px)',
                             }}
                         >
@@ -301,13 +313,13 @@ export default function CreatePost({ tags, BackupTags }) {
                             </div>
                         </div>
                     </div>
-                    <div className="newPost__content__footer">
+                    <div className={styles.newPost__content__footer}>
                         <div
-                            className="footer__tags "
+                            className={styles.footer__tags}
                             style={{ margin: '0px 0 25px 0px', display: 'flex', flexDirection: 'row' }}
                         >
                             <div
-                                className="footer__tags__item footer__tags__tagChoosing"
+                                className={(styles.footer__tags__item, styles.footer__tags__tagChoosing)}
                                 style={{ display: 'flex', flexDirection: 'column' }}
                             >
                                 <span style={{ width: '100%', fontWeight: '500' }}>
@@ -319,166 +331,58 @@ export default function CreatePost({ tags, BackupTags }) {
                                     onChange={(e) => setPostTagsFilled(e.target.value)}
                                     value={postTagsFilled}
                                     style={{ width: '53%', position: 'relative' }}
-                                    className="metaInput"
+                                    className={styles.metaInput}
                                     color={'secondary'}
                                     label="suiteble tag"
                                 />
                                 <ul
                                     style={{ listStyle: 'none', padding: '0', margin: '0', width: '53%' }}
-                                    className="tag__autocomplete"
+                                    className={styles.tag__autocomplete}
                                 >
-                                    {postTagsFilled && isAutoCompleteOpen
-                                        ? filtredTags.map((tag) => {
-                                              return (
-                                                  <li
-                                                      onClick={ACItemClickHandler}
-                                                      className="tag__autocomplete__item"
-                                                      key={tag.id}
-                                                  >
-                                                      {tag.value}
-                                                  </li>
-                                              )
-                                          })
-                                        : null}
+                                    {postTagsFilled &&
+                                        isAutoCompleteOpen &&
+                                        filtredTags.map((tag) => {
+                                            return (
+                                                <li
+                                                    onClick={ACItemClickHandler}
+                                                    className={styles.tag__autocomplete__item}
+                                                    key={tag.id}
+                                                >
+                                                    {tag.value}
+                                                </li>
+                                            )
+                                        })}
                                 </ul>
                             </div>
-                            <div className="footer__tags__item footer__tags__suitebleTag">
+                            <div className={`${styles.footer__tags__item}`}>
                                 <span style={{ width: '100%', fontWeight: '500' }}>
-                                    Tags:{' '}
+                                    Tags:
                                     <span>
-                                        {postTags.length !== 0 ? (
-                                            <button tabIndex="0" onClick={clearTags} className="clearTags">
+                                        {postTags.length !== 0 && (
+                                            <button tabIndex="0" onClick={clearTags} className={styles.clearTags}>
                                                 clear
                                             </button>
-                                        ) : null}
+                                        )}
                                     </span>
                                 </span>
                                 <PostTags tagsList={postTags} />
                             </div>
                         </div>
-                        <button className="footer__tags__button" onClick={stransferData}>
-                            {' '}
-                            Next{' '}
+                        <button className={styles.footer__tags__button} onClick={stransferData}>
+                            Next
                         </button>
                     </div>
                 </div>
             </div>
-            <style jsx>
-                {`
-                    .wrapper {
-                        width: 100%;
-                        height: 100%;
-                        display: flex;
-                        justify-content: center;
-                    }
-                    .newPost__content {
-                        width: 55%;
-                        height: 93vh;
-                    }
-                    .newPost__content__main {
-                        display: flex;
-                        flex-direction: column;
-                    }
-                    .newPost__content__main__metaInpust {
-                        display: flex;
-                        flex-direction: column;
-                    }
-                    .toolbar__element {
-                        cursor: pointer;
-                        padding: 10px;
-                        border: 0px;
-                        border-left: 2px solid black;
-                        border-top: 2px solid black;
-                        border-bottom: 2px solid black;
-                        background: none;
-                        margin: 5px 0;
-                        transition: 0.3s;
-                    }
-                    .toolbar__element:hover,
-                    .toolbar__element:focus {
-                        background: black;
-                        color: white;
-                    }
-                    .footer__tags {
-                        display: flex;
-                        flex-direction: column;
-                    }
-                    .footer__tags__button {
-                        border-radius: 8px;
-                        margin-bottom: 20px;
-                        transition: 0.3s;
-                        padding: 10px;
-                        width: 30%;
-                        color: black;
-                        background: none;
-                        border: 2px solid black;
-                        cursor: pointer;
-                    }
-                    .footer__tags__button:hover,
-                    .footer__tags__button:focus {
-                        background: black;
-                        color: white;
-                    }
-                    .footer__tags__item {
-                        width: 50%;
-                    }
-                    .tag__autocomplete__item {
-                        padding: 10px 10px 10px 0px;
-                        cursor: pointer;
-                        background: white;
-                        border-bottom: 1px solid gainsboro;
-                    }
-                    .tag__autocomplete__item:hover,
-                    .tag__autocomplete__item:focus {
-                        background: whitesmoke;
-                        transition: 0.3s;
-                    }
-                    .clearTags {
-                        background: none;
-                        font-size: 0.9rem;
-                        border: none;
-                        font-weight: 400;
-                        opacity: 70%;
-                        cursor: pointer;
-                    }
-                    .clearTags:hover,
-                    .clearTags:focus {
-                        transition: 0.3s;
-                        text-decoration: underline;
-                    }
-                    .textStat.active {
-                        // outline: 1px solid black;
-                        border: 2px solid black !important;
-                    }
-
-                    input[type='file']::-webkit-file-upload-button {
-                        display: 'none';
-                    }
-                    @media (max-width: 1340px) {
-                        .newPost__content {
-                            width: 70%;
-                        }
-                    }
-                    @media (max-width: 800px) {
-                        .newPost__content {
-                            width: 80%;
-                        }
-                    }
-                    @media (max-width: 660px) {
-                        .newPost__content {
-                            width: 100%;
-                        }
-                    }
-                `}
-            </style>
         </MainLayout>
     )
 }
+
 export async function getServerSideProps({ req }) {
     if (!req) {
         return { tags: null }
     }
-    const responce = await fetch(`${API.mockUri}/tags`)
+    const responce = await fetch(`${API.mockUri}tags`)
     const tags = await responce.json()
 
     return {
