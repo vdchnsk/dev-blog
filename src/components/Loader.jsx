@@ -5,7 +5,7 @@ import styles from '../../styles/loader.module.scss'
 export const Loader = () => {
     return (
         <div className={styles.laoder__content}>
-            <CircularProgress color={'inherit'} />
+            <CircularProgress color={'info'} />
         </div>
     )
 }

@@ -1,14 +1,23 @@
-import { MainLayout } from '../../../../components/MainLayout'
-import { showAlert } from '../../../redux/actions/alertActions'
-import { Notification } from '../../../../components/Notification'
-import { providers, getSession, useSession } from 'next-auth/client'
 import { useEffect, useState } from 'react'
-import generator from 'generate-password'
-import Button from '@material-ui/core/Button'
+import { useDispatch } from 'react-redux'
+
 import { useRouter } from 'next/router'
+import { providers, getSession, useSession } from 'next-auth/client'
+
+import generator from 'generate-password'
+
+import Button from '@material-ui/core/Button'
+
+import { showAlert } from '../../../redux/actions/alertActions'
+
+import { MainLayout } from '../../../../components/MainLayout'
+import { Notification } from '../../../../components/Notification'
+
 import { useHttp } from '../../../hooks/useHttp'
 import { useAuth } from '../../../hooks/auth.hook'
-import { useDispatch } from 'react-redux'
+
+import styles from '../../../../../styles/social/social_callback.module.scss'
+import { API } from '../../../../../constants/API'
 
 export default function SocCallback({ session, generated_password }) {
     const userData = session.user
@@ -25,7 +34,7 @@ export default function SocCallback({ session, generated_password }) {
                 password: generated_password,
                 captchaToken: 'noNeed',
             })
-            const authWay = await request('../../../api/auth/checkUserExistence', 'POST', data)
+            const authWay = await request(`${API.baseUri}api/auth/checkUserExistence`, 'POST', data)
             setUserPassword(authWay.password)
             data = JSON.stringify({
                 nickanmeOrLogin: authWay.nickanmeOrLogin,
@@ -40,15 +49,15 @@ export default function SocCallback({ session, generated_password }) {
                     password: generated_password,
                     password_repeat: generated_password,
                 })
-                const responce = await request(`../../../api/auth/registration`, 'POST', data)
+                const responce = await request(`${API.baseUri}api/auth/registration`, 'POST', data)
                 login(responce.nickname, responce.userId, responce.role)
-                dispatch(showAlert('', 'warning')) //очищаем состояние alert в redux
+                dispatch(showAlert('', 'warning'))
                 return
             }
 
-            const responce = await request(`../../../api/auth/login`, 'POST', data)
+            const responce = await request(`${API.baseUri}api/auth/login`, 'POST', data)
             login(responce.nickname, responce.userId, responce.role)
-            dispatch(showAlert('', 'warning')) //очищаем состояние alert в redux
+            dispatch(showAlert('', 'warning'))
         } catch (e) {
             console.log(e)
             dispatch(showAlert(e.message, 'warning'))
@@ -75,7 +84,7 @@ export default function SocCallback({ session, generated_password }) {
                 >
                     <div style={{ display: 'flex', flexDirection: 'column' }} className="callback_window__header">
                         <h2>Congratulations! 🎉</h2>
-                        <span>
+                        <span className={styles.profile_info__item}>
                             You've signed in as <strong>{userData.name}</strong>
                         </span>
                         <img
@@ -88,10 +97,10 @@ export default function SocCallback({ session, generated_password }) {
                             style={{ display: 'flex', flexDirection: 'column' }}
                             className="callback_window__body_profileInfo"
                         >
-                            <span className="callback_window__body_profileInfo-item">
+                            <span className={styles.profile_info__item}>
                                 Your email: <strong>{userData.email}</strong>
                             </span>
-                            <span className="callback_window__body_profileInfo-item">
+                            <span className={styles.profile_info__item}>
                                 Your password:{' '}
                                 <strong>
                                     {userPassword === undefined ? (
@@ -101,7 +110,7 @@ export default function SocCallback({ session, generated_password }) {
                                     )}
                                 </strong>
                             </span>
-                            <span className="callback_window__body_profileInfo-item">
+                            <span className={styles.profile_info__item}>
                                 You're able to change everything in your profile settings page
                             </span>
                         </div>
@@ -121,14 +130,6 @@ export default function SocCallback({ session, generated_password }) {
                     </div>
                 </div>
             </div>
-            <style jsx>
-                {`
-                    span {
-                        padding: 7px;
-                        opacity: 90%;
-                    }
-                `}
-            </style>
         </MainLayout>
     )
 }

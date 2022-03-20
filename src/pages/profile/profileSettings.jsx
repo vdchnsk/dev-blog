@@ -14,6 +14,7 @@ import { useHttp } from '../hooks/useHttp'
 import { useAuth } from '../hooks/auth.hook'
 
 import styles from '../../../styles/profileSettings.module.scss'
+import { API } from '../../../constants/API'
 
 export default function profileSettings({ ...data }) {
     const userData = data.datatoken
@@ -33,11 +34,11 @@ export default function profileSettings({ ...data }) {
             dispatch(showAlert('Данные не были изменены!', 'warning'))
         } else {
             try {
-                const responce = await request('../../api/auth/changeData', 'POST', dataFromInputs)
+                const responce = await request(`${API.baseUri}}api/auth/changeData`, 'POST', dataFromInputs)
                 console.log(responce)
                 login(responce.newNickname, responce.userId, responce.role)
                 router.push('/')
-                dispatch(showAlert('', 'warning')) //очищаем состояние alert в redux
+                dispatch(showAlert('', 'warning'))
             } catch (e) {
                 dispatch(showAlert(e.message, 'warning'))
             }

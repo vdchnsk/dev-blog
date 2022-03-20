@@ -10,6 +10,7 @@ import { showAlert } from '../../redux/actions/alertActions'
 import { useDispatch } from 'react-redux'
 import { useAuth } from '../../hooks/auth.hook'
 import { useRouter } from 'next/router'
+import { API } from '../../../../constants/API'
 
 export default function RegPage() {
     const [nickname, setNickname] = useState('')
@@ -25,7 +26,7 @@ export default function RegPage() {
         const dataFromInputs = JSON.stringify({ nickname, email, password, password_repeat })
 
         try {
-            const responce = await request('../../api/auth/registration', 'POST', dataFromInputs)
+            const responce = await request(`${API.baseUri}api/auth/registration`, 'POST', dataFromInputs)
             login(responce.nickname, responce.userId)
             router.push('/')
             dispatch(showAlert('', 'warning')) // очищаем состояние alert в redux

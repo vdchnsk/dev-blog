@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button'
 import Link from 'next/link'
 import ReCAPTCHA from 'react-google-recaptcha'
 import styles from '../../../../styles/auth.module.scss'
+import { API } from '../../../../constants/API'
 
 export default function LogInPage({ providers }) {
     const [nickanmeOrLogin, setNickanmeOrLogin] = useState('')
@@ -29,7 +30,7 @@ export default function LogInPage({ providers }) {
         const dataFromInputs = JSON.stringify({ nickanmeOrLogin, password, captchaToken })
 
         try {
-            const responce = await request('../../api/auth/login', 'POST', dataFromInputs)
+            const responce = await request(`${API.baseUri}api/auth/login`, 'POST', dataFromInputs)
             login(responce.nickname, responce.userId, responce.role)
             router.push('/')
             dispatch(showAlert('', 'warning')) //очищаем состояние alert в redux

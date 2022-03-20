@@ -11,7 +11,7 @@ import { addArticleInfo } from '../redux/actions/articleAddingReducerActions'
 import { showAlert } from '../redux/actions/alertActions'
 
 import { MainLayout } from '../../components/MainLayout'
-import { PostTags } from '../../components/posts/PostTags'
+import { PostTags } from '../../components/post/PostTags'
 import { Notification } from '../../components/Notification'
 
 import { API } from '../../../constants/API'
