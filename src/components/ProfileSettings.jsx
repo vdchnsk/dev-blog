@@ -75,13 +75,13 @@ export const ProfileSettings = ({ socSession }) => {
 
             <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
                 <span className={styles.pupup__heading}>
-                    <PermIdentityIcon color={'info'} /> {globalState.auth.nickname}
+                    <PermIdentityIcon color={'secondary'} /> {globalState.auth.nickname}
                 </span>
                 <MenuItem onClick={handleSettings}>
-                    <SettingsIcon color={'info'} /> Settings
+                    <SettingsIcon color={'secondary'} /> Settings
                 </MenuItem>
                 <MenuItem onClick={handleLogout}>
-                    <ExitToAppIcon color={'info'} /> Logout
+                    <ExitToAppIcon color={'secondary'} /> Logout
                 </MenuItem>
             </Menu>
         </>

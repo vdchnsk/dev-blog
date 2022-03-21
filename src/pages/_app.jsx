@@ -10,7 +10,7 @@ import { wrapper } from './redux'
 
 const progress = new ProgressBar({
     size: 3,
-    color: '#b797ef',
+    color: '#49AE92',
     className: 'bar-of-progress',
 })
 

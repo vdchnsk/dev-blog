@@ -93,8 +93,8 @@
         "title": "Мы - компания, котрая готова забрать ваши деньги"
     },
     "tags": [
+        { "id": "0", "color": "blue", "value": "C#" },
         { "id": "1", "color": "#356d68", "value": "Microsoft" },
-        { "id": "2", "color": "blue", "value": "C#" },
-        { "id": "3", "color": "tomato", "value": "JavaScript" }
+        { "id": "2", "color": "tomato", "value": "JavaScript" }
     ]
 }

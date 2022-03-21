@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { MainLayout } from '../../components/MainLayout'
 import SubdirectoryArrowLeftIcon from '@material-ui/icons/SubdirectoryArrowLeft'
 import Link from 'next/link'
-import { PostTags } from '../../components/post/PostTags'
+import { PostTags } from '../../components/posts/PostTags'
 import { useSelector } from 'react-redux'
 import parse from 'html-react-parser'
 

@@ -11,29 +11,25 @@ import { addArticleInfo } from '../redux/actions/articleAddingReducerActions'
 import { showAlert } from '../redux/actions/alertActions'
 
 import { MainLayout } from '../../components/MainLayout'
-import { PostTags } from '../../components/post/PostTags'
+import { PostTags } from '../../components/posts/PostTags'
 import { Notification } from '../../components/Notification'
 
 import { API } from '../../constants/API'
 
 import styles from '../../styles/create_post_page/create_post_page.module.scss'
 
-export async function getServerSideProps({ req }) {
-    if (!req) {
-        return { tags: null }
-    }
+export async function getServerSideProps() {
     const responce = await fetch(`${API.mockUri}tags`)
     const tags = await responce.json()
 
     return {
         props: {
-            tags: tags,
-            BackupTags: tags,
+            tagsList: tags,
         },
     }
 }
 
-export default function CreatePost({ tags, BackupTags }) {
+export default function CreatePost({ tagsList }) {
     const globalState = useSelector((state) => state)
     const dispatch = useDispatch()
 
@@ -42,7 +38,7 @@ export default function CreatePost({ tags, BackupTags }) {
     const [postPreview, setPostPreview] = useState(globalState.article.preview)
     const [postBody, setPostBody] = useState(globalState.article.body)
 
-    const [chosenTags, setChosenTags] = useState(globalState.article.tags)
+    const [chosenTags, setChosenTags] = useState(tagsList)
     const [isAutoCompleteOpen, setIsAutoCompleteOpen] = useState(true)
     const [postTagsFilled, setPostTagsFilled] = useState('')
     const [postTags, setPostTags] = useState(globalState.article.tags)
@@ -69,10 +65,10 @@ export default function CreatePost({ tags, BackupTags }) {
         return tag.value.toLowerCase().includes(postTagsFilled.toLowerCase())
     })
 
-    const ACItemClickHandler = (e) => {
-        setPostTagsFilled(e.target.textContent)
+    const chooseAutoCompleteItem = (event) => {
+        setPostTagsFilled(event.target.textContent)
         setIsAutoCompleteOpen(false)
-        addToPostTags({ chosenTags }, e.target.textContent)
+        addToPostTags({ chosenTags }, event.target.textContent)
     }
 
     const setIsAutoCompleteOpenHandler = () => {
@@ -81,20 +77,21 @@ export default function CreatePost({ tags, BackupTags }) {
 
     const addToPostTags = ({ chosenTags }, exectTag) => {
         if (chosenTags.findIndex((i) => i.value === exectTag) !== -1) {
-            let indexOfElement = chosenTags.findIndex((i) => i.value === exectTag)
+            const indexOfElement = chosenTags.findIndex((element) => element.value === exectTag)
 
             if (postTags.length == 3) {
                 dispatch(showAlert('Максимольное кол-во тэгов - 3', 'warning'))
                 return setPostTagsFilled('')
             }
 
-            if (postTags.includes(chosenTags[indexOfElement])) {
+            if (postTags.some((element) => element.value == exectTag)) {
                 dispatch(showAlert(`Тэг "${exectTag}" уже был добавлен!`, 'warning'))
                 return setPostTagsFilled('')
             }
 
-            postTags.push(chosenTags[indexOfElement])
-            chosenTags.splice(1, indexOfElement)
+            setPostTags([...postTags, chosenTags[indexOfElement]])
+
+            setChosenTags([...chosenTags.filter((element) => element != chosenTags[indexOfElement])])
             setPostTagsFilled('')
         } else {
             if (postTags.length == 3) {
@@ -102,7 +99,7 @@ export default function CreatePost({ tags, BackupTags }) {
                 return setPostTagsFilled('')
             }
 
-            if (postTags.findIndex((i) => i.value.toLowerCase() === exectTag.toLowerCase()) == 0) {
+            if (postTags.findIndex((element) => element.value.toLowerCase() === exectTag.toLowerCase()) == 0) {
                 dispatch(showAlert(`Тэг "${exectTag}" уже был добавлен!`, 'warning'))
                 return setPostTagsFilled('')
             }
@@ -113,7 +110,7 @@ export default function CreatePost({ tags, BackupTags }) {
                 color: randomColor(),
             }
 
-            postTags.push(newTag)
+            setPostTags([...postTags, newTag])
 
             setPostTagsFilled('')
         }
@@ -121,24 +118,24 @@ export default function CreatePost({ tags, BackupTags }) {
 
     const clearTags = () => {
         setPostTags([])
-        setChosenTags(BackupTags.slice(0))
+        setChosenTags([...tagsList])
         return
     }
 
-    const stransferData = () => {
+    const transferDataToPreview = () => {
         if (
-            validator.isEmpty(postTitle) == false &&
-            validator.isEmpty(postDescription) == false &&
-            validator.isEmpty(postPreview) == false &&
-            validator.isEmpty(postBody) == false &&
-            chosenTags !== []
+            validator.isEmpty(postTitle) == true ||
+            validator.isEmpty(postDescription) == true ||
+            validator.isEmpty(postPreview) == true ||
+            validator.isEmpty(postBody) == true ||
+            chosenTags.length == 0
         ) {
-            dispatch(addArticleInfo(postTitle, postDescription, postPreview, postBody, postTags))
-
-            return router.push('/post/createPostPreview')
+            return dispatch(showAlert('Вы заполнили не все нужные поля!', 'warning'))
         }
 
-        return dispatch(showAlert('Вы заполнили не все нужные поля!', 'warning'))
+        dispatch(addArticleInfo(postTitle, postDescription, postPreview, postBody, postTags))
+
+        return router.push('/post/createPostPreview')
     }
 
     return (
@@ -160,7 +157,7 @@ export default function CreatePost({ tags, BackupTags }) {
                                 label="Title"
                             />
                             <TextareaAutosize
-                                onChange={(e) => setPostDescription(e.target.value)}
+                                onChange={(event) => setPostDescription(event.target.value)}
                                 value={postDescription}
                                 style={{
                                     overflow: 'auto',
@@ -174,21 +171,9 @@ export default function CreatePost({ tags, BackupTags }) {
                                 placeholder="Description of your article"
                             />
                             <label htmlFor="upload" style={{ cursor: 'pointer', width: '24%', margin: '10px 0px' }}>
-                                <div
-                                    tabIndex="0"
-                                    className={styles.uploadFileButton}
-                                    style={{
-                                        padding: '5px',
-                                        borderRadius: '3px',
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        background: '#49AE92',
-                                        color: 'white',
-                                    }}
-                                >
+                                <div tabIndex="0" className={styles.uploadFileButton}>
                                     <input
-                                        onChange={(e) => setPostPreview(e.target.value)}
+                                        onChange={(event) => setPostPreview(event.target.value)}
                                         id="upload"
                                         style={{
                                             cursor: 'pointer',
@@ -202,16 +187,7 @@ export default function CreatePost({ tags, BackupTags }) {
                                         hidden
                                     />
                                     <PublishIcon />
-                                    <span
-                                        style={{
-                                            marginLeft: '1px',
-                                            whiteSpace: 'nowrap',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                        }}
-                                    >
-                                        {postPreview !== '' ? postPreview : 'Post preview'}
-                                    </span>
+                                    <span>{postPreview !== '' ? postPreview : 'Post preview'}</span>
                                 </div>
                             </label>
                         </div>
@@ -286,15 +262,9 @@ export default function CreatePost({ tags, BackupTags }) {
                             <TextareaAutosize
                                 ref={bodyInput}
                                 value={postBody}
-                                onChange={(e) => setPostBody(e.target.value)}
-                                onFocus={() => {
-                                    let input = document.querySelector('.textStat')
-                                    input.classList.toggle('active')
-                                }}
-                                onBlur={() => {
-                                    let input = document.querySelector('.textStat')
-                                    input.classList.toggle('active')
-                                }}
+                                onChange={(event) => setPostBody(event.target.value)}
+                                onFocus={() => {}}
+                                onBlur={() => {}}
                                 style={{
                                     overflow: 'auto',
                                     minHeight: '400px',
@@ -310,18 +280,7 @@ export default function CreatePost({ tags, BackupTags }) {
                                 placeholder="Body of your article"
                             />
                         </div>
-                        <div
-                            className="textStat"
-                            style={{
-                                width: '100%',
-                                display: 'flex',
-                                flexDirection: 'row',
-                                background: 'white',
-                                borderRadius: '0px 0px 10px 10px',
-                                border: '1px solid #131039',
-                                transform: 'translate(0px, -21px)',
-                            }}
-                        >
+                        <div className={styles.textStat}>
                             <div style={{ opacity: '65%', padding: '10px' }}>{postBody.length} symbols</div>
                             <div style={{ padding: '0 10px', opacity: '65%', padding: '10px' }}>
                                 {postBody.split(/\s+/).length - 1} words
@@ -329,10 +288,7 @@ export default function CreatePost({ tags, BackupTags }) {
                         </div>
                     </div>
                     <div className={styles.newPost__content__footer}>
-                        <div
-                            className={styles.footer__tags}
-                            style={{ margin: '0px 0 25px 0px', display: 'flex', flexDirection: 'row' }}
-                        >
+                        <div className={styles.footer__tags}>
                             <div
                                 className={(styles.footer__tags__item, styles.footer__tags__tagChoosing)}
                                 style={{ display: 'flex', flexDirection: 'column' }}
@@ -343,7 +299,7 @@ export default function CreatePost({ tags, BackupTags }) {
                                 <TextField
                                     disabled={postTags.length === 3}
                                     onClick={setIsAutoCompleteOpenHandler}
-                                    onChange={(e) => setPostTagsFilled(e.target.value)}
+                                    onChange={(event) => setPostTagsFilled(event.target.value)}
                                     value={postTagsFilled}
                                     style={{ width: '53%', position: 'relative' }}
                                     className={styles.metaInput}
@@ -354,12 +310,12 @@ export default function CreatePost({ tags, BackupTags }) {
                                     style={{ listStyle: 'none', padding: '0', margin: '0', width: '53%' }}
                                     className={styles.tag__autocomplete}
                                 >
-                                    {postTagsFilled &&
-                                        isAutoCompleteOpen &&
+                                    {postTagsFilled != '' &&
+                                        isAutoCompleteOpen == true &&
                                         filtredTags.map((tag) => {
                                             return (
                                                 <li
-                                                    onClick={ACItemClickHandler}
+                                                    onClick={chooseAutoCompleteItem}
                                                     className={styles.tag__autocomplete__item}
                                                     key={tag.id}
                                                 >
@@ -370,20 +326,18 @@ export default function CreatePost({ tags, BackupTags }) {
                                 </ul>
                             </div>
                             <div className={`${styles.footer__tags__item}`}>
-                                <span style={{ width: '100%', fontWeight: '500' }}>
-                                    Tags:
-                                    <span>
-                                        {postTags.length !== 0 && (
-                                            <button tabIndex="0" onClick={clearTags} className={styles.clearTags}>
-                                                clear
-                                            </button>
-                                        )}
-                                    </span>
+                                Tags:
+                                <span>
+                                    {postTags.length !== 0 && (
+                                        <button tabIndex="0" onClick={clearTags} className={styles.clearTags}>
+                                            clear
+                                        </button>
+                                    )}
                                 </span>
                                 <PostTags tagsList={postTags} />
                             </div>
                         </div>
-                        <button className={styles.footer__tags__button} onClick={stransferData}>
+                        <button className={styles.footer__tags__button} onClick={transferDataToPreview}>
                             Next
                         </button>
                     </div>

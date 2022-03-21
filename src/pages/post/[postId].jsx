@@ -8,8 +8,8 @@ import Button from '@material-ui/core/Button'
 
 import { MainLayout } from '../../components/MainLayout'
 import { Loader } from '../../components/Loader'
-import PostStats from '../../components/post/PostStats'
-import { PostTags } from '../../components/post/PostTags'
+import PostStats from '../../components/posts/PostStats'
+import { PostTags } from '../../components/posts/PostTags'
 
 import { API } from '../../constants/API'
 
