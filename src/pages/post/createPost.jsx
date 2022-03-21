@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import router from 'next/router'
 import randomColor from 'randomcolor'
 import validator from 'validator'
-
-import PublishIcon from '@material-ui/icons/Publish'
 import { TextareaAutosize, TextField } from '@material-ui/core'
 
 import { addArticleInfo } from '../redux/actions/articleAddingReducerActions'
@@ -17,6 +15,8 @@ import { Notification } from '../../components/Notification'
 import { API } from '../../constants/API'
 
 import styles from '../../styles/create_post_page/create_post_page.module.scss'
+import { UploadButton } from '../../components/posts/CreatePost/UploadButton'
+import { TextHighLightTools } from '../../components/posts/CreatePost/TextHighLightTools'
 
 export async function getServerSideProps() {
     const responce = await fetch(`${API.mockUri}tags`)
@@ -42,6 +42,8 @@ export default function CreatePost({ tagsList }) {
     const [isAutoCompleteOpen, setIsAutoCompleteOpen] = useState(true)
     const [postTagsFilled, setPostTagsFilled] = useState('')
     const [postTags, setPostTags] = useState(globalState.article.tags)
+
+    const listOfTextHightLightElements = ['strong', 'i', 'h1', 'h2', 'h3', 'h3', '•', 'image']
 
     const bodyInput = useRef()
 
@@ -170,95 +172,13 @@ export default function CreatePost({ tagsList }) {
                                 aria-label="maximum height"
                                 placeholder="Description of your article"
                             />
-                            <label htmlFor="upload" style={{ cursor: 'pointer', width: '24%', margin: '10px 0px' }}>
-                                <div tabIndex="0" className={styles.uploadFileButton}>
-                                    <input
-                                        onChange={(event) => setPostPreview(event.target.value)}
-                                        id="upload"
-                                        style={{
-                                            cursor: 'pointer',
-                                            height: '100%',
-                                            width: '100%',
-                                            opacity: '0',
-                                            zIndex: '10',
-                                            position: 'absolute',
-                                        }}
-                                        type="file"
-                                        hidden
-                                    />
-                                    <PublishIcon />
-                                    <span>{postPreview !== '' ? postPreview : 'Post preview'}</span>
-                                </div>
-                            </label>
+                            <UploadButton onChange={(event) => setPostPreview(event.target.value)} text={postPreview} />
                         </div>
                         <div className={styles.newPost__content__main__aricleInput}>
-                            <div className={styles.newPost__content__main__aricleInput__toolbar}>
-                                <button
-                                    onClick={() => {
-                                        modifyText('<strong></strong>')
-                                    }}
-                                    className={styles.toolbar__element}
-                                >
-                                    <strong>bold</strong>
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        modifyText('<i></i>')
-                                    }}
-                                    className={styles.toolbar__element}
-                                >
-                                    <i>italic</i>
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        modifyText('<h1></h1>')
-                                    }}
-                                    className={styles.toolbar__element}
-                                >
-                                    <span>h1</span>
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        modifyText('<h2></h2>')
-                                    }}
-                                    className={styles.toolbar__element}
-                                >
-                                    <span>h2</span>
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        modifyText('<h3></h3>')
-                                    }}
-                                    className={styles.toolbar__element}
-                                >
-                                    <span>h3</span>
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        modifyText('<h4></h4>')
-                                    }}
-                                    className={styles.toolbar__element}
-                                >
-                                    <span>h4</span>
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        modifyText('•')
-                                    }}
-                                    className={styles.toolbar__element}
-                                >
-                                    list
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        modifyText('<img></img>')
-                                    }}
-                                    className={styles.toolbar__element}
-                                    style={{ borderRight: '2px solid #131039' }}
-                                >
-                                    image
-                                </button>
-                            </div>
+                            <TextHighLightTools
+                                heightElements={listOfTextHightLightElements}
+                                modifyTextMethod={modifyText}
+                            />
                             <TextareaAutosize
                                 ref={bodyInput}
                                 value={postBody}
