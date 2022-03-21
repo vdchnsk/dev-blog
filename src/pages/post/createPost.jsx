@@ -14,9 +14,24 @@ import { MainLayout } from '../../components/MainLayout'
 import { PostTags } from '../../components/post/PostTags'
 import { Notification } from '../../components/Notification'
 
-import { API } from '../../../constants/API'
+import { API } from '../../constants/API'
 
-import styles from '../../../styles/create_post_page/create_post_page.module.scss'
+import styles from '../../styles/create_post_page/create_post_page.module.scss'
+
+export async function getServerSideProps({ req }) {
+    if (!req) {
+        return { tags: null }
+    }
+    const responce = await fetch(`${API.mockUri}tags`)
+    const tags = await responce.json()
+
+    return {
+        props: {
+            tags: tags,
+            BackupTags: tags,
+        },
+    }
+}
 
 export default function CreatePost({ tags, BackupTags }) {
     const globalState = useSelector((state) => state)
@@ -376,19 +391,4 @@ export default function CreatePost({ tags, BackupTags }) {
             </div>
         </MainLayout>
     )
-}
-
-export async function getServerSideProps({ req }) {
-    if (!req) {
-        return { tags: null }
-    }
-    const responce = await fetch(`${API.mockUri}tags`)
-    const tags = await responce.json()
-
-    return {
-        props: {
-            tags: tags,
-            BackupTags: tags,
-        },
-    }
 }

@@ -3,7 +3,7 @@ import { memo } from 'react'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 
-import styles from '../../../styles/posts/post.module.scss'
+import styles from '../../styles/posts/post.module.scss'
 
 const PostStats = ({ liked, watched }) => {
     return (

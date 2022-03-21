@@ -1,4 +1,4 @@
-import styles from '../../../styles/posts/post.module.scss'
+import styles from '../../styles/posts/post.module.scss'
 
 export const PostTags = ({ tagsList }) => {
     return (

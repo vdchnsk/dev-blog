@@ -9,24 +9,23 @@ import { Loader } from '../../components/Loader'
 import { PostTags } from '../../components/post/PostTags'
 import PostStats from '../../components/post/PostStats'
 
-import styles from '../../../styles/posts/posts_page.module.scss'
-import { API } from '../../../constants/API'
+import styles from '../../styles/posts/posts_page.module.scss'
+import { API } from '../../constants/API'
 
-export default function Posts({ posts: serverPosts }) {
-    const [posts, setPosts] = useState(serverPosts)
+export async function getServerSideProps() {
+    const responce = await fetch(`${API.mockUri}posts`)
+    const postsData = await responce.json()
+
+    return {
+        props: {
+            postsData: postsData,
+        },
+    }
+}
+
+export default function Posts({ postsData }) {
+    const [posts, setPosts] = useState(postsData)
     const userData = useSelector((state) => state.auth)
-
-    useEffect(() => {
-        const load = async () => {
-            //! Why do we call api several times in one render?
-            const responce = await fetch(`${API.mockUri}posts`)
-            const data = await responce.json()
-            setPosts(data)
-        }
-        if (!serverPosts) {
-            load()
-        }
-    }, [])
 
     const redirectToCreatePostPage = () => {
         Router.push('./post/createPost')
@@ -101,17 +100,4 @@ export default function Posts({ posts: serverPosts }) {
             </div>
         </MainLayout>
     )
-}
-
-Posts.getInitialProps = async (context) => {
-    if (!context.req) {
-        return { posts: null }
-    }
-
-    const responce = await fetch(`${API.mockUri}posts`)
-    const posts = await responce.json()
-
-    return {
-        posts,
-    }
 }

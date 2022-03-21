@@ -11,8 +11,8 @@ import { providers, getSession, signIn, useSession } from 'next-auth/client'
 import Button from '@material-ui/core/Button'
 import Link from 'next/link'
 import ReCAPTCHA from 'react-google-recaptcha'
-import styles from '../../../../styles/auth.module.scss'
-import { API } from '../../../../constants/API'
+import styles from '../../../styles/auth.module.scss'
+import { API } from '../../../constants/API'
 
 export default function LogInPage({ providers }) {
     const [nickanmeOrLogin, setNickanmeOrLogin] = useState('')

@@ -1,6 +1,13 @@
 import Router from 'next/router'
-import { API } from '../../../constants/API'
+import { API } from '../../constants/API'
 import { MainLayout } from '../../components/MainLayout'
+
+export async function getServerSideProps() {
+    const responce = await fetch(`${API.mockUri}about`)
+    const data = await responce.json()
+
+    return { props: { heading: data.title } }
+}
 
 export default function about({ heading }) {
     const clickHandler = () => {
@@ -13,9 +20,4 @@ export default function about({ heading }) {
             <button onClick={clickHandler}>Go back to home</button>
         </MainLayout>
     )
-}
-about.getInitialProps = async () => {
-    const responce = await fetch(`${API.mockUri}}about`)
-    const data = await responce.json()
-    return { heading: data.title }
 }

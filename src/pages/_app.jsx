@@ -4,7 +4,7 @@ import Router from 'next/router'
 import ProgressBar from '@badrap/bar-of-progress'
 import { Provider } from 'next-auth/client'
 
-import '../../styles/globals.scss'
+import '../styles/globals.scss'
 import { wrapper } from './redux'
 ;<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
 

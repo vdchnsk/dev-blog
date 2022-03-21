@@ -11,27 +11,23 @@ import { Loader } from '../../components/Loader'
 import PostStats from '../../components/post/PostStats'
 import { PostTags } from '../../components/post/PostTags'
 
-import { API } from '../../../constants/API'
+import { API } from '../../constants/API'
 
-import styles from '../../../styles/posts/post_details_page.module.scss'
+import styles from '../../styles/posts/post_details_page.module.scss'
 
-export default function Post({ post: serverPost }) {
-    const [post, setPost] = useState(serverPost)
+export async function getServerSideProps({ params }) {
+    const responce = await fetch(`${API.mockUri}posts/${params.postId}`)
+    const postData = await responce.json()
+
+    return { props: { postData: postData } }
+}
+
+export default function Post({ postData }) {
+    const [post, setPost] = useState(postData)
     const [commentValue, setCommentValue] = useState('')
     const router = useRouter()
 
     const inputCommentRef = useRef()
-
-    useEffect(() => {
-        const load = async () => {
-            const responce = await fetch(`${API.mockUri}posts/${router.query.postId}`)
-            const data = await responce.json()
-            setPost(data)
-        }
-        if (!serverPost) {
-            load()
-        }
-    }, [])
 
     if (!post) {
         return (
@@ -159,14 +155,4 @@ export default function Post({ post: serverPost }) {
             </div>
         </MainLayout>
     )
-}
-
-Post.getInitialProps = async (ctx) => {
-    if (!ctx.req) {
-        return { post: null }
-    }
-    const responce = await fetch(`${API.mockUri}posts/${ctx.query.postId}`)
-    const post = await responce.json()
-
-    return { post }
 }

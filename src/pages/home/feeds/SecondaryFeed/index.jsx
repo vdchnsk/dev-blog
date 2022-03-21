@@ -1,7 +1,7 @@
 import { CurrentDate } from '../../../api/services/general/CurrentDate'
 import { ArticleRating } from './ArticleRating'
 
-import styles from '../../../../../styles/feeds/seconaryFeed/secondaryFeed.module.scss'
+import styles from '../../../../styles/feeds/seconaryFeed/secondaryFeed.module.scss'
 
 export const SecondaryFeed = () => {
     const currentMonth = new CurrentDate().getMounth()[1]

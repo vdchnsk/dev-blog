@@ -4,13 +4,13 @@ import Button from '@material-ui/core/Button'
 import { MainLayout } from '../../../components/MainLayout'
 import Link from 'next/link'
 import { useHttp } from '../../hooks/useHttp'
-import styles from '../../../../styles/auth.module.scss'
+import styles from '../../../styles/auth.module.scss'
 import { Notification } from '../../../components/Notification'
 import { showAlert } from '../../redux/actions/alertActions'
 import { useDispatch } from 'react-redux'
 import { useAuth } from '../../hooks/auth.hook'
 import { useRouter } from 'next/router'
-import { API } from '../../../../constants/API'
+import { API } from '../../../constants/API'
 
 export default function RegPage() {
     const [nickname, setNickname] = useState('')

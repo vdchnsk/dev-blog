@@ -13,8 +13,22 @@ import { showAlert } from '../redux/actions/alertActions'
 import { useHttp } from '../hooks/useHttp'
 import { useAuth } from '../hooks/auth.hook'
 
-import styles from '../../../styles/profileSettings.module.scss'
-import { API } from '../../../constants/API'
+import { API } from '../../constants/API'
+import styles from '../../styles/profile_settings_page/profileSettings.module.scss'
+
+export async function getServerSideProps({ req }) {
+    if (req.cookies.token) {
+        const token = req.cookies.token
+        const decodedJWT = jwt.verify(token, config.get('secretJWT'))
+        return {
+            props: { datatoken: decodedJWT || {} },
+        }
+    } else {
+        return {
+            props: { datatoken: {} },
+        }
+    }
+}
 
 export default function profileSettings({ ...data }) {
     const userData = data.datatoken
@@ -111,18 +125,4 @@ export default function profileSettings({ ...data }) {
             </MainLayout>
         </>
     )
-}
-export async function getServerSideProps({ req }) {
-    if (req.cookies.token) {
-        console.log(req.cookies)
-        const token = req.cookies.token
-        const decodedJWT = jwt.verify(token, config.get('secretJWT'))
-        return {
-            props: { datatoken: decodedJWT || {} },
-        }
-    } else {
-        return {
-            props: { datatoken: {} },
-        }
-    }
 }
