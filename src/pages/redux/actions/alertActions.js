@@ -1,13 +1,16 @@
-import {SHOW_ALERT, HIDE_ALERT} from "../types"
+import { SHOW_ALERT, HIDE_ALERT } from '../types'
 
-export function showAlert (text,type) {
+export function showAlert(text, type) {
     return {
-        type:SHOW_ALERT,
-        payload:{text:text,type:type},
+        type: SHOW_ALERT,
+        payload: {
+            text: text,
+            type: type,
+        },
     }
 }
-export function hideAlert(){
+export function hideAlert() {
     return {
-        type:HIDE_ALERT
+        type: HIDE_ALERT,
     }
 }
