@@ -29,9 +29,10 @@ export const MainLayout = ({ children, title = 'Next', data }) => {
                         <Link href={'/'}>
                             <a className={styles.nav__link}>Home</a>
                         </Link>
-                        <Link href={'/about'}>
+                        {/* Commented, because this page is not needed now */}
+                        {/* <Link href={'/about'}>
                             <a className={styles.nav__link}>About</a>
-                        </Link>
+                        </Link> */}
                         <Link href={'/posts'}>
                             <a className={styles.nav__link}>Posts</a>
                         </Link>
