@@ -1,4 +1,4 @@
-import { CurrentDate } from '../../../api/services/general/CurrentDate'
+import { CurrentDate } from '../../../api/v1/services/general/CurrentDate'
 import { ArticleRating } from './ArticleRating'
 
 import styles from '../../../../styles/feeds/seconaryFeed/secondaryFeed.module.scss'

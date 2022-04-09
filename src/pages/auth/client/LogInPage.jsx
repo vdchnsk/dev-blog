@@ -30,7 +30,7 @@ export default function LogInPage({ providers }) {
         const dataFromInputs = JSON.stringify({ nickanmeOrLogin, password, captchaToken })
 
         try {
-            const responce = await request(`${API.baseUri}api/auth/login`, 'POST', dataFromInputs)
+            const responce = await request(`${API.baseUri}auth/login`, 'POST', dataFromInputs)
             login(responce.nickname, responce.userId, responce.role)
             router.push('/')
             dispatch(showAlert('', 'warning')) //очищаем состояние alert в redux

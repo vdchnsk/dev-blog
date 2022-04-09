@@ -26,7 +26,7 @@ export default function RegPage() {
         const dataFromInputs = JSON.stringify({ nickname, email, password, password_repeat })
 
         try {
-            const responce = await request(`${API.baseUri}api/auth/registration`, 'POST', dataFromInputs)
+            const responce = await request(`${API.baseUri}auth/registration`, 'POST', dataFromInputs)
             login(responce.nickname, responce.userId)
             router.push('/')
             dispatch(showAlert('', 'warning')) // очищаем состояние alert в redux

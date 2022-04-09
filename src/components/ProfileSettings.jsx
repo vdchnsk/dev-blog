@@ -36,7 +36,7 @@ export const ProfileSettings = ({ socSession }) => {
         if (!socSession) {
             try {
                 logout()
-                fetch(`${API.baseUri}api/auth/logout`, {
+                fetch(`${API.baseUri}auth/logout`, {
                     method: 'post',
                     headers: { 'Content-Type': 'application/json' },
                     body: '',

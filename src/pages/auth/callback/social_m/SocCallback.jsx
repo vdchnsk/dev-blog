@@ -34,7 +34,7 @@ export default function SocCallback({ session, generated_password }) {
                 password: generated_password,
                 captchaToken: 'noNeed',
             })
-            const authWay = await request(`${API.baseUri}api/auth/checkUserExistence`, 'POST', data)
+            const authWay = await request(`${API.baseUri}auth/checkUserExistence`, 'POST', data)
             setUserPassword(authWay.password)
             data = JSON.stringify({
                 nickanmeOrLogin: authWay.nickanmeOrLogin,
@@ -49,13 +49,13 @@ export default function SocCallback({ session, generated_password }) {
                     password: generated_password,
                     password_repeat: generated_password,
                 })
-                const responce = await request(`${API.baseUri}api/auth/registration`, 'POST', data)
+                const responce = await request(`${API.baseUri}auth/registration`, 'POST', data)
                 login(responce.nickname, responce.userId, responce.role)
                 dispatch(showAlert('', 'warning'))
                 return
             }
 
-            const responce = await request(`${API.baseUri}api/auth/login`, 'POST', data)
+            const responce = await request(`${API.baseUri}auth/login`, 'POST', data)
             login(responce.nickname, responce.userId, responce.role)
             dispatch(showAlert('', 'warning'))
         } catch (e) {
