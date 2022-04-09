@@ -1,6 +1,6 @@
 import Router from 'next/router'
 import { API } from '../../constants/API'
-import { MainLayout } from '../../components/MainLayout'
+import { MainLayout } from '@components/MainLayout'
 
 export async function getServerSideProps() {
     const responce = await fetch(`${API.mockUri}about`)

@@ -9,7 +9,6 @@ export default async function (req, res) {
     }
 
     const postData = await req.body
-    // const { postTitle, postDescription, psotPreviewImg, postBody, postTags } = JSON.parse(req.body)
 
     if (true) {
         try {
@@ -23,12 +22,12 @@ export default async function (req, res) {
 
             await post.save()
 
-            return res.status(201).json({ message: 'Пост создан!' })
+            return res.status(ResponseStatuses.CREATED).json({ message: 'Пост создан!' })
         } catch (error) {
             console.log(error.message)
-            return res.status(404).json({ message: 'Не удалось создать нового пользователя!' })
+            return res.status(ResponseStatuses.BAD_REQUEST).json({ message: 'Не удалось создать нового пользователя!' })
         }
     } else {
-        return res.status(404).json({ message: 'Введены некорректные данные!' })
+        return res.status(ResponseStatuses.BAD_REQUEST).json({ message: 'Введены некорректные данные!' })
     }
 }

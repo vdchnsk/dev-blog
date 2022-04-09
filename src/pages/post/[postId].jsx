@@ -6,14 +6,14 @@ import { TextareaAutosize } from '@material-ui/core'
 import SubdirectoryArrowLeftIcon from '@material-ui/icons/SubdirectoryArrowLeft'
 import Button from '@material-ui/core/Button'
 
-import { MainLayout } from '../../components/MainLayout'
-import { Loader } from '../../components/Loader'
-import PostStats from '../../components/posts/PostStats'
-import { PostTags } from '../../components/posts/PostTags'
+import { MainLayout } from '@components/MainLayout'
+import { Loader } from '@components/Loader'
+import PostStats from '@components/posts/PostStats'
+import { PostTags } from '@components/posts/PostTags'
 
 import { API } from '../../constants/API'
 
-import styles from 'styles/posts/post_details_page.module.scss'
+import styles from '@styles/posts/post_details_page.module.scss'
 
 export async function getServerSideProps({ params }) {
     const responce = await fetch(`${API.mockUri}posts/${params.postId}`)

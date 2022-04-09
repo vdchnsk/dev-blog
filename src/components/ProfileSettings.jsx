@@ -13,7 +13,7 @@ import PermIdentityIcon from '@material-ui/icons/PermIdentity'
 
 import { useAuth } from '../pages/hooks/auth.hook'
 
-import styles from 'styles/mainLayout/profileSettings.module.scss'
+import styles from '@styles/mainLayout/profileSettings.module.scss'
 import { API } from '../constants/API'
 
 export const ProfileSettings = ({ socSession }) => {

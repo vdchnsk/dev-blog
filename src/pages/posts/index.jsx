@@ -4,12 +4,12 @@ import Image from 'next/image'
 import { useSelector } from 'react-redux'
 import Router from 'next/router'
 
-import { MainLayout } from '../../components/MainLayout'
-import { Loader } from '../../components/Loader'
-import { PostTags } from '../../components/posts/PostTags'
-import PostStats from '../../components/posts/PostStats'
+import { MainLayout } from '@components/MainLayout'
+import { Loader } from '@components/Loader'
+import { PostTags } from '@components/posts/PostTags'
+import PostStats from '@components/posts/PostStats'
 
-import styles from 'styles/posts/posts_page.module.scss'
+import styles from '@styles/posts/posts_page.module.scss'
 import { API } from '../../constants/API'
 
 export async function getServerSideProps() {

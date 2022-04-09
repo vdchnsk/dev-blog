@@ -1,13 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
-import { useRouter } from 'next/router'
-import { MainLayout } from '../../components/MainLayout'
-import SubdirectoryArrowLeftIcon from '@material-ui/icons/SubdirectoryArrowLeft'
-import Link from 'next/link'
-import { PostTags } from '../../components/posts/PostTags'
 import { useSelector } from 'react-redux'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
+
+import SubdirectoryArrowLeftIcon from '@material-ui/icons/SubdirectoryArrowLeft'
+
+import { MainLayout } from '@components/MainLayout'
+import { PostTags } from '@components/posts/PostTags'
+
 import parse from 'html-react-parser'
 
-import styles from 'styles/create_post_page/create_post_preview.module.scss'
+import styles from '@styles/create_post_page/create_post_preview.module.scss'
 
 export default function Post({}) {
     const router = useRouter()

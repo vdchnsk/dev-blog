@@ -8,15 +8,15 @@ import { TextareaAutosize, TextField } from '@material-ui/core'
 import { addArticleInfo } from '../redux/actions/articleAddingReducerActions'
 import { showAlert } from '../redux/actions/alertActions'
 
-import { MainLayout } from '../../components/MainLayout'
-import { PostTags } from '../../components/posts/PostTags'
-import { Notification } from '../../components/Notification'
+import { MainLayout } from '@components/MainLayout'
+import { PostTags } from '@components/posts/PostTags'
+import { Notification } from '@components/Notification'
 
 import { API } from '../../constants/API'
 
-import styles from 'styles/create_post_page/create_post_page.module.scss'
-import { UploadButton } from '../../components/posts/CreatePost/UploadButton'
-import { TextHighLightTools } from '../../components/posts/CreatePost/TextHighLightTools'
+import styles from '@styles/create_post_page/create_post_page.module.scss'
+import { UploadButton } from '@components/posts/CreatePost/UploadButton'
+import { TextHighLightTools } from '@components/posts/CreatePost/TextHighLightTools'
 
 export async function getServerSideProps() {
     const responce = await fetch(`${API.mockUri}tags`)

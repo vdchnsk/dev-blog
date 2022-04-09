@@ -10,13 +10,13 @@ import Button from '@material-ui/core/Button'
 
 import { showAlert } from '../../../redux/actions/alertActions'
 
-import { MainLayout } from '../../../../components/MainLayout'
-import { Notification } from '../../../../components/Notification'
+import { MainLayout } from '@components/MainLayout'
+import { Notification } from '@components/Notification'
 
 import { useHttp } from '../../../hooks/useHttp'
 import { useAuth } from '../../../hooks/auth.hook'
 
-import styles from 'styles/social/social_callback.module.scss'
+import styles from '@styles/social/social_callback.module.scss'
 import { API } from '../../../../constants/API'
 
 export default function SocCallback({ session, generated_password }) {

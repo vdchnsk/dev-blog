@@ -1,6 +1,6 @@
 import { CircularProgress } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles'
-import styles from 'styles/loader.module.scss'
+import styles from '@styles/loader.module.scss'
 
 export const Loader = () => {
     return (

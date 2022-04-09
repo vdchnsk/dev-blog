@@ -1,18 +1,22 @@
-import { TextField } from '@material-ui/core'
-import { MainLayout } from '../../../components/MainLayout'
 import { useRef, useState } from 'react'
-import { useAuth } from '../../hooks/auth.hook'
 import { useDispatch } from 'react-redux'
-import { useRouter } from 'next/router'
-import { useHttp } from '../../hooks/useHttp'
-import { showAlert } from '../../redux/actions/alertActions'
-import { Notification } from '../../../components/Notification'
-import { providers, getSession, signIn, useSession } from 'next-auth/client'
-import Button from '@material-ui/core/Button'
-import Link from 'next/link'
 import ReCAPTCHA from 'react-google-recaptcha'
-import styles from 'styles/auth.module.scss'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
+import { providers, getSession, signIn, useSession } from 'next-auth/client'
+
+import { TextField } from '@material-ui/core'
+import Button from '@material-ui/core/Button'
+
+import { MainLayout } from '@components/MainLayout'
+import { Notification } from '@components/Notification'
+
+import { useAuth } from '../../hooks/auth.hook'
+import { useHttp } from '../../hooks/useHttp'
+
+import { showAlert } from '../../redux/actions/alertActions'
 import { API } from '../../../constants/API'
+import styles from '@styles/auth.module.scss'
 
 export default function LogInPage({ providers }) {
     const [nickanmeOrLogin, setNickanmeOrLogin] = useState('')

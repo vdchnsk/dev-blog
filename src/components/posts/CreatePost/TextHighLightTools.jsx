@@ -1,4 +1,4 @@
-import styles from 'styles/create_post_page/create_post_page.module.scss'
+import styles from '@styles/create_post_page/create_post_page.module.scss'
 
 export const TextHighLightTools = ({ heightElements = [], modifyTextMethod = () => {} }) => {
     const getTagFromItemTitle = (item) => {

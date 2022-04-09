@@ -1,9 +1,9 @@
 import Head from 'next/head'
-import { MainLayout } from '../../components/MainLayout'
+import { MainLayout } from '@components/MainLayout'
 import { MainFeed } from './feeds/MainFeed'
 import { SecondaryFeed } from './feeds/SecondaryFeed/index'
 
-import styles from 'styles/home_page/home_page.module.scss'
+import styles from '@styles/home_page/home_page.module.scss'
 
 export const HomePage = () => {
     return (

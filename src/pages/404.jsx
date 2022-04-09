@@ -1,10 +1,10 @@
 import Link from 'next/link'
 import { Fragment } from 'react'
 
-import { MainLayout } from '../components/MainLayout'
+import { MainLayout } from '@components/MainLayout'
 import { ResponseStatuses } from '../constants/Statuses'
 
-import ErrorStyles from 'styles/error.module.scss'
+import ErrorStyles from '@styles/error.module.scss'
 
 export default function ErrorPage() {
     return (
