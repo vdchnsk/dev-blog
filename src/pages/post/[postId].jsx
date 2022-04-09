@@ -13,7 +13,7 @@ import { PostTags } from '../../components/posts/PostTags'
 
 import { API } from '../../constants/API'
 
-import styles from '../../styles/posts/post_details_page.module.scss'
+import styles from 'styles/posts/post_details_page.module.scss'
 
 export async function getServerSideProps({ params }) {
     const responce = await fetch(`${API.mockUri}posts/${params.postId}`)

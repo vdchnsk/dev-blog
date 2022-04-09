@@ -9,7 +9,7 @@ import { Loader } from '../../components/Loader'
 import { PostTags } from '../../components/posts/PostTags'
 import PostStats from '../../components/posts/PostStats'
 
-import styles from '../../styles/posts/posts_page.module.scss'
+import styles from 'styles/posts/posts_page.module.scss'
 import { API } from '../../constants/API'
 
 export async function getServerSideProps() {

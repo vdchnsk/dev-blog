@@ -14,7 +14,7 @@ import { Notification } from '../../components/Notification'
 
 import { API } from '../../constants/API'
 
-import styles from '../../styles/create_post_page/create_post_page.module.scss'
+import styles from 'styles/create_post_page/create_post_page.module.scss'
 import { UploadButton } from '../../components/posts/CreatePost/UploadButton'
 import { TextHighLightTools } from '../../components/posts/CreatePost/TextHighLightTools'
 

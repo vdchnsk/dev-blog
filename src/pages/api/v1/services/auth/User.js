@@ -31,9 +31,9 @@ export class User {
 
         try {
             if (this.userData.captchaToken !== 'noNeed') {
-                const isHuman = await this.userCheck.checkGoogleCaptcha(this.userData.captchaToken)
+                const isPassedCaptchaCorrect = await this.userCheck.checkGoogleCaptcha(this.userData.captchaToken)
 
-                if (!isHuman) {
+                if (!isPassedCaptchaCorrect) {
                     return res.status(400).json({ message: 'Вы не прошли проверку' })
                 }
             }
@@ -106,6 +106,7 @@ export class Creator extends User {
     createArticle() {
         console.log('createArticle')
     }
+
     editArticel() {
         console.log('editArticel')
     }

@@ -4,12 +4,12 @@ import { useEffect, useMemo, useState } from 'react'
 import { Fragment } from 'react'
 import { useSelector } from 'react-redux'
 import { MuiThemeProvider } from '@material-ui/core'
-import { theme } from '../styles/material_ui_presets/blackColorPreset'
+import { theme } from 'styles/material_ui_presets/blackColorPreset'
 import { useRoutes_custom } from '../pages/router'
 import { ProfileSettings } from './ProfileSettings'
 import { useSession } from 'next-auth/client'
 
-import styles from '../styles/mainLayout/mainlayout.module.scss'
+import styles from 'styles/mainLayout/mainlayout.module.scss'
 
 export const MainLayout = ({ children, title = 'Next', data }) => {
     const globalState = useSelector((state) => state)

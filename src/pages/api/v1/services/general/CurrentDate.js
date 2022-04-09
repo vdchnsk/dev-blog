@@ -2,16 +2,19 @@ export class CurrentDate {
     constructor() {
         this.CurrentDate = new Date()
     }
+
     getDay() {
-        let corrent_day = this.CurrentDate.getDate()
+        const corrent_day = this.CurrentDate.getDate()
         return corrent_day
     }
+
     getMounth() {
-        let corrent_month = this.CurrentDate.getMonth() + 1
+        const corrent_month = this.CurrentDate.getMonth() + 1
         return corrent_month
     }
+
     getMounth() {
-        let corrent_month_numb = this.CurrentDate.getMonth() + 1
+        const corrent_month_numb = this.CurrentDate.getMonth() + 1
         let corrent_month_words = null
         switch (corrent_month_numb) {
             case 1:
@@ -51,17 +54,22 @@ export class CurrentDate {
                 corrent_month_words = 'Декабрь'
                 break
         }
-        let corrent_month = [corrent_month_numb, corrent_month_words]
 
-        return corrent_month
+        const corrent_month_data = {
+            monthNumber: corrent_month_numb,
+            monthTitle: corrent_month_words,
+        }
+
+        return corrent_month_data
     }
+
     getYaer() {
         let corrent_year = this.CurrentDate.getFullYear()
         return corrent_year
     }
+
     getTime() {
-        let corrent_time =
-            this.CurrentDate.getHours() + ':' + this.CurrentDate.getMinutes() + ':' + this.CurrentDate.getSeconds()
+        const corrent_time = `${this.CurrentDate.getHours()}  ':'  ${this.CurrentDate.getMinutes()}  ':'  ${this.CurrentDate.getSeconds()}`
         return corrent_time
     }
 }

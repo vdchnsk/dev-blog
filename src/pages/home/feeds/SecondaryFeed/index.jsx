@@ -1,10 +1,10 @@
 import { CurrentDate } from '../../../api/v1/services/general/CurrentDate'
 import { ArticleRating } from './ArticleRating'
 
-import styles from '../../../../styles/feeds/seconaryFeed/secondaryFeed.module.scss'
+import styles from 'styles/feeds/seconaryFeed/secondaryFeed.module.scss'
 
 export const SecondaryFeed = () => {
-    const currentMonth = new CurrentDate().getMounth()[1]
+    const currentMonth = new CurrentDate().getMounth().monthTitle
 
     return (
         <div className={styles.home__content__secondary}>

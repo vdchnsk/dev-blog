@@ -14,7 +14,7 @@ import { useHttp } from '../hooks/useHttp'
 import { useAuth } from '../hooks/auth.hook'
 
 import { API } from '../../constants/API'
-import styles from '../../styles/profile_settings_page/profileSettings.module.scss'
+import styles from 'styles/profile_settings_page/profileSettings.module.scss'
 
 export async function getServerSideProps({ req }) {
     if (req.cookies.token) {
