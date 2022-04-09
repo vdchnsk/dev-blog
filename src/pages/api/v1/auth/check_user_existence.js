@@ -15,13 +15,11 @@ export default async function (req, res) {
         db.db_connect()
         let condidate = await Users.findOne({ email: userData.nickanmeOrLogin }) //поиск по нику
         if (condidate) {
-            return res
-                .status(202)
-                .json({
-                    message: 'login',
-                    nickanmeOrLogin: condidate.email,
-                    password: crypter.decrypt(condidate.password),
-                })
+            return res.status(202).json({
+                message: 'login',
+                nickanmeOrLogin: condidate.email,
+                password: crypter.decrypt(condidate.password),
+            })
         } else {
             return res.status(202).json({ message: 'registration' })
         }

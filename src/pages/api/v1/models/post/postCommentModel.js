@@ -1,23 +1,22 @@
-import {Schema , model, models} from "mongoose"
+import { Schema, model, models } from 'mongoose'
 
 //схема объектов коллекции
 
 const schema = new Schema({
-    id:{
-        type:Number,
-        required:true,
-        unique:true,
+    id: {
+        type: Number,
+        required: true,
+        unique: true,
     },
-    author:{
-        type:String,
-        required:true,
+    author: {
+        type: String,
+        required: true,
     },
-    date:{
-        type:Date,
-        required:true,
+    date: {
+        type: Date,
+        required: true,
     },
-
 })
 
 //Монго создает коллекцию с имением из первого вргумента,дабвляет к окончанию "s"(в данном случае не добавляет тк я третим аргументом указал название коллекции).К примеру ,если изменить "User" на любое другое название,то при подклбчении к бд,автоматически создастся новая коллекция с соответсвующем названием во множественном числе * странно как-то
-module.exports = models.Comment || model("Comment", schema) //Если модель уже создана, то импопртируем готовую , иначе - создаем новую модель.Не до конца понимаю , как именно это работает, но потратил я на это решении часа 4 своей жизни...
+module.exports = models.Comment || model('Comment', schema) //Если модель уже создана, то импопртируем готовую , иначе - создаем новую модель.Не до конца понимаю , как именно это работает, но потратил я на это решении часа 4 своей жизни...

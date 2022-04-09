@@ -34,7 +34,7 @@ export default function SocCallback({ session, generated_password }) {
                 password: generated_password,
                 captchaToken: 'noNeed',
             })
-            const authWay = await request(`${API.baseUri}auth/checkUserExistence`, 'POST', data)
+            const authWay = await request(`${API.baseUri}auth/check_user_existence`, 'POST', data)
             setUserPassword(authWay.password)
             data = JSON.stringify({
                 nickanmeOrLogin: authWay.nickanmeOrLogin,

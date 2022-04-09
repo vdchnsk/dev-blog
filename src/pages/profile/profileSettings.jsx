@@ -48,7 +48,7 @@ export default function profileSettings({ ...data }) {
             dispatch(showAlert('Данные не были изменены!', 'warning'))
         } else {
             try {
-                const responce = await request(`${API.baseUri}}auth/changeData`, 'POST', dataFromInputs)
+                const responce = await request(`${API.baseUri}}auth/change_data`, 'POST', dataFromInputs)
                 console.log(responce)
                 login(responce.newNickname, responce.userId, responce.role)
                 router.push('/')
